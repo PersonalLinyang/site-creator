@@ -1,0 +1,581 @@
+/* line 1, ../../../src/scss/_layout/_common/_editor/_tag.scss */
+body {
+  overflow: hidden;
+}
+
+/* line 2, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-editor {
+  font-size: 16px;
+}
+/* line 6, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-inner-editor {
+  height: 55px;
+}
+/* line 10, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim {
+  color: #ffffff;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+/* line 16, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-button {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  margin: 0 10px;
+  border-radius: 3px;
+}
+/* line 24, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-model {
+  background-color: #b0c4de;
+}
+/* line 27, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-model.checked {
+  background-color: #e6e6fa;
+  cursor: initial;
+}
+/* line 32, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-model-pc {
+  background-image: url("../../img/common/computer.svg");
+  background-position: center;
+  background-size: 20px;
+  background-repeat: no-repeat;
+}
+/* line 39, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-model-sp {
+  background-image: url("../../img/common/smartphone.svg");
+  background-position: center;
+  background-size: 20px;
+  background-repeat: no-repeat;
+}
+/* line 47, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-setting {
+  display: none;
+}
+/* line 50, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-setting.active {
+  display: block;
+}
+/* line 54, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-setting-inner {
+  display: flex;
+  align-items: center;
+}
+/* line 59, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-setting-input {
+  width: 60px;
+  height: 30px;
+  padding: 5px;
+  margin: 0 5px;
+}
+/* line 65, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-setting-input-model {
+  width: 120px;
+}
+/* line 70, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-setting-title {
+  margin-left: 5px;
+}
+/* line 74, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-setting-unit {
+  margin-right: 5px;
+}
+/* line 79, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-adaptive {
+  background-color: #e6e6fa;
+  background-image: url("../../img/common/shrink.svg");
+  background-position: center;
+  background-size: 20px;
+  background-repeat: no-repeat;
+}
+/* line 86, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-adaptive.checked {
+  background-image: url("../../img/common/expansion.svg");
+}
+/* line 91, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-sim-swirl {
+  background-color: #e6e6fa;
+  background-image: url("../../img/common/swirl.svg");
+  background-position: center;
+  background-size: 20px;
+  background-repeat: no-repeat;
+}
+/* line 100, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-controller-editor {
+  padding: 0 20px;
+}
+/* line 104, ../../../src/scss/_layout/_common/_editor/_header.scss */
+.header-button {
+  height: 30px;
+  background: #32cd32;
+  width: 80px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 3px;
+  text-shadow: 1px 1px 2px #2f4f4f;
+  letter-spacing: 0.05em;
+  color: #f0fff0;
+  font-weight: bold;
+}
+
+/* line 1, ../../../src/scss/_layout/_common/_editor/_main.scss */
+.main-editor {
+  display: flex;
+  height: 100vh;
+  padding-top: 55px;
+  font-size: 16px;
+}
+
+/* line 1, ../../../src/scss/_layout/_common/_editor/_simulation.scss */
+.sim {
+  width: calc(100% - 350px);
+  background: #f5f5f5;
+  overflow: auto;
+}
+/* line 6, ../../../src/scss/_layout/_common/_editor/_simulation.scss */
+.sim-item {
+  position: relative;
+}
+/* line 10, ../../../src/scss/_layout/_common/_editor/_simulation.scss */
+.sim-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+/* line 18, ../../../src/scss/_layout/_common/_editor/_simulation.scss */
+.sim-pc {
+  display: flex;
+}
+/* line 22, ../../../src/scss/_layout/_common/_editor/_simulation.scss */
+.sim-sp {
+  display: none;
+}
+/* line 26, ../../../src/scss/_layout/_common/_editor/_simulation.scss */
+.sim-inner {
+  position: relative;
+  border: 2px solid #696969;
+  background: #ffffff;
+  margin: 0 auto;
+  width: fit-content;
+  overflow: auto;
+}
+/* line 34, ../../../src/scss/_layout/_common/_editor/_simulation.scss */
+.sim-inner-pc {
+  height: 100%;
+  overflow-y: hidden;
+}
+/* line 39, ../../../src/scss/_layout/_common/_editor/_simulation.scss */
+.sim-inner-sp {
+  height: auto;
+  overflow: hidden;
+}
+/* line 45, ../../../src/scss/_layout/_common/_editor/_simulation.scss */
+.sim-html {
+  overflow-x: hidden;
+  min-height: 100%;
+  min-width: 100%;
+  transform-origin: left top;
+}
+
+/* line 1, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.setting {
+  width: 350px;
+  overflow: hidden;
+  background: #92d3ff;
+  user-select: none;
+}
+/* line 7, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.setting-title {
+  height: 30px;
+  line-height: 30px;
+  margin: 10px 0;
+}
+/* line 13, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.setting-pc {
+  display: none !important;
+}
+/* line 16, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.setting-pc.active {
+  display: block !important;
+}
+/* line 21, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.setting-sp {
+  display: none !important;
+}
+/* line 24, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.setting-sp.active {
+  display: block !important;
+}
+
+/* line 30, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form {
+  height: calc(100% - 50px);
+  overflow: hidden;
+}
+/* line 34, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-body {
+  overflow: hidden;
+  height: 100%;
+  width: 700px;
+}
+/* line 40, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-block {
+  width: 350px;
+  height: 100%;
+}
+/* line 45, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-topic {
+  background: #4169e1;
+  color: #ffffff;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  height: 34px;
+}
+/* line 53, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-topic-text {
+  padding: 0 10px;
+}
+/* line 58, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-content {
+  height: calc(100% - 34px);
+  overflow-y: auto;
+}
+/* line 63, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-line {
+  padding: 0 10px;
+}
+/* line 67, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-title {
+  padding: 5px 0;
+  font-weight: 600;
+}
+/* line 72, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-input {
+  padding: 0 5px;
+}
+/* line 77, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-responsive-controller {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+/* line 84, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-responsive-area {
+  margin-top: 8px;
+}
+/* line 88, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-responsive-button {
+  width: calc(50% - 4px);
+  border: 1px solid #6495ed;
+  border-radius: 5px;
+  text-align: center;
+}
+/* line 94, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-responsive-button input[type="checkbox"] {
+  display: none;
+}
+/* line 98, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-responsive-button.checked {
+  background: #6495ed;
+}
+/* line 105, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-btninsert {
+  width: 220px;
+  border: 1px solid #6495ed;
+  border-radius: 5px;
+  text-align: center;
+  margin: 0px auto 10px;
+  padding: 5px 0;
+  cursor: pointer;
+}
+/* line 115, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-layer {
+  border: 1px solid #6495ed;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+/* line 122, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #6495ed;
+}
+/* line 128, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-btnsort {
+  width: 32px;
+  height: 32px;
+  background-color: #dcdcdc;
+  background-image: url("../../img/common/move.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
+  border-right: 1px solid #6495ed;
+  cursor: move;
+}
+/* line 140, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-name {
+  width: calc(100% - 96px);
+}
+/* line 143, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-name input[type="text"] {
+  border: 0;
+  border-radius: 0;
+}
+/* line 149, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-btnslide {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  background-color: #dcdcdc;
+  border-left: 1px solid #6495ed;
+  cursor: pointer;
+}
+/* line 157, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-btnslide:before {
+  content: "";
+  position: absolute;
+  border-bottom: 12px solid #000000;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+/* line 168, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-btnslide:after {
+  content: "";
+  position: absolute;
+  background: #000000;
+  width: 18px;
+  height: 4px;
+  top: 21px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+/* line 180, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-btnslide.checked:before {
+  border-bottom: 0;
+  border-top: 12px solid #000000;
+  top: 13px;
+}
+/* line 185, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-btnslide.checked:after {
+  top: 7px;
+}
+/* line 191, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-btndelete {
+  background: #f00;
+  border-left: 1px solid #6495ed;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+}
+/* line 199, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-body {
+  padding: 10px;
+  background: #ffffff;
+}
+/* line 204, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-content {
+  display: none;
+}
+/* line 208, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-repeat {
+  margin-top: 8px;
+}
+/* line 211, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-repeat-button {
+  border: 1px solid #6495ed;
+  border-radius: 5px;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+/* line 218, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-repeat-button input[type="checkbox"] {
+  display: none;
+}
+/* line 222, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-background-repeat-button.checked {
+  background: #6495ed;
+}
+/* line 229, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color {
+  margin-top: 8px;
+}
+/* line 232, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color-line {
+  display: flex;
+  align-items: center;
+}
+/* line 237, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color-show {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+/* line 242, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color-showarea {
+  width: 16px;
+  height: 26px;
+  margin-right: 6px;
+  border: 1px solid;
+  border-radius: 3px;
+  background: #ffffff;
+}
+/* line 252, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color-checkbox {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  background: linear-gradient(to right top, #dddddd calc(50% - 1.5px), #ff0000 calc(50% - 1.5px), #ff0000 calc(50% + 1.5px), #dddddd calc(50% + 1.5px));
+}
+/* line 259, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color-checkbox.checked {
+  background: transparent;
+}
+/* line 263, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color-checkbox-check {
+  display: none;
+}
+/* line 268, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color-color {
+  position: relative;
+}
+/* line 271, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color-color input[type="text"] {
+  width: 90px;
+  background: #dddddd;
+  margin-right: 6px;
+  padding-left: 18px;
+}
+/* line 278, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color.active .form-color-color input[type="text"] {
+  background: #ffffff;
+}
+/* line 282, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color-color:before {
+  content: "#";
+  position: absolute;
+  font-size: 13px;
+  font-weight: bold;
+  top: 8px;
+  left: 9px;
+}
+/* line 293, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form .form-color-opacity {
+  width: 60px;
+  padding: 8px 0;
+  background: #dddddd;
+  margin-right: 6px;
+}
+/* line 300, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color.active .form-color-opacity {
+  background: #ffffff;
+}
+/* line 306, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form .form-color-size[type="number"] {
+  width: 90px;
+  background: #dddddd;
+  box-shadow: none;
+  margin-left: 22px;
+  margin-right: 6px;
+  margin-top: 5px;
+}
+/* line 315, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color.active .form-color-size[type="number"] {
+  background: #ffffff;
+}
+/* line 321, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form .form-color-unit {
+  width: 60px;
+  padding: 8px 0;
+  background: #dddddd;
+  box-shadow: none;
+  margin-right: 6px;
+  margin-top: 5px;
+}
+/* line 330, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-color.active .form-color-unit {
+  background: #ffffff;
+}
+/* line 336, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-upload {
+  margin-top: 8px;
+}
+/* line 339, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-upload-button {
+  display: block;
+  width: 100%;
+  text-align: center;
+  border: 1px solid #6495ed;
+  border-radius: 5px;
+  cursor: pointer;
+}
+/* line 348, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-upload-file {
+  display: none;
+}
+/* line 354, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-gradient-direction {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+/* line 360, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-gradient-rotate {
+  display: none;
+  margin-top: 8px;
+}
+/* line 364, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-gradient-rotate-inner {
+  display: flex;
+  align: center;
+}
+/* line 370, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form .form-gradient-rotate-input[type="number"] {
+  width: 70px;
+  margin: 0 6px;
+}
+/* line 376, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-gradient-rotate-sim {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #6495ed;
+  border-radius: 17px;
+  background-image: linear-gradient(90deg, #6495ed, #6495ed);
+  background-size: 1px 17px;
+  background-repeat: no-repeat;
+  background-position: top;
+  transform: rotate(0deg);
+}
+/* line 389, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-gradient-list {
+  margin-top: 8px;
+}
+/* line 393, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-gradient-color {
+  padding: 5px 8px;
+  border: 1px dashed #6495ed;
+  border-radius: 5px;
+  margin-top: 8px;
+}
+/* line 399, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-gradient-color:first-child {
+  margin-top: 0;
+}
+/* line 404, ../../../src/scss/_layout/_common/_editor/_setting.scss */
+.form-gradient-button {
+  text-align: center;
+  border: 1px solid #6495ed;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 8px;
+}

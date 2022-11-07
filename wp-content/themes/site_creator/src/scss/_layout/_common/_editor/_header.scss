@@ -1,0 +1,116 @@
+.header {
+  &-editor {
+    font-size: 16px;
+  }
+
+  &-inner-editor {
+    height: $editor_header_height_pc;
+  }
+
+  &-sim {
+    color: #ffffff;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    
+    &-button {
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      margin: 0 10px;
+      border-radius: 3px;
+    }
+    
+    &-model {
+      background-color: #b0c4de;
+      
+      &.checked {
+        background-color: #e6e6fa;
+        cursor: initial;
+      }
+      
+      &-pc {
+        background-image: url("../../img/common/computer.svg");
+        background-position: center;
+        background-size: 20px;
+        background-repeat: no-repeat;
+      }
+      
+      &-sp {
+        background-image: url("../../img/common/smartphone.svg");
+        background-position: center;
+        background-size: 20px;
+        background-repeat: no-repeat;
+      }
+    }
+    
+    &-setting {
+      display: none;
+      
+      &.active {
+        display: block;
+      }
+      
+      &-inner {
+        display: flex;
+        align-items: center;
+      }
+      
+      &-input {
+        width: 60px;
+        height: 30px;
+        padding: 5px;
+        margin: 0 5px;
+        
+        &-model {
+          width: 120px;
+        }
+      }
+      
+      &-title {
+        margin-left: 5px;
+      }
+      
+      &-unit {
+        margin-right: 5px;
+      }
+    }
+    
+    &-adaptive {
+      background-color: #e6e6fa;
+      background-image: url("../../img/common/shrink.svg");
+      background-position: center;
+      background-size: 20px;
+      background-repeat: no-repeat;
+      
+      &.checked {
+        background-image: url("../../img/common/expansion.svg");
+      }
+    }
+    
+    &-swirl {
+      background-color: #e6e6fa;
+      background-image: url("../../img/common/swirl.svg");
+      background-position: center;
+      background-size: 20px;
+      background-repeat: no-repeat;
+    }
+  }
+
+  &-controller-editor {
+    padding: 0 20px;
+  }
+
+  &-button {
+    height: 30px;
+    background: #32cd32;
+    width: 80px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 3px;
+    text-shadow: 1px 1px 2px #2f4f4f;
+    letter-spacing: 0.05em;
+    color: #f0fff0;
+    font-weight: bold;
+  }
+}

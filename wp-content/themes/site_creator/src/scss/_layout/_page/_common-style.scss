@@ -1,0 +1,15 @@
+.common-style {
+  user-select: none;
+  background: $block_back_color;
+  
+  @include mq(pc) {
+    width: 80%;
+    max-width: rempc(750);
+    min-width: rempc(600);
+    margin: rempc(50) auto;
+    padding: rempc(30) rempc(50);
+    border: rempc(3) solid $block_border_color;
+    border-radius: rempc(5);
+    box-shadow: rempc(3) rempc(5) rempc(5) rgba(0, 0, 0, 0.2);
+  }
+}

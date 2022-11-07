@@ -1,0 +1,291 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Site Creator EN Ver.1.0\n"
+"POT-Creation-Date: 2022-09-20 09:44+0900\n"
+"PO-Revision-Date: 2022-09-20 09:44+0900\n"
+"Last-Translator: \n"
+"Language-Team: Yang Lin <personal.linyang@gmail.com>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.1.1\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html__\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: front-page.php:7
+msgid "Try to create site now"
+msgstr ""
+
+#: functions.php:103
+msgid "Japanese"
+msgstr "Japanese"
+
+#: functions.php:104
+msgid "Chinese CN"
+msgstr "Simplified Chinese"
+
+#: functions.php:105
+msgid "Chinese TC"
+msgstr "Traditional Chinese"
+
+#: functions.php:106
+msgid "English"
+msgstr "English"
+
+#: functions.php:139 functions.php:142
+#, php-format
+msgid "Check %s first"
+msgstr "Read and agree to the %s, please"
+
+#: functions.php:139 functions.php:142 page-signup.php:81
+msgid "terms of service"
+msgstr "terms of service"
+
+#: functions.php:157
+msgid "Username cannot be empty"
+msgstr "Username cannot be empty"
+
+#: functions.php:160
+msgid "Username should be shortter than 60 alphabets"
+msgstr "Username cannot exceed 60 characters"
+
+#: functions.php:163
+msgid "Username cannot be this format"
+msgstr "Username can only contain letters, numbers, '-', '_' and '@'"
+
+#: functions.php:166
+msgid "Username had been used"
+msgstr "The username has already been registered"
+
+#: functions.php:171
+msgid "Name cannot be empty"
+msgstr "Name cannot be empty"
+
+#: functions.php:176
+msgid "Email cannot be empty"
+msgstr "E-mail cannot be empty"
+
+#: functions.php:179
+msgid "Email cannot be this format"
+msgstr "E-mail format is incorrect"
+
+#: functions.php:182
+msgid "Email had benn used"
+msgstr "The E-mail has already been registered"
+
+#: functions.php:187 functions.php:245
+msgid "Password cannot be empty"
+msgstr "Password cannot be empty"
+
+#: functions.php:190
+msgid "Password cannot be this format"
+msgstr "Password format is incorrect"
+
+#: functions.php:238 functions.php:297
+msgid "Loginid cannot be empty"
+msgstr "Please enter your username or E-mail"
+
+#: functions.php:241 functions.php:300
+msgid "Loginid is not existed"
+msgstr "Login ID is not existed"
+
+#: functions.php:270
+msgid "Password is wrong"
+msgstr "Password is wrong"
+
+#: functions.php:315
+#, php-format
+msgid "Mail To %s"
+msgstr "Dear Mr./Miss. %s"
+
+#: functions.php:316
+#, php-format
+msgid "Thank you for using %s"
+msgstr "Thank you for using %s."
+
+#: functions.php:316 functions.php:320 functions.php:321
+msgid "This Site Name"
+msgstr "Site Creator"
+
+#: functions.php:317
+msgid "Your password has been reseted successfully"
+msgstr "Your password has been reseted successfully."
+
+#: functions.php:318
+#, php-format
+msgid "Please login with this password: %s"
+msgstr "Please login by this password:%s"
+
+#: functions.php:319
+msgid "And set your password again in the profile page"
+msgstr "And set up your password again at the profile page."
+
+#: functions.php:320
+#, php-format
+msgid "Please continue to use %s"
+msgstr "Please continue to support and use %s.Thank you very much."
+
+#: functions.php:327
+msgid "Failed to Send Email"
+msgstr ""
+"Sorry, there was an error when we try to send an E-mail to you.<br/>Please "
+"wait a moment and try this again."
+
+#: header.php:48 header.php:112
+msgid "Profile"
+msgstr "Profile"
+
+#: header.php:51 header.php:115
+msgid "Logout"
+msgstr "Logout"
+
+#: header.php:56 header.php:119
+msgid "Sign Up"
+msgstr "Sign Up"
+
+#: header.php:59 header.php:122 page-password-reset.php:32
+msgid "Login"
+msgstr "Login"
+
+#: page-create-site.php:8
+msgid "Create a new site"
+msgstr ""
+
+#: page-create-site.php:11 page-create-site.php:13
+msgid "Create Site Name"
+msgstr ""
+
+#: page-create-site.php:18 page-create-site.php:20
+msgid "Create Site Key"
+msgstr ""
+
+#: page-create-site.php:25
+msgid "Create Site Submit"
+msgstr ""
+
+#: page-create-site.php:26 page-login.php:41 page-password-reset.php:23
+#: page-signup.php:90
+msgid "System Error"
+msgstr ""
+"Sorry, there was an system error.<br/>Please wait a moment and try this "
+"again."
+
+#: page-login.php:11
+msgid "Login Title"
+msgstr "Login"
+
+#: page-login.php:14 page-password-reset.php:14
+msgid "Username Or Email"
+msgstr "Login ID"
+
+#: page-login.php:16 page-password-reset.php:16
+msgid "Username Or Email Placeholder"
+msgstr "Username or E-mail"
+
+#: page-login.php:21 page-signup.php:47
+msgid "Password"
+msgstr "Password"
+
+#: page-login.php:24
+msgid "Login Password Placeholder"
+msgstr "Password"
+
+#: page-login.php:34
+msgid "Remember Login"
+msgstr "Remember me and automatic login at the next time"
+
+#: page-login.php:40
+msgid "Login Submit"
+msgstr "Login"
+
+#: page-login.php:43
+msgid "Forgot Password"
+msgstr "I forgot my password"
+
+#: page-password-reset.php:11
+msgid "Password Reset"
+msgstr "Reset Password"
+
+#: page-password-reset.php:21
+msgid "Password Reset Submit"
+msgstr "Reset"
+
+#: page-password-reset.php:28
+msgid "Password Reset Complete"
+msgstr "Password Reset Completed"
+
+#: page-password-reset.php:29
+msgid "Password Reset Complete Text"
+msgstr ""
+"Please check your new password by mail, and login with the new password"
+
+#: page-signup.php:14
+msgid "Sign Up Title"
+msgstr "Sign Up"
+
+#: page-signup.php:15
+msgid "Star mark is required"
+msgstr "Items with [*] mark is required"
+
+#: page-signup.php:18
+msgid "Username"
+msgstr "Username"
+
+#: page-signup.php:20
+msgid "Username Placeholder"
+msgstr "Username for login"
+
+#: page-signup.php:25
+msgid "Name"
+msgstr "Name"
+
+#: page-signup.php:29 page-signup.php:33
+msgid "Family Name Placeholder"
+msgstr "Family name"
+
+#: page-signup.php:30 page-signup.php:32
+msgid "First Name Placeholder"
+msgstr "First name"
+
+#: page-signup.php:40
+msgid "Email Address"
+msgstr "E-mail"
+
+#: page-signup.php:42
+msgid "Email Address Placeholder"
+msgstr "E-mail for login and recieving mails"
+
+#: page-signup.php:50
+msgid "Password Placeholder"
+msgstr "Password for login"
+
+#: page-signup.php:57
+msgid "Language"
+msgstr "Language"
+
+#: page-signup.php:80
+#, php-format
+msgid "I agree with %s"
+msgstr "I have read and agree to the %s"
+
+#: page-signup.php:89
+msgid "Sign Up Submit"
+msgstr "Sign Up"
+
+#: template-parts/404.php:6
+msgid "Page Not Found"
+msgstr "Page is not found"
+
+#: template-parts/404.php:7
+msgid "Please check your url is correct"
+msgstr "Check your url is correct or not, please"
+
+#~ msgid "Password Reset Mail Subject"
+#~ msgstr "【Site Creator】Your password has been reseted"
+
+#~ msgid "Password Confirm Placeholder"
+#~ msgstr "Input password one more time for confirming"

@@ -1,0 +1,24 @@
+@import "../_setting/function";
+
+// サイト表示分類：pc,tb,sp
+@mixin mq($breakpoint: md) {
+    @media #{map-get($breakpoints, $breakpoint)} {
+        @content;
+    }
+}
+
+// スクリーン幅に合わせて比率的に表示
+@function vwpc($target_px){
+    @return $target_px / $pc_design_width * 100vw;
+}
+@function vwsp($target_px){
+    @return $target_px / $sp_design_width * 100vw;
+}
+
+// 標準文字サイズに合わせて比率的に表示
+@function rempc($target_px) {
+    @return $target_px / $pc_base_size * 1rem;
+}
+@function remsp($target_px) {
+    @return $target_px / $sp_base_size * 1rem;
+}

@@ -1,0 +1,82 @@
+/* line 1, ../../../src/scss/_layout/_single/_site.scss */
+.single-site {
+  user-select: none;
+  background: #f0f8ff;
+  width: 80%;
+  max-width: 1000px;
+  min-width: 720px;
+  margin: 50px auto;
+  padding: 30px 25px;
+  border: 3px solid #6495ed;
+  border-radius: 5px;
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.2);
+}
+/* line 13, ../../../src/scss/_layout/_single/_site.scss */
+.single-site-header {
+  margin-top: 20px;
+  padding: 0 30px;
+  text-align: right;
+}
+/* line 18, ../../../src/scss/_layout/_single/_site.scss */
+.single-site-header-status {
+  display: inline-block;
+  background: #6495ed;
+  border-radius: 15px;
+  line-height: 25px;
+  padding-top: 3px;
+  text-align: center;
+  width: 120px;
+  color: #fff;
+}
+/* line 30, ../../../src/scss/_layout/_single/_site.scss */
+.single-site-info {
+  margin-top: 30px;
+}
+/* line 33, ../../../src/scss/_layout/_single/_site.scss */
+.single-site-info-header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #6495ed;
+}
+/* line 40, ../../../src/scss/_layout/_single/_site.scss */
+.single-site-info-header-title {
+  width: 200px;
+  padding-left: 10px;
+  font-weight: 18px;
+  font-weight: 600;
+}
+/* line 47, ../../../src/scss/_layout/_single/_site.scss */
+.single-site-info-header-btnarea {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: right;
+  padding-left: 40px;
+  width: calc(100% - 200px);
+}
+/* line 55, ../../../src/scss/_layout/_single/_site.scss */
+.single-site-info-header-button {
+  padding: 0 15px;
+  margin-right: 10px;
+  border: 1px solid #6495ed;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+/* line 66, ../../../src/scss/_layout/_single/_site.scss */
+.single-site-line {
+  display: flex;
+  align-items: center;
+  width: 95%;
+  margin: 5px auto;
+  border-bottom: 1px dashed #6495ed;
+}
+/* line 73, ../../../src/scss/_layout/_single/_site.scss */
+.single-site-line-title {
+  width: 150px;
+}
+/* line 77, ../../../src/scss/_layout/_single/_site.scss */
+.single-site-line-value {
+  width: calc(100% - 150px);
+}

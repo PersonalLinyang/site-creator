@@ -1,0 +1,261 @@
+.form {
+  @include mq(pc) {
+    margin: rempc(25) auto;
+    max-width: rempc(500);
+  }
+
+  @include mq(sp) {
+    margin: vwsp(10) auto;
+  }
+  
+  &-line {
+    @include mq(pc) {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    @include mq(sp) {
+      padding-top: vwsp(8);
+    }
+    
+    .fullline {
+      width: 100%;
+    }
+  }
+  
+  &-title {
+    @include mq(pc) {
+      width: 150px;
+      padding-right: rempc(15);
+    }
+    
+    @include mq(sp) {
+      padding: vwsp(4) vwsp(10) 0;
+    }
+  }
+  
+  &-input {
+    @include mq(pc) {
+      width: calc(100% - 150px);
+      padding: rempc(8) 0;
+    }
+    
+    @include mq(sp) {
+      padding-top: vwsp(5);
+    }
+  }
+  
+  input[type="text"],input[type="password"],input[type="email"],input[type="number"],select {
+    width: 100%;
+    outline: none;
+    border: 1px solid $input_border_color;
+    box-shadow: inset rgba(255,255,255,0.25) 0px 1px 0px, 
+                inset rgba(0,0,0,0.25) 0px 0px 0px, 
+                inset rgba(255,255,255,0.03) 0px 2px 0px, 
+                inset rgba(0,0,0,0.15) 0px -2px 2px, 
+                inset rgba(255,255,255,0.05) 0px 2px 2px;
+    
+    @include mq(pc) {
+      font-size: rempc(14);
+      padding: rempc(8) rempc(10);
+      border-radius: rempc(4);
+    }
+    
+    @include mq(sp) {
+      font-size: vwsp(12);
+      padding: vwsp(8) vwsp(10);
+      border-radius: vwsp(3);
+    }
+    
+    &.error {
+      background: $input_error_back_color;
+      border: 1px solid $input_error_border_color;
+    }
+  }
+  
+  .input-group {
+    display: flex;
+    justify-content: space-between;
+    
+    .col2 {
+      width: 48%;
+    }
+    
+    .form-input {
+      padding: 0;
+    }
+  }
+  
+  .password-group {
+    display: flex;
+    justify-content: space-between;
+    
+    input[type="text"],input[type="password"] {
+      width: 76%;
+    }
+  }
+  
+  .password-show {
+    background-color: #f0f8ff;
+    background-image: url("../../img/common/password-show.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20%;
+    position: relative;
+    margin-right: 0;
+    
+    @include mq(pc) {
+      background-size: rempc(25);
+    }
+    
+    @include mq(sp) {
+      background-size: vwsp(20);
+    }
+    
+    &.active {
+      &:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(to left top, 
+                                    transparent calc(50% - 1px), 
+                                    rgb(194, 194, 194) calc(50% - 1px), 
+                                    rgb(194, 194, 194) calc(50% + 1px), 
+                                    transparent calc(50% + 1px));
+        
+        @include mq(pc) {
+          width: rempc(25);
+          height: rempc(25);
+        }
+        
+        @include mq(sp) {
+          width: vwsp(20);
+          height: vwsp(20);
+        }
+      }
+    }
+  }
+  
+  &-color {
+    display: flex;
+    
+    &-show {
+      width: 50px;
+      margin-right: 10px;
+      border: 1px solid;
+      border-radius: 5px;
+    }
+    
+    &-picker {
+      .form &[type="text"] {
+        width: 90px;
+      }
+    }
+  }
+  
+  .required {
+    color: red;
+    font-weight: 500;
+    
+    @include mq(pc) {
+      font-size: rempc(12);
+      margin-left: rempc(5);
+    }
+    
+    @include mq(sp) {
+      font-size: vwsp(12);
+      margin-left: vwsp(3);
+    }
+  }
+  
+  .warning {
+    color: $input_error_font_color;
+    display: none;
+    width: 100%;
+    user-select: text;
+    
+    @include mq(pc) {
+      font-size: rempc(11);
+      padding: rempc(5) rempc(12) 0;
+    }
+    
+    @include mq(sp) {
+      font-size: vwsp(10);
+      padding: vwsp(5) vwsp(10) 0;
+    }
+  }
+}
+
+.checkbox {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  
+  &-center {
+    margin: 0 auto;
+  }
+  
+  &-check {
+    display: inline-block;
+    position: relative;
+    background: $input_back_color;
+    border: 1px solid $input_border_color;
+    cursor: pointer;
+    box-shadow: inset rgba(255,255,255,0.25) 0px 1px 0px, 
+                inset rgba(0,0,0,0.25) 0px 0px 0px, 
+                inset rgba(255,255,255,0.03) 0px 2px 0px, 
+                inset rgba(0,0,0,0.15) 0px -2px 2px, 
+                inset rgba(255,255,255,0.05) 0px 2px 2px;
+    
+    @include mq(pc) {
+      width: rempc(16);
+      height: rempc(16);
+      margin-right: rempc(7);
+      border-radius: rempc(3);
+    }
+    
+    @include mq(sp) {
+      width: vwsp(12);
+      height: vwsp(12);
+      margin-right: vwsp(5);
+      border-radius: vwsp(3);
+    }
+    
+    input[type="checkbox"] {
+      display: none;
+    }
+    
+    &.error {
+      background: $input_error_back_color;
+      border: 1px solid $input_error_border_color;
+    }
+    
+    &.active {
+      &:before {
+        content: "";
+        position: absolute;
+        top: -23.25%;
+        left: 60.25%;
+        width: 20.125%;
+        height: 125%;
+        background: $input_font_color;
+        transform: rotate(40deg);
+      }
+      
+      &:after {
+        content: "";
+        position: absolute;
+        width: 15.625%;
+        height: 54.25%;
+        top: 40.25%;
+        left: 10.5%;
+        background: $input_font_color;
+        transform: rotate(-50deg);
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+// PC/SPサイト幅境界線
+$breakpoints: (
+    'sp': 'only screen and (max-width: 768px)',
+    'tb': 'print,screen and (max-width: 1280px)',
+    'pc': 'print,screen and (min-width: 769px)'
+) !default;
+
+// PCサイトデザイン幅
+$pc_design_width: 1366;
+
+// SPサイトデザイン幅
+$sp_design_width: 375;
+
+// PCサイト標準文字サイズ
+$pc_base_size: 16;
+
+// SPサイト標準文字サイズ
+$sp_base_size: 12;

@@ -1,0 +1,282 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Site Creator TC Ver.1.0\n"
+"POT-Creation-Date: 2022-09-20 09:43+0900\n"
+"PO-Revision-Date: 2022-09-20 09:44+0900\n"
+"Last-Translator: \n"
+"Language-Team: Yang Lin <personal.linyang@gmail.com\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.1.1\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html__;esc_attr_e;esc_attr__\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: front-page.php:7
+msgid "Try to create site now"
+msgstr ""
+
+#: functions.php:103
+msgid "Japanese"
+msgstr "日文"
+
+#: functions.php:104
+msgid "Chinese CN"
+msgstr "簡體中文"
+
+#: functions.php:105
+msgid "Chinese TC"
+msgstr "繁體中文"
+
+#: functions.php:106
+msgid "English"
+msgstr "英文"
+
+#: functions.php:139 functions.php:142
+#, php-format
+msgid "Check %s first"
+msgstr "請先閱讀並接受%s"
+
+#: functions.php:139 functions.php:142 page-signup.php:81
+msgid "terms of service"
+msgstr "《使用協議》"
+
+#: functions.php:157
+msgid "Username cannot be empty"
+msgstr "請輸入用戶名"
+
+#: functions.php:160
+msgid "Username should be shortter than 60 alphabets"
+msgstr "用戶名不能超過60個字符"
+
+#: functions.php:163
+msgid "Username cannot be this format"
+msgstr "只能在用戶名中使用字母，數字，[-]，[_]與[@]"
+
+#: functions.php:166
+msgid "Username had been used"
+msgstr "此用戶名已經被註冊了"
+
+#: functions.php:171
+msgid "Name cannot be empty"
+msgstr "請輸入姓名"
+
+#: functions.php:176
+msgid "Email cannot be empty"
+msgstr "請輸入電子郵箱"
+
+#: functions.php:179
+msgid "Email cannot be this format"
+msgstr "電子郵箱的格式不正確"
+
+#: functions.php:182
+msgid "Email had benn used"
+msgstr "此電子郵箱已經被註冊了"
+
+#: functions.php:187 functions.php:245
+msgid "Password cannot be empty"
+msgstr "請輸入密碼"
+
+#: functions.php:190
+msgid "Password cannot be this format"
+msgstr "密碼的格式不正確"
+
+#: functions.php:238 functions.php:297
+msgid "Loginid cannot be empty"
+msgstr "請輸入用戶名或電子郵箱"
+
+#: functions.php:241 functions.php:300
+msgid "Loginid is not existed"
+msgstr "該登入ID尚未注册"
+
+#: functions.php:270
+msgid "Password is wrong"
+msgstr "密碼錯誤"
+
+#: functions.php:315
+#, php-format
+msgid "Mail To %s"
+msgstr "尊敬的%s先生/小姐"
+
+#: functions.php:316
+#, php-format
+msgid "Thank you for using %s"
+msgstr "您好，感謝您本次使用%s。"
+
+#: functions.php:316 functions.php:320 functions.php:321
+msgid "This Site Name"
+msgstr "Site Creator"
+
+#: functions.php:317
+msgid "Your password has been reseted successfully"
+msgstr "您的密碼已經被成功重置"
+
+#: functions.php:318
+#, php-format
+msgid "Please login with this password: %s"
+msgstr "請用以下密碼登入系統：%s"
+
+#: functions.php:319
+msgid "And set your password again in the profile page"
+msgstr "並在個人信息頁面中重新設定密碼。"
+
+#: functions.php:320
+#, php-format
+msgid "Please continue to use %s"
+msgstr "請繼續支持%s，我們將為您奉上更貼心的服務。"
+
+#: functions.php:327
+msgid "Failed to Send Email"
+msgstr "十分抱歉，郵件發送過程中發生了異常，請稍後再試"
+
+#: header.php:48 header.php:112
+msgid "Profile"
+msgstr "個人資料"
+
+#: header.php:51 header.php:115
+msgid "Logout"
+msgstr "登出"
+
+#: header.php:56 header.php:119
+msgid "Sign Up"
+msgstr "注册"
+
+#: header.php:59 header.php:122 page-password-reset.php:32
+msgid "Login"
+msgstr "登入"
+
+#: page-create-site.php:8
+msgid "Create a new site"
+msgstr ""
+
+#: page-create-site.php:11 page-create-site.php:13
+msgid "Create Site Name"
+msgstr ""
+
+#: page-create-site.php:18 page-create-site.php:20
+msgid "Create Site Key"
+msgstr ""
+
+#: page-create-site.php:25
+msgid "Create Site Submit"
+msgstr ""
+
+#: page-create-site.php:26 page-login.php:41 page-password-reset.php:23
+#: page-signup.php:90
+msgid "System Error"
+msgstr "十分抱歉，發生了系統異常，請稍後再試"
+
+#: page-login.php:11
+msgid "Login Title"
+msgstr "登入"
+
+#: page-login.php:14 page-password-reset.php:14
+msgid "Username Or Email"
+msgstr "登入ID"
+
+#: page-login.php:16 page-password-reset.php:16
+msgid "Username Or Email Placeholder"
+msgstr "用戶名或電子郵箱"
+
+#: page-login.php:21 page-signup.php:47
+msgid "Password"
+msgstr "密碼"
+
+#: page-login.php:24
+msgid "Login Password Placeholder"
+msgstr "密碼"
+
+#: page-login.php:34
+msgid "Remember Login"
+msgstr "記住我，下次自動登入"
+
+#: page-login.php:40
+msgid "Login Submit"
+msgstr "登入"
+
+#: page-login.php:43
+msgid "Forgot Password"
+msgstr "忘記密碼"
+
+#: page-password-reset.php:11
+msgid "Password Reset"
+msgstr "重置密碼"
+
+#: page-password-reset.php:21
+msgid "Password Reset Submit"
+msgstr "重置"
+
+#: page-password-reset.php:28
+msgid "Password Reset Complete"
+msgstr "密碼重置完成"
+
+#: page-password-reset.php:29
+msgid "Password Reset Complete Text"
+msgstr "請在郵件中確認新密碼，並使用新密碼登入"
+
+#: page-signup.php:14
+msgid "Sign Up Title"
+msgstr "新用戶註冊"
+
+#: page-signup.php:15
+msgid "Star mark is required"
+msgstr "帶有【*】的部分為必需信息"
+
+#: page-signup.php:18
+msgid "Username"
+msgstr "用戶名"
+
+#: page-signup.php:20
+msgid "Username Placeholder"
+msgstr "用於登入的用戶名"
+
+#: page-signup.php:25
+msgid "Name"
+msgstr "姓名"
+
+#: page-signup.php:29 page-signup.php:33
+msgid "Family Name Placeholder"
+msgstr "姓"
+
+#: page-signup.php:30 page-signup.php:32
+msgid "First Name Placeholder"
+msgstr "名"
+
+#: page-signup.php:40
+msgid "Email Address"
+msgstr "電子郵箱"
+
+#: page-signup.php:42
+msgid "Email Address Placeholder"
+msgstr "用於登入與接收郵件的電子郵箱"
+
+#: page-signup.php:50
+msgid "Password Placeholder"
+msgstr "用於登入與接收郵件的密碼"
+
+#: page-signup.php:57
+msgid "Language"
+msgstr "語言"
+
+#: page-signup.php:80
+#, php-format
+msgid "I agree with %s"
+msgstr "我已閱讀並接受%s"
+
+#: page-signup.php:89
+msgid "Sign Up Submit"
+msgstr "注册"
+
+#: template-parts/404.php:6
+msgid "Page Not Found"
+msgstr "未能找到該頁面"
+
+#: template-parts/404.php:7
+msgid "Please check your url is correct"
+msgstr "請確認您的網址是否正確"
+
+#~ msgid "Password Reset Mail Subject"
+#~ msgstr "【Site Creator】密碼重置成功"
