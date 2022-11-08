@@ -232,6 +232,7 @@
     &-line {
       display: flex;
       align-items: center;
+      margin: 6px 0;
     }
     
     &-show {
@@ -291,8 +292,7 @@
     
     &-opacity {
       .form & {
-        width: 60px;
-        padding: 8px 0;
+        width: 80px;
         background: #dddddd;
         margin-right: 6px;
       }
@@ -319,8 +319,7 @@
     
     &-unit {
       .form & {
-        width: 60px;
-        padding: 8px 0;
+        width: 80px;
         background: #dddddd;
         box-shadow: none;
         margin-right: 6px;
@@ -334,15 +333,58 @@
   }
   
   &-upload {
+    position: relative;
     margin-top: 8px;
+    border: 1px solid $block_border_color;
+    border-radius: 5px;
+    line-height: 34px;
+    cursor: pointer;
+    
+    &-text {
+      padding: 0 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      color: #cccccc;
+      
+      &.active {
+        color: unset;
+      }
+    }
+    
+    &-delete {
+      position: absolute;
+      top: 0;
+      right: 34px;
+      width: 34px;
+      height: 34px;
+      border-left: 1px solid $block_border_color;
+      display: none;
+      
+      &:before {
+        content: "×";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
     
     &-button {
+      position: absolute;
+      top: 0;
+      right: 0;
       display: block;
-      width: 100%;
-      text-align: center;
-      border: 1px solid $block_border_color;
-      border-radius: 5px;
-      cursor: pointer;
+      width: 34px;
+      height: 34px;
+      border-left: 1px solid $block_border_color;
+      
+      &:before {
+        content: "↑";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
     
     &-file {
@@ -351,19 +393,75 @@
   }
   
   &-gradient {
-    &-direction {
+    &-type {
       display: flex;
       align-items: center;
+      margin-top: 8px;
+      
+      &-items {
+        width: calc((100% - 12px) / 3);
+        display: block;
+        margin: 0 6px;
+        border: 1px solid $block_border_color;
+        border-radius: 5px;
+        cursor: pointer;
+        
+        &:first-child {
+          margin-left: 0;
+        }
+        
+        &:last-child {
+          margin-right: 0;
+        }
+        
+        &.checked {
+          background: $block_border_color;
+        }
+      }
+      
+      &-preview {
+        display: block;
+        width: 60px;
+        height: 60px;
+        margin: 12px auto 5px;
+        
+        &-solid {
+          background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff);
+        }
+        
+        &-radial {
+          background: radial-gradient(circle at center, #ff0000, #00ff00, #0000ff);
+        }
+        
+        &-conic {
+          background: conic-gradient(from 0deg at center, #ff0000, #00ff00, #0000ff, #ff0000);
+        }
+      }
+      
+      &-radio {
+        display: none;
+      }
+      
+      &-title {
+        text-align: center;
+        display: block;
+      }
+    }
+    
+    &-direction {
       margin-top: 8px;
     }
     
     &-rotate {
-      display: none;
       margin-top: 8px;
       
       &-inner {
         display: flex;
-        align: center;
+        align-items: center;
+      }
+      
+      &-title {
+        width: calc(100% - 152px);
       }
       
       &-input {
@@ -386,12 +484,41 @@
       }
     }
     
+    &-shape {
+      margin-top: 8px;
+    }
+    
+    &-center {
+      margin-top: 8px;
+    }
+    
+    &-position {
+      &-line {
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+      }
+      
+      &-title {
+        width: calc(100% - 152px);
+      }
+      
+      input[type="number"] {
+        width: 70px;
+        margin: 0 6px;
+      }
+      
+      select {
+        width: 70px;
+      }
+    }
+    
     &-list {
       margin-top: 8px;
     }
     
     &-color {
-      padding: 5px 8px;
+      padding: 0 8px;
       border: 1px dashed $block_border_color;;
       border-radius: 5px;
       margin-top: 8px;

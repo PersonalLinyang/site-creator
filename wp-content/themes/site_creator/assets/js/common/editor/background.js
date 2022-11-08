@@ -9,9 +9,28 @@ const updateBackgroundLayerIndex = function(layer_list) {
   });
 }
 
+var changeHexToRgb = function(hex) {
+  var result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+}
+
+var changeUnitValueToAttr = function(unit) {
+  var result = '';
+  if(unit == 'pixel') {
+    result = 'px';
+  } else if(unit == 'percent') {
+    result = '%';
+  }
+  return result;
+}
+
 
 // 背景編集ブロック純色エリアを初期化
-const initFormBackgroundColor = function(obj) {
+const initFormBackgroundSolid = function(obj) {
   // 重複初期化回避
   if(!obj.hasClass('inited')) {
     obj.addClass('inited');
@@ -24,33 +43,26 @@ const initFormBackgroundColor = function(obj) {
     var target = obj.closest('.form-block').data('target');
     var layer = obj.closest('.form-background-layer').data('index');
     
-    var changeHexToRgb = function(hex) {
-      var result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-      } : null;
-    }
-    
-    var changeColor = function(hex, opa) {
-      var change_target = $('.sim-' + target + '-background-' + layer);
+    var updateSimulation = function() {
+      var hex = picker.val();
+      var opa = opacity.val();
+      var sim_target = $('.sim-' + target + '-background-' + layer);
       if(obj.closest('.form-responsive-area').hasClass('setting-pc')) {
-        change_target = $('#sim-' + target + '-background-' + layer + '-pc');
+        sim_target = $('#sim-' + target + '-background-' + layer + '-pc');
       } else if(obj.closest('.form-responsive-area').hasClass('setting-sp')) {
-        change_target = $('#sim-' + target + '-background-' + layer + '-sp');
+        sim_target = $('#sim-' + target + '-background-' + layer + '-sp');
       }
       
       if(hex.match(/[a-f\d]{6}/) && opa.match(/[0-1]{1}(\.[1-9]){0,1}/)) {
         var rgb = changeHexToRgb(hex);
         var color = 'rgba(' + rgb['r'] + ', ' + rgb['g'] + ', ' + rgb['b'] + ', ' + opa + ')';
-        change_target.css('background', color);
+        sim_target.css('background', color);
         show.css('background', color);
         check.prop('checked', true);
         checkbox.addClass('checked');
         opacity.prop('disabled', false);
       } else {
-        change_target.css('background', 'transparent');
+        sim_target.css('background', 'transparent');
         show.css('background', 'transparent');
         check.prop('checked', false);
         checkbox.removeClass('checked');
@@ -58,14 +70,33 @@ const initFormBackgroundColor = function(obj) {
       }
     }
     
-    changeColor(picker.val(), opacity.val());
+    var checkFormBackgroundSolidHex = function() {
+      var hex = picker.val();
+      var opa = opacity.val();
+      if(hex.match(/[a-f\d]{6}/)) {
+        var rgb = changeHexToRgb(hex);
+        var color = 'rgba(' + rgb['r'] + ', ' + rgb['g'] + ', ' + rgb['b'] + ', ' + opa + ')';
+        show.css('background', color);
+        check.prop('checked', true);
+        checkbox.addClass('checked');
+        opacity.prop('disabled', false);
+      } else {
+        show.css('background', 'transparent');
+        check.prop('checked', false);
+        checkbox.removeClass('checked');
+        opacity.prop('disabled', true);
+      }
+    }
+    
+    checkFormBackgroundSolidHex();
+    updateSimulation();
     
     show.on('click', function(e){
       e.preventDefault();
-      if($(this).hasClass('checked')) {
+      if(checkbox.hasClass('checked')) {
         picker.val('');
-        $(this).removeClass(checked);
-        changeColor(picker.val(), opacity.val());
+        checkFormBackgroundSolidHex();
+        updateSimulation();
       } else {
         picker.click();
       }
@@ -75,18 +106,20 @@ const initFormBackgroundColor = function(obj) {
       onSubmit: function(hsb, hex, rgb, el) {
         $(el).val(hex);
         $(el).ColorPickerHide();
-        changeColor(hex, opacity.val());
+        checkFormBackgroundSolidHex();
+        updateSimulation();
       },
       onBeforeShow: function () {
         $(this).ColorPickerSetColor(this.value);
       }
     }).bind('keyup', function(){
       $(this).ColorPickerSetColor('#' + this.value);
-      changeColor(this.value, opacity.val());
+      checkFormBackgroundSolidHex();
+      updateSimulation();
     });
     
     opacity.on('change', function(){
-      changeColor(picker.val(), opacity.val());
+      updateSimulation();
     });
   }
 }
@@ -97,12 +130,267 @@ const initFormBackgroundGradient = function(obj) {
   if(!obj.hasClass('inited')) {
     obj.addClass('inited');
     
+    var option = obj.find('.form-gradient-option');
+    var target = obj.closest('.form-block').data('target');
+    var layer = parseInt(obj.closest('.form-background-layer').data('index'));
+    
+    var updateSimulation = function() {
+      var type = obj.find('.form-gradient-type-radio:checked').val();
+      
+      var sim_target = $('.sim-' + target + '-background-' + layer);
+      if(obj.closest('.form-responsive-area').hasClass('setting-pc')) {
+        sim_target = $('#sim-' + target + '-background-' + layer + '-pc');
+      } else if(obj.closest('.form-responsive-area').hasClass('setting-sp')) {
+        sim_target = $('#sim-' + target + '-background-' + layer + '-sp');
+      }
+      
+      var background = '';
+      if(obj.find('.form-background-repeat-button-check').prop('checked')) {
+        background = 'repeating-';
+      }
+      background += type + '-gradient(';
+      
+      done_flag = true;
+      if(type == 'linear') {
+        var direction = obj.find('.form-gradient-direction-select').val();
+        if(direction == 'rotate') {
+          var rotate = $('.form-gradient-rotate-input').val();
+          if(rotate.match(/^\d+$/)) {
+            background += rotate + 'deg ';
+          } else {
+            done_flag = false;
+          }
+        } else if(direction != '') {
+          background += direction + ' ';
+        } else {
+          done_flag = false;
+        }
+      } else if(type == 'conic' || type == 'radial') {
+        if(type == 'radial') {
+          var shape = obj.find('.form-gradient-shape-select').val();
+          if(shape != '') {
+            background += shape + ' at ';
+          } else {
+            done_flag = false;
+          }
+        } else {
+          background += ' from 0deg at '
+        }
+        
+        var center = obj.find('.form-gradient-center-select').val();
+        if(center == 'position') {
+          var number_x = obj.find('.form-gradient-position-number.number-x').val();
+          var number_y = obj.find('.form-gradient-position-number.number-y').val();
+          var unit_x = changeUnitValueToAttr(obj.find('.form-gradient-position-unit.unit-x').val());
+          var unit_y = changeUnitValueToAttr(obj.find('.form-gradient-position-unit.unit-y').val());
+          
+          if(number_x.match(/^\d+$/) && number_y.match(/^\d+$/) && unit_x && unit_y) {
+            background += number_x + unit_x + ' ' + number_y + unit_y + ' ';
+          } else {
+            done_flag = false;
+          }
+        } else if(center != '') {
+          background += center + ' ';
+        } else {
+          done_flag = false;
+        }
+      }
+      
+      if(done_falg = true) {
+        var calc_percent = 0;
+        var calc_pixel = 0;
+        var counter = 0;
+        
+        var color = 'transparent';
+        
+        obj.find('.form-gradient-color').each(function(){
+          var check = $(this).find('.form-color-checkbox-check');
+          var hex = $(this).find('.form-color-picker').val();
+          var opa = $(this).find('.form-color-opacity').val();
+          var size = $(this).find('.form-color-size').val();
+          var unit = $(this).find('.form-color-unit').val();
+          
+          color = 'transparent';
+          var sv = 0;
+          
+          if(check.prop('checked')) {
+            if(hex.match(/[a-f\d]{6}/) && opa.match(/[0-1]{1}(\.[1-9]){0,1}/)) {
+              var rgb = changeHexToRgb(hex);
+              color = 'rgba(' + rgb['r'] + ', ' + rgb['g'] + ', ' + rgb['b'] + ', ' + opa + ')';
+            }
+          }
+          
+          if(size.match(/^\d+$/)) {
+            sv = parseInt(size);
+          } else {
+            return true;  // continue
+          }
+          
+          if(type ==  'conic') {
+            calc_percent += sv;
+            background += ', ' + color + ' ' + calc_percent + '% ';
+          } else {
+            if(unit == 'pixel') {
+              calc_pixel += sv;
+            } else if(unit == 'percent') {
+              calc_percent += sv;
+            } else {
+              return true;  // continue
+            }
+            background += ', ' + color + ' calc(' + calc_percent + '% + ' + calc_pixel + 'px) ';
+          }
+          
+          counter++;
+        });
+        
+        background += ')';
+        
+        if(counter == 1) {
+          sim_target.css('background', color);
+        } else if(counter > 0) {
+          sim_target.css('background', background);
+        }
+      }
+    }
+    
+    var initFormBackgroundGradientColor = function(obj_c) {
+      // 重複初期化回避
+      if(!obj_c.hasClass('inited')) {
+        obj_c.addClass('inited');
+        
+        var picker = obj_c.find('.form-color-picker');
+        var show = obj_c.find('.form-color-show');
+        var checkbox = obj_c.find('.form-color-checkbox');
+        var check = obj_c.find('.form-color-checkbox-check');
+        var opacity = obj_c.find('.form-color-opacity');
+        var size = obj_c.find('.form-color-size');
+        var unit = obj_c.find('.fom-color-unit');
+        
+        var checkFormBackgroundGradientColorHex = function() {
+          var hex = picker.val();
+          var opa = opacity.val();
+          if(hex.match(/[a-f\d]{6}/)) {
+            var rgb = changeHexToRgb(hex);
+            var color = 'rgba(' + rgb['r'] + ', ' + rgb['g'] + ', ' + rgb['b'] + ', ' + opa + ')';
+            show.css('background', color);
+            check.prop('checked', true);
+            checkbox.addClass('checked');
+            opacity.prop('disabled', false);
+          } else {
+            show.css('background', 'transparent');
+            check.prop('checked', false);
+            checkbox.removeClass('checked');
+            opacity.prop('disabled', true);
+          }
+        }
+        
+        updateSimulation();
+        
+        show.on('click', function(e){
+          e.preventDefault();
+          if(checkbox.hasClass('checked')) {
+            picker.val('');
+            checkFormBackgroundGradientColorHex();
+            updateSimulation();
+          } else {
+            picker.click();
+          }
+        });
+        
+        picker.ColorPicker({
+          onSubmit: function(hsb, hex, rgb, el) {
+            $(el).val(hex);
+            $(el).ColorPickerHide();
+            checkFormBackgroundGradientColorHex();
+            updateSimulation();
+          },
+          onBeforeShow: function () {
+            $(this).ColorPickerSetColor(this.value);
+          }
+        }).bind('keyup', function(){
+          $(this).ColorPickerSetColor('#' + this.value);
+          checkFormBackgroundGradientColorHex();
+          updateSimulation();
+        });
+        
+        opacity.on('change', function(){
+          updateSimulation();
+        });
+        
+        size.on('change keyup', function(){
+          updateSimulation();
+        });
+        
+        unit.on('change', function(){
+          updateSimulation();
+        });
+      }
+    }
+    
+    obj.find('.form-gradient-type-radio').on('click', function(e){
+      var radio = obj.find('.form-gradient-type-radio:checked');
+      var button = radio.closest('.form-gradient-type-items');
+      if(obj.find('.form-gradient-type-items.working').length == 0) {
+        obj.find('.form-gradient-type-items').removeClass('checked');
+        button.addClass('checked').addClass('working');
+        var type = button.find('.form-gradient-type-radio').val();
+        
+        option.slideUp(function(){
+          if(type == 'linear') {
+            option.find('.form-gradient-direction').show();
+            if(obj.find('.form-gradient-direction-select').val() == 'rotate') {
+              option.find('.form-gradient-rotate').show();
+            } else {
+              option.find('.form-gradient-rotate').hide();
+            }
+            option.find('.form-gradient-shape').hide();
+            option.find('.form-gradient-center').hide();
+            option.find('.form-gradient-position').hide();
+          } else if(type == 'radial') {
+            option.find('.form-gradient-direction').hide();
+            option.find('.form-gradient-rotate').hide();
+            option.find('.form-gradient-shape').show();
+            option.find('.form-gradient-center').show();
+            if(obj.find('.form-gradient-center-select').val() == 'position') {
+              option.find('.form-gradient-position').show();
+            } else {
+              option.find('.form-gradient-position').hide();
+            }
+          } else if(type == 'conic') {
+            option.find('.form-gradient-direction').hide();
+            option.find('.form-gradient-rotate').hide();
+            option.find('.form-gradient-shape').hide();
+            option.find('.form-gradient-center').show();
+            if(obj.find('.form-gradient-center-select').val() == 'position') {
+              option.find('.form-gradient-position').show();
+            } else {
+              option.find('.form-gradient-position').hide();
+            }
+          }
+          
+          if(type == 'conic') {
+            obj.find('.form-color-percent').show();
+            obj.find('.form-color-unit').hide();
+          } else {
+            obj.find('.form-color-percent').hide();
+            obj.find('.form-color-unit').show();
+          }
+          updateSimulation();
+          
+          option.slideDown(function(){
+            button.removeClass('working');
+          });
+        });
+      }
+    });
+    
     obj.find('.form-background-repeat-button-check').on('change', function(){
       if($(this).prop('checked')) {
         $(this).parent().addClass('checked');
       } else {
         $(this).parent().removeClass('checked');
       }
+      updateSimulation();
     });
     
     obj.find('.form-gradient-direction-select').on('change', function(){
@@ -111,6 +399,48 @@ const initFormBackgroundGradient = function(obj) {
       } else {
         obj.find('.form-gradient-rotate').slideUp();
       }
+      updateSimulation();
+    });
+    
+    obj.find('.form-gradient-rotate-input').on('keyup change', function() {
+      if($(this).val().match(/^\d+$/)) {
+        var rotate = parseInt($(this).val());
+        if(rotate < 0) {
+          $(this).val(0);
+        } else if(rotate > 359) {
+          $(this).val(359);
+        }
+        $(this).siblings('.form-gradient-rotate-sim').css('transform', 'rotate(' + $(this).val() + 'deg)');
+      } else {
+        $(this).val(0);
+      }
+      updateSimulation();
+    });
+    
+    obj.find('.form-gradient-center-select').on('change', function(){
+      if($(this).val() == 'position') {
+        obj.find('.form-gradient-position').slideDown();
+      } else {
+        obj.find('.form-gradient-position').slideUp();
+      }
+      updateSimulation();
+    });
+    
+    obj.find('.form-gradient-position-number').on('keyup change', function() {
+      if($(this).val().match(/^\d+$/)) {
+        var number = parseInt($(this).val());
+      } else {
+        $(this).val(0);
+      }
+      updateSimulation();
+    });
+    
+    obj.find('.form-gradient-position-unit').on('keyup change', function() {
+      updateSimulation();
+    });
+    
+    obj.find('.form-gradient-shape-select').on('change', function() {
+      updateSimulation();
     });
     
     // 背景色を追加ボタンをクリック
@@ -125,6 +455,7 @@ const initFormBackgroundGradient = function(obj) {
         var target = obj.closest('.form-block').data('target');
         var key = target + '__background__' + layer + '__' + color;
         var id = 'fbg-' + target + '-' + layer + '-' + color;
+        var type = obj.find('.form-gradient-type-radio:checked').val();
     
         html = `
           <div class="form-color form-gradient-color" id="` + id + `">
@@ -154,11 +485,12 @@ const initFormBackgroundGradient = function(obj) {
               </select>
             </div>
             <div class="form-color-line">
-              <input class="form-color-size" type="number" name="` + key + `__size" value="" />
+              <input class="form-color-size" type="number" name="` + key + `__size" min="0" value="0" />
               <select class="form-color-unit" name="` + key + `__unit">
-                <option value="px">px</option>
-                <option value="%">%</option>
+                <option value="percent">%</option>
+                <option value="pixel">px</option>
               </select>
+              <p class="form-color-percent">%</p>
             </div>
           </div>
         `;
@@ -166,7 +498,15 @@ const initFormBackgroundGradient = function(obj) {
         obj.find('.form-gradient-list').append(html);
         var new_color = obj.find('#' + id);
         new_color.hide();
+        if(type == 'conic') {
+          new_color.find('.form-color-percent').show();
+          new_color.find('.form-color-unit').hide();
+        } else {
+          new_color.find('.form-color-percent').hide();
+          new_color.find('.form-color-unit').show();
+        }
         new_color.slideDown();
+        initFormBackgroundGradientColor(new_color);
         
         // 背景層index更新
         obj.data('index', (color + 1).toString());
@@ -174,6 +514,104 @@ const initFormBackgroundGradient = function(obj) {
         // ボタンクリックのロックを外す
         button.removeClass('working');
       }
+    });
+  }
+}
+
+// 背景編集ブロック画像エリアを初期化
+const initFormBackgroundPicture = function(obj) {
+  // 重複初期化回避
+  if(!obj.hasClass('inited')) {
+    obj.addClass('inited');
+    
+    var target = obj.closest('.form-block').data('target');
+    var layer = parseInt(obj.closest('.form-background-layer').data('index'));
+    
+    var updateSimulation = function() {
+      var sim_target = $('.sim-' + target + '-background-' + layer);
+      if(obj.closest('.form-responsive-area').hasClass('setting-pc')) {
+        sim_target = $('#sim-' + target + '-background-' + layer + '-pc');
+      } else if(obj.closest('.form-responsive-area').hasClass('setting-sp')) {
+        sim_target = $('#sim-' + target + '-background-' + layer + '-sp');
+      }
+      var url = obj.find('.form-upload').data('url');
+      
+      if(url) {
+        sim_target.css('background-image', 'url(' + url + ')');
+        sim_target.css('background-size', '20%');
+        sim_target.css('background-position', 'center');
+      } else {
+        sim_target.css('background-image', 'none');
+      }
+      
+      if(obj.find('.form-background-repeat-button-check').prop('checked')) {
+        sim_target.css('background-repeat', 'repeat');
+      } else {
+        sim_target.css('background-repeat', 'no-repeat');
+      }
+    }
+    
+    obj.find('.form-background-repeat-button-check').on('change', function(){
+      if($(this).prop('checked')) {
+        $(this).parent().addClass('checked');
+      } else {
+        $(this).parent().removeClass('checked');
+      }
+      updateSimulation();
+    });
+    
+    obj.find('.form-upload-delete').on('click', function(){
+      obj.find('.form-upload').data('url', '');
+      obj.find('.form-upload-image').val('');
+      obj.find('.form-upload-file').val('');
+      obj.find('.form-upload-text').removeClass('active').html(translations.file_upload);
+      obj.find('.form-upload-delete').fadeOut();
+      updateSimulation();
+    });
+    
+    obj.find('.form-upload-text').on('click', function(){
+      obj.find('.form-upload-button').click();
+    });
+    
+    obj.find('.form-upload-file').on('change', function (e) {
+      var file = $(this);
+      
+      // 通常動作を止める
+      e.preventDefault();
+      
+      // ajax送信用パラメータ作成
+      let data = new FormData;
+      data.append( 'action', 'upload-attachment' );
+      data.append( 'async-upload', file[0].files[0] );
+      data.append( 'name', file[0].files[0].name );
+      data.append( '_wpnonce', upload_param.nonce );
+      
+      // 画像アップロード
+      $.ajax( {
+        url         : upload_param.upload_url,
+        data        : data,
+        processData : false,
+        contentType : false,
+        dataType    : 'json',
+        type        : 'POST',
+      }).then(
+        function ( data ) {
+          obj.find('.form-upload').data('url', data.data.url);
+          obj.find('.form-upload-image').val(data.data.id);
+          obj.find('.form-upload-text').addClass('active').html(data.data.title + '.' + data.data.subtype);
+          obj.find('.form-upload-delete').fadeIn();
+          updateSimulation();
+        },
+        function ( jqXHR, textStatus, errorThrown ) {
+          console.log( 'error!' );
+          console.log( 'jqXHR' );
+          console.log( jqXHR );
+          console.log( 'textStatus' );
+          console.log( textStatus );
+          console.log( 'errorThrown' );
+          console.log( errorThrown );
+        }
+      );
     });
   }
 }
@@ -232,49 +670,114 @@ const initFormBackgroundResponsiveArea = function(obj) {
               </div>
             `;
             obj.find('.form-background-content').html(html);
-            initFormBackgroundColor(obj.find('.form-solid'));
+            initFormBackgroundSolid(obj.find('.form-solid'));
             obj.find('.form-background-content').slideDown();
           } else if(type == 'picture') {
             // 画像タイプ背景
             html = `
-              <div class="form-picture form-upload">
-                <label class="form-upload-button">
+              <div class="form-picture">
+                <div class="form-upload" data-url="">
+                  <p class="form-upload-text">` + translations.file_upload + `</p>
                   <input type="hidden" class="form-upload-image" name="` + key + `__image" value="" />
-                  <input type="file" class="form-upload-file" />` + translations.file_upload + `
-                </label>
-              </div>
-            `;
-            obj.find('.form-background-content').html(html);
-            obj.find('.form-background-content').slideDown();
-          } else if(type == 'gradient') {
-            // 変色タイプ背景
-            html = `
-              <div class="form-gradient" data-index="0">
+                  <p class="form-upload-delete"></p>
+                  <label class="form-upload-button">
+                    <input type="file" class="form-upload-file" />
+                  </label>
+                </div>
                 <div class="form-background-repeat">
                   <label class="form-background-repeat-button">
                     <input class="form-background-repeat-button-check" type="checkbox" name="` + key + `__repeat" />` + translations.background_repeat + `
                   </label>
                 </div>
-                <div class="form-gradient-direction">
-                  <select class="form-gradient-direction-select">
-                    <option value="" hidden>` + translations.gradient_direction_ph + `</option>
-                    <option value="to bottom">` + translations.gradient_to_bottom + `</option>
-                    <option value="to right">` + translations.gradient_to_right + `</option>
-                    <option value="to top right">` + translations.gradient_to_top_right + `</option>
-                    <option value="to bottom right">` + translations.gradient_to_bottom_right + `</option>
-                    <option value="rotate">` + translations.gradient_custom_rotate + `</option>
-                    <option value="outside">` + translations.gradient_to_outside + `</option>
-                  </select>
-                </div>
-                <div class="form-gradient-rotate">
-                  <div class="form-gradient-rotate-inner">
-                    <p>` + translations.gradient_rotate + `</p>
-                    <input class="form-gradient-rotate-input" type="number" maxlength="3" max="359" min="0" name="` + key + `__rotate" value="0" />
-                    <div class="form-gradient-rotate-sim"></div>
-                  </div>
-                </div>
+              </div>
+            `;
+            obj.find('.form-background-content').html(html);
+            initFormBackgroundPicture(obj.find('.form-picture'));
+            obj.find('.form-background-content').slideDown();
+          } else if(type == 'gradient') {
+            // 変色タイプ背景
+            html = `
+              <div class="form-gradient" data-index="0">
                 <div class="form-gradient-list"></div>
                 <div class="form-gradient-button">` + translations.add_gradient + `</div>
+                <div class="form-background-repeat">
+                  <label class="form-background-repeat-button">
+                    <input class="form-background-repeat-button-check" type="checkbox" name="` + key + `__repeat" />` + translations.background_repeat + `
+                  </label>
+                </div>
+                <div class="form-gradient-type">
+                  <label class="form-gradient-type-items checked">
+                    <span class="form-gradient-type-preview form-gradient-type-preview-solid"></span>
+                    <input type="radio" class="form-gradient-type-radio" name="` + key + `__type" value="linear" checked />
+                    <span class="form-gradient-type-title">` + translations.gradient_linear + `</span>
+                  </label>
+                  <label class="form-gradient-type-items">
+                    <span class="form-gradient-type-preview form-gradient-type-preview-radial"></span>
+                    <input type="radio" class="form-gradient-type-radio" name="` + key + `__type" value="radial" />
+                    <span class="form-gradient-type-title">` + translations.gradient_radial + `</span>
+                  </label>
+                  <label class="form-gradient-type-items">
+                    <span class="form-gradient-type-preview form-gradient-type-preview-conic"></span>
+                    <input type="radio" class="form-gradient-type-radio" name="` + key + `__type" value="conic" />
+                    <span class="form-gradient-type-title">` + translations.gradient_conic + `</span>
+                  </label>
+                </div>
+                <div class="form-gradient-option">
+                  <div class="form-gradient-direction">
+                    <select class="form-gradient-direction-select" name="` + key + `__direction">
+                      <option value="to bottom">` + translations.gradient_to_bottom + `</option>
+                      <option value="to right">` + translations.gradient_to_right + `</option>
+                      <option value="to top right">` + translations.gradient_to_top_right + `</option>
+                      <option value="to bottom right">` + translations.gradient_to_bottom_right + `</option>
+                      <option value="rotate">` + translations.gradient_custom_rotate + `</option>
+                    </select>
+                  </div>
+                  <div class="form-gradient-rotate" style="display: none;">
+                    <div class="form-gradient-rotate-inner">
+                      <p class="form-gradient-rotate-title">` + translations.gradient_rotate + `</p>
+                      <input class="form-gradient-rotate-input" type="number" maxlength="3" max="359" min="0" name="` + key + `__rotate" value="0" />
+                      <div class="form-gradient-rotate-sim"></div>
+                    </div>
+                  </div>
+                  <div class="form-gradient-shape" style="display: none;">
+                    <select class="form-gradient-shape-select" name="` + key + `__shape">
+                      <option value="ellipse">` + translations.gradient_ellipse + `</option>
+                      <option value="circle">` + translations.gradient_circle + `</option>
+                    </select>
+                  </div>
+                  <div class="form-gradient-center" style="display: none;">
+                    <select class="form-gradient-center-select" name="` + key + `__center">
+                      <option value="center">` + translations.background_center + `</option>
+                      <option value="top">` + translations.background_top + `</option>
+                      <option value="bottom">` + translations.background_bottom + `</option>
+                      <option value="left">` + translations.background_left + `</option>
+                      <option value="right">` + translations.background_right + `</option>
+                      <option value="top left">` + translations.background_top_left + `</option>
+                      <option value="top right">` + translations.background_top_right + `</option>
+                      <option value="bottom left">` + translations.background_bottom_left + `</option>
+                      <option value="bottom right">` + translations.background_bottom_right + `</option>
+                      <option value="position">` + translations.background_custom_position + `</option>
+                    </select>
+                  </div>
+                  <div class="form-gradient-position" style="display: none;">
+                    <div class="form-gradient-position-line">
+                      <p class="form-gradient-position-title">` + translations.gradient_center_position_x + `</p>
+                      <input class="form-gradient-position-number number-x" type="number" min="0" name="` + key + `__position_x" value="0" />
+                      <select class="form-gradient-position-unit unit-x" name="` + key + `__unit_x">
+                        <option value="percent">%</option>
+                        <option value="pixel">px</option>
+                      </select>
+                    </div>
+                    <div class="form-gradient-position-line">
+                      <p class="form-gradient-position-title">` + translations.gradient_center_position_y + `</p>
+                      <input class="form-gradient-position-number number-y" type="number" min="0" name="` + key + `__position_y" value="0" />
+                      <select class="form-gradient-position-unit unit-y" name="` + key + `__unit_y">
+                        <option value="percent">%</option>
+                        <option value="pixel">px</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
             `;
             
@@ -291,7 +794,7 @@ const initFormBackgroundResponsiveArea = function(obj) {
     
     // 既存背景設定部分を初期化
     obj.find('.form-solid').each(function(){
-      initFormBackgroundColor($(this));
+      initFormBackgroundSolid($(this));
     });
     obj.find('.form-gradient').each(function(){
       initFormBackgroundGradient($(this));
@@ -416,8 +919,11 @@ const initFormBackgroundLayer = function(obj) {
     obj.find('.form-background-btndelete').on('click', function(){
       var layer = $(this).closest('.form-background-layer');
       var layerlist = layer.closest('.form-background-layerlist');
+      var target = obj.closest('.form-block').data('target');
+      var index = layer.data('index');
       layer.slideUp(function(){
         layer.remove();
+        $('.sim-' + target + '-background-' + index).remove();
         updateBackgroundLayerIndex(layerlist.find('.form-background-layer'));
       });
     });
