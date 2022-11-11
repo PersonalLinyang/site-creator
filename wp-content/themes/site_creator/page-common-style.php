@@ -61,15 +61,13 @@ if($check_result['result']) :
     <div class="form-body">
       <div class="form-block" data-target="html">
         <div class="form-topic">
-          <div class="form-topic-text">
-            <?php echo __('Site Whole Style', $lang_domain); ?>
-          </div>
+          <p class="form-topic-text"><?php echo __('Site Whole Style', $lang_domain); ?></p>
         </div>
         <div class="form-content">
           <div class="form-line">
             <p class="form-title"><?php echo __('Background', $lang_domain); ?></p>
-            <div class="form-input form-background" data-index="0">
-              <div class="form-background-btninsert"><?php echo __('Add Background Layer', $lang_domain); ?></div>
+            <div class="form-input form-background" data-lastid="0">
+              <p class="form-background-btninsert"><?php echo __('Add Background Layer', $lang_domain); ?></p>
               <div class="form-background-layerlist"></div>
             </div>
           </div>

@@ -3,16 +3,16 @@ $(document).ready(function(){
   var rate_sp = -1;
   
   // 表示シミュレーションを切り替える
-  $('.header-sim-model').on('click', function(){
+  $('.header-sim-device').on('click', function(){
     if(!$(this).hasClass('checked')) {
-      $('.header-sim-model').removeClass('checked');
+      $('.header-sim-device').removeClass('checked');
       $(this).addClass('checked');
-      var model = $(this).data('model');
+      var device = $(this).data('device');
       $('.header-sim-setting').hide();
-      $('.header-sim-setting[data-model="' + model + '"]').show();
+      $('.header-sim-setting[data-device="' + device + '"]').show();
       $('.sim').hide();
-      $('.sim-' + model).show();
-      if(model == 'pc') {
+      $('.sim-' + device).show();
+      if(device == 'pc') {
         rate_pc = resizePC();
         $('.setting-sp').removeClass('active');
         $('.setting-pc').addClass('active');
@@ -62,7 +62,7 @@ $(document).ready(function(){
     rate_sp = resizeSP();
   });
   
-  $('.header-sim-setting-model').on('change', function(){
+  $('.header-sim-setting-device').on('change', function(){
     var option = $(this).find('option[value="' + $(this).val() + '"]');
     var width = option.data('width');
     var height = option.data('height');

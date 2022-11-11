@@ -3,7 +3,7 @@ const resizePC = function(){
   // 仮ページ幅設定適用
   var rate = -1;
   var width_original = $('.header-sim-setting-width-pc').val();
-  $('.sim-html-pc').css('width', width_original).css('max-width', width_original).css('height', 'auto').css('transform', 'none').css('margin-right', 0).css('margin-bottom', 0);
+  $('.sim-html-pc').css('width', width_original).css('max-width', width_original).css('height', 'auto').css('transform', 'scale(1)').css('margin-right', 0).css('margin-bottom', 0);
   $('.sim-inner-pc').css('overflow-x', 'auto');
   
   var adaptive = $('.header-sim-adaptive-pc').hasClass('checked');
@@ -44,7 +44,7 @@ const resizeSP = function(){
   var rate = -1;
   var width_original = $('.header-sim-setting-width-sp').val();
   var height_original = $('.header-sim-setting-height-sp').val();
-  $('.sim-html-sp').css('width', width_original).css('height', height_original).css('transform', 'none').css('margin-right', 0).css('margin-bottom', 0);
+  $('.sim-html-sp').css('width', width_original).css('height', height_original).css('transform', 'scale(1)').css('margin-right', 0).css('margin-bottom', 0);
   $('.sim-sp').css('overflow', 'auto');
   
   var width_sim = $('.sim-sp')[0].clientWidth;

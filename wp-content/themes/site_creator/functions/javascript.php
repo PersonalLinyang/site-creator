@@ -53,6 +53,7 @@ function get_js_translations($key) {
         'gradient_rotate'               => __('Gradient Rotate', $lang_domain),
         'gradient_ellipse'              => __('Gradient Ellipse', $lang_domain),
         'gradient_circle'               => __('Gradient Circle', $lang_domain),
+        'gradient_center'               => __('Gradient Center', $lang_domain),
         'background_center'             => __('Background Center', $lang_domain),
         'background_top'                => __('Background Top', $lang_domain),
         'background_bottom'             => __('Background Bottom', $lang_domain),
@@ -65,6 +66,20 @@ function get_js_translations($key) {
         'background_custom_position'    => __('Background Custom Position', $lang_domain),
         'gradient_center_position_x'    => __('Gradient Center Position X', $lang_domain),
         'gradient_center_position_y'    => __('Gradient Center Position Y', $lang_domain),
+        'background_position'    => __('Background Position', $lang_domain),
+        'background_size'    => __('Background Size', $lang_domain),
+        'keep_proportion'    => __('Keep Proportion', $lang_domain),
+        'from_top'                => __('From Top', $lang_domain),
+        'from_bottom'             => __('From Bottom', $lang_domain),
+        'from_left'               => __('From Left', $lang_domain),
+        'from_right'              => __('From Right', $lang_domain),
+        'width'              => __('Width', $lang_domain),
+        'height'              => __('Height', $lang_domain),
+        'original_size'              => __('Original Size', $lang_domain),
+        'color_and_opacity'              => __('Color And Opacity', $lang_domain),
+        'gradient_size'              => __('Gradient Size', $lang_domain),
+        'gradient_repeat'              => __('Gradient Repeat', $lang_domain),
+        'background_full_size'              => __('Background Full Size', $lang_domain),
       );
       break;
     case 'page_create-site':
