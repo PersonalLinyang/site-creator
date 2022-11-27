@@ -4,31 +4,30 @@
 function check_site_editor_permission() {
   $result = array(
     'result' => True,
-    'site'   => NULL,
-    'error'  => NULL,
+    'target' => NULL,
+    'error' => NULL,
   );
   
   if(is_user_logged_in()) {
-    $site_uid = get_query_var('site_uid');
+    $user = wp_get_current_user();
+    $target_uid = get_query_var('target_uid');
     
-    if($site_uid) {
-      $sites = get_posts(array(
-        'name' => $site_uid,
-        'post_type' => 'site',
-        'status' => 'publish',
-      ));
+    if($target_uid) {
+      $target = get_page_by_path($target_uid, OBJECT, array('site', 'html_block'));
       
-      if(count($sites)) {
-        $site = current($sites);
-        $result['site'] = $site;
+      if($target) {
+        $result['target'] = $target;
         
-        $user = wp_get_current_user();
-        
-        if(!in_array('administrator', $user->roles)) {
-          if($site->post_author != $user->ID) {
-            $result['result'] = False;
-            $result['error'] = 'permission';
+        // 権限判定
+        if($target->post_type == 'site') {
+          if(!in_array('administrator', $user->roles)) {
+            if($target->post_author != $user->ID) {
+              $result['result'] = False;
+              $result['error'] = 'permission';
+            }
           }
+        } elseif($target->post_type == 'html_block') {
+          //
         }
       } else {
         $result['result'] = False;

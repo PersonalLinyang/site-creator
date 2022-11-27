@@ -3,10 +3,6 @@
   background: $editor_simulation_back_color;
   overflow: auto;
   
-  &-item {
-    position: relative;
-  }
-  
   &-background {
     position: absolute;
     width: 100%;
@@ -29,17 +25,7 @@
     background: #ffffff;
     margin: 0 auto;
     width: fit-content;
-    overflow: auto;
-    
-    &-pc {
-      height: 100%;
-      overflow-y: hidden;
-    }
-    
-    &-sp {
-      height: auto;
-      overflow: hidden;
-    }
+    overflow: hidden;
   }
   
   &-html {
@@ -47,5 +33,10 @@
     min-height: 100%;
     min-width: 100%;
     transform-origin: left top;
+    position: relative;
+  }
+  
+  &-header {
+    position: absolute;
   }
 }

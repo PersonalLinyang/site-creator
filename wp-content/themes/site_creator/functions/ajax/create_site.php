@@ -320,185 +320,183 @@ function func_create_site(){
   $lang_domain = 'site-creator-' . $lang_code;
   
   // サイト作成
-  if($result) {
-    if(is_user_logged_in()) {
-      $user_id = get_current_user_id();
+  if(is_user_logged_in()) {
+    $user_id = get_current_user_id();
+    
+    global $wpdb;
+    
+    try {
+      $wpdb->query('START TRANSACTION');
       
-      global $wpdb;
+      // サイト作成
+      $site = array(
+        'post_name'      => $site_uid,
+        'post_title'     => $_POST['site_name'],
+        'post_status'    => 'publish',
+        'post_type'      => 'site',
+        'post_author'    => $user_id,
+      );
+      $site_id = wp_insert_post($site);
+      add_post_meta($site_id, 'site_key', $_POST['site_key']);
+      add_post_meta($site_id, 'site_http', $_POST['site_http']);
+      add_post_meta($site_id, 'site_host', $_POST['site_host']);
+      add_post_meta($site_id, 'site_status', 'new');
       
-      try {
-        $wpdb->query('START TRANSACTION');
+      // 固定ページ作成
+      $page_id_list = array();
+      $page_title_key_list = array_filter(array_keys($_POST), function($key){ return preg_match("/^page_title_\d+$/" , $key); });
+      foreach($page_title_key_list as $page_title_key) {
+        preg_match('/\d+/', $page_title_key, $numbers);
+        $index = current($numbers);
+        $page_parent_key = 'page_parent_' . $index;
+        $page_name_key = 'page_name_' . $index;
         
-        // サイト作成
-        $site = array(
-          'post_name'      => $site_uid,
-          'post_title'     => $_POST['site_name'],
+        $site_page_uid = md5(uniqid(rand(), true));
+        $site_page = array(
+          'post_name'      => $site_page_uid,
+          'post_title'     => $_POST[$page_title_key],
           'post_status'    => 'publish',
-          'post_type'      => 'site',
+          'post_type'      => 'site_page',
           'post_author'    => $user_id,
         );
-        $site_id = wp_insert_post($site);
-        add_post_meta($site_id, 'site_key', $_POST['site_key']);
-        add_post_meta($site_id, 'site_http', $_POST['site_http']);
-        add_post_meta($site_id, 'site_host', $_POST['site_host']);
-        add_post_meta($site_id, 'site_status', 'new');
-        
-        // 固定ページ作成
-        $page_id_list = array();
-        $page_title_key_list = array_filter(array_keys($_POST), function($key){ return preg_match("/^page_title_\d+$/" , $key); });
-        foreach($page_title_key_list as $page_title_key) {
-          preg_match('/\d+/', $page_title_key, $numbers);
-          $index = current($numbers);
-          $page_parent_key = 'page_parent_' . $index;
-          $page_name_key = 'page_name_' . $index;
-          
-          $site_page_uid = md5(uniqid(rand(), true));
-          $site_page = array(
-            'post_name'      => $site_page_uid,
-            'post_title'     => $_POST[$page_title_key],
-            'post_status'    => 'publish',
-            'post_type'      => 'site_page',
-            'post_author'    => $user_id,
-          );
-          $site_page_id = wp_insert_post($site_page);
-          add_post_meta($site_page_id, 'site', $site_id);
-          add_post_meta($site_page_id, 'post_name', $_POST[$page_name_key]);
-          if(array_key_exists('p' . $_POST[$page_parent_key], $page_id_list)) {
-            add_post_meta($site_page_id, 'post_parent', $page_id_list['p' . $_POST[$page_parent_key]]);
-          } else {
-            add_post_meta($site_page_id, 'post_parent', NULL);
-          }
-          
-          $page_id_list['p' . $index] = $site_page_id;
+        $site_page_id = wp_insert_post($site_page);
+        add_post_meta($site_page_id, 'site', $site_id);
+        add_post_meta($site_page_id, 'post_name', $_POST[$page_name_key]);
+        if(array_key_exists('p' . $_POST[$page_parent_key], $page_id_list)) {
+          add_post_meta($site_page_id, 'post_parent', $page_id_list['p' . $_POST[$page_parent_key]]);
+        } else {
+          add_post_meta($site_page_id, 'post_parent', NULL);
         }
         
-        // 「投稿」投稿タイプ情報保存
-        add_post_meta($site_id, 'post_info', '');
-        add_post_meta($site_id, 'post_info_type_url_key', $_POST['type_slug_post']);
+        $page_id_list['p' . $index] = $site_page_id;
+      }
+      
+      // 「投稿」投稿タイプ情報保存
+      add_post_meta($site_id, 'post_info', '');
+      add_post_meta($site_id, 'post_info_type_url_key', $_POST['type_slug_post']);
+      
+      if(array_key_exists('type_check_post_archive', $_POST) && $_POST['type_check_post_archive'] == 'on') {
+        add_post_meta($site_id, 'post_info_archive_flag', 1);
+        add_post_meta($site_id, 'post_info_archive_url', $_POST['type_url_post_archive']);
+      } else {
+        add_post_meta($site_id, 'post_info_archive_flag', 0);
+      }
+      
+      if(array_key_exists('type_check_post_single', $_POST) && $_POST['type_check_post_single'] == 'on') {
+        add_post_meta($site_id, 'post_info_single_flag', 1);
+        add_post_meta($site_id, 'post_info_single_url', $_POST['type_url_post_single']);
+      } else {
+        add_post_meta($site_id, 'post_info_single_flag', 0);
+      }
+      
+      if(array_key_exists('type_check_post_category', $_POST) && $_POST['type_check_post_category'] == 'on') {
+        add_post_meta($site_id, 'post_info_category_flag', 1);
+        add_post_meta($site_id, 'post_info_category_url', $_POST['type_url_post_category']);
+      } else {
+        add_post_meta($site_id, 'post_info_category_flag', 0);
+      }
+      
+      if(array_key_exists('type_check_post_tag', $_POST) && $_POST['type_check_post_tag'] == 'on') {
+        add_post_meta($site_id, 'post_info_tag_flag', 1);
+        add_post_meta($site_id, 'post_info_tag_url', $_POST['type_url_post_tag']);
+      } else {
+        add_post_meta($site_id, 'post_info_tag_flag', 0);
+      }
+      
+      $tax_counter = 0;
+      $tax_name_key_list = array_filter(array_keys($_POST), function($key){ return preg_match("/^type_tax_name_post_\d+$/" , $key); });
+      foreach($tax_name_key_list as $tax_name_key) {
+        $tax_slug_key = str_replace('name', 'slug', $tax_name_key);
+        $tax_check_key = str_replace('tax_name', 'check', $tax_name_key);
+        $tax_url_key = str_replace('tax_name', 'url', $tax_name_key);
         
-        if(array_key_exists('type_check_post_archive', $_POST) && $_POST['type_check_post_archive'] == 'on') {
-          add_post_meta($site_id, 'post_info_archive_flag', 1);
-          add_post_meta($site_id, 'post_info_archive_url', $_POST['type_url_post_archive']);
+        add_post_meta($site_id, 'post_info_taxonomy_' . $tax_counter . '_name', $_POST[$tax_name_key]);
+        add_post_meta($site_id, 'post_info_taxonomy_' . $tax_counter . '_slug', $_POST[$tax_slug_key]);
+        
+        if(array_key_exists($tax_check_key, $_POST) && $_POST[$tax_check_key] == 'on') {
+          add_post_meta($site_id, 'post_info_taxonomy_' . $tax_counter . '_archive_flag', 1);
+          add_post_meta($site_id, 'post_info_taxonomy_' . $tax_counter . '_archive_url', $_POST[$tax_url_key]);
         } else {
-          add_post_meta($site_id, 'post_info_archive_flag', 0);
+          add_post_meta($site_id, 'post_info_taxonomy_' . $tax_counter . '_archive_flag', 0);
         }
         
-        if(array_key_exists('type_check_post_single', $_POST) && $_POST['type_check_post_single'] == 'on') {
-          add_post_meta($site_id, 'post_info_single_flag', 1);
-          add_post_meta($site_id, 'post_info_single_url', $_POST['type_url_post_single']);
+        $tax_counter++;
+      }
+      add_post_meta($site_id, 'post_info_taxonomy', $tax_counter);
+      
+      // 投稿タイプ作成
+      $type_name_key_list = array_filter(array_keys($_POST), function($key){ return preg_match("/^type_name_\d+$/" , $key); });
+      foreach($type_name_key_list as $type_name_key) {
+        preg_match('/\d+/', $type_name_key, $numbers);
+        $index = current($numbers);
+        $type_slug_key = 'type_slug_' . $index;
+        $type_check_archive_key = 'type_check_' . $index . '_archive';
+        $type_url_archive_key = 'type_url_' . $index . '_archive';
+        $type_check_single_key = 'type_check_' . $index . '_single';
+        $type_url_single_key = 'type_url_' . $index . '_single';
+        
+        $site_type_uid = md5(uniqid(rand(), true));
+        $site_type = array(
+          'post_name'      => $site_type_uid,
+          'post_title'     => $_POST[$type_name_key],
+          'post_status'    => 'publish',
+          'post_type'      => 'site_type',
+          'post_author'    => $user_id,
+        );
+        $site_type_id = wp_insert_post($site_type);
+        add_post_meta($site_type_id, 'site', $site_id);
+        add_post_meta($site_type_id, 'post_type', $_POST[$type_slug_key]);
+        
+        if(array_key_exists($type_check_archive_key, $_POST) && $_POST[$type_check_archive_key] == 'on') {
+          add_post_meta($site_type_id, 'archive_flag', 1);
+          add_post_meta($site_type_id, 'archive_url', $_POST[$type_url_archive_key]);
         } else {
-          add_post_meta($site_id, 'post_info_single_flag', 0);
+          add_post_meta($site_type_id, 'archive_flag', 0);
         }
         
-        if(array_key_exists('type_check_post_category', $_POST) && $_POST['type_check_post_category'] == 'on') {
-          add_post_meta($site_id, 'post_info_category_flag', 1);
-          add_post_meta($site_id, 'post_info_category_url', $_POST['type_url_post_category']);
+        if(array_key_exists($type_check_single_key, $_POST) && $_POST[$type_check_single_key] == 'on') {
+          add_post_meta($site_type_id, 'single_flag', 1);
+          add_post_meta($site_type_id, 'single_url', $_POST[$type_url_single_key]);
         } else {
-          add_post_meta($site_id, 'post_info_category_flag', 0);
-        }
-        
-        if(array_key_exists('type_check_post_tag', $_POST) && $_POST['type_check_post_tag'] == 'on') {
-          add_post_meta($site_id, 'post_info_tag_flag', 1);
-          add_post_meta($site_id, 'post_info_tag_url', $_POST['type_url_post_tag']);
-        } else {
-          add_post_meta($site_id, 'post_info_tag_flag', 0);
+          add_post_meta($site_type_id, 'single_flag', 0);
         }
         
         $tax_counter = 0;
-        $tax_name_key_list = array_filter(array_keys($_POST), function($key){ return preg_match("/^type_tax_name_post_\d+$/" , $key); });
+        $tax_name_key_list = array();
+        foreach(array_keys($_POST) as $temp_key) {
+          if(preg_match("/^type_tax_name_" . $index . "_\d+$/", $temp_key)) {
+            array_push($tax_name_key_list, $temp_key);
+          }
+        }
         foreach($tax_name_key_list as $tax_name_key) {
           $tax_slug_key = str_replace('name', 'slug', $tax_name_key);
           $tax_check_key = str_replace('tax_name', 'check', $tax_name_key);
           $tax_url_key = str_replace('tax_name', 'url', $tax_name_key);
           
-          add_post_meta($site_id, 'post_info_taxonomy_' . $tax_counter . '_name', $_POST[$tax_name_key]);
-          add_post_meta($site_id, 'post_info_taxonomy_' . $tax_counter . '_slug', $_POST[$tax_slug_key]);
+          add_post_meta($site_type_id, 'taxonomy_' . $tax_counter . '_name', $_POST[$tax_name_key]);
+          add_post_meta($site_type_id, 'taxonomy_' . $tax_counter . '_slug', $_POST[$tax_slug_key]);
           
           if(array_key_exists($tax_check_key, $_POST) && $_POST[$tax_check_key] == 'on') {
-            add_post_meta($site_id, 'post_info_taxonomy_' . $tax_counter . '_archive_flag', 1);
-            add_post_meta($site_id, 'post_info_taxonomy_' . $tax_counter . '_archive_url', $_POST[$tax_url_key]);
+            add_post_meta($site_type_id, 'taxonomy_' . $tax_counter . '_archive_flag', 1);
+            add_post_meta($site_type_id, 'taxonomy_' . $tax_counter . '_archive_url', $_POST[$tax_url_key]);
           } else {
-            add_post_meta($site_id, 'post_info_taxonomy_' . $tax_counter . '_archive_flag', 0);
+            add_post_meta($site_type_id, 'taxonomy_' . $tax_counter . '_archive_flag', 0);
           }
           
           $tax_counter++;
         }
-        add_post_meta($site_id, 'post_info_taxonomy', $tax_counter);
-        
-        // 投稿タイプ作成
-        $type_name_key_list = array_filter(array_keys($_POST), function($key){ return preg_match("/^type_name_\d+$/" , $key); });
-        foreach($type_name_key_list as $type_name_key) {
-          preg_match('/\d+/', $type_name_key, $numbers);
-          $index = current($numbers);
-          $type_slug_key = 'type_slug_' . $index;
-          $type_check_archive_key = 'type_check_' . $index . '_archive';
-          $type_url_archive_key = 'type_url_' . $index . '_archive';
-          $type_check_single_key = 'type_check_' . $index . '_single';
-          $type_url_single_key = 'type_url_' . $index . '_single';
-          
-          $site_type_uid = md5(uniqid(rand(), true));
-          $site_type = array(
-            'post_name'      => $site_type_uid,
-            'post_title'     => $_POST[$type_name_key],
-            'post_status'    => 'publish',
-            'post_type'      => 'site_type',
-            'post_author'    => $user_id,
-          );
-          $site_type_id = wp_insert_post($site_type);
-          add_post_meta($site_type_id, 'site', $site_id);
-          add_post_meta($site_type_id, 'post_type', $_POST[$type_slug_key]);
-          
-          if(array_key_exists($type_check_archive_key, $_POST) && $_POST[$type_check_archive_key] == 'on') {
-            add_post_meta($site_type_id, 'archive_flag', 1);
-            add_post_meta($site_type_id, 'archive_url', $_POST[$type_url_archive_key]);
-          } else {
-            add_post_meta($site_type_id, 'archive_flag', 0);
-          }
-          
-          if(array_key_exists($type_check_single_key, $_POST) && $_POST[$type_check_single_key] == 'on') {
-            add_post_meta($site_type_id, 'single_flag', 1);
-            add_post_meta($site_type_id, 'single_url', $_POST[$type_url_single_key]);
-          } else {
-            add_post_meta($site_type_id, 'single_flag', 0);
-          }
-          
-          $tax_counter = 0;
-          $tax_name_key_list = array();
-          foreach(array_keys($_POST) as $temp_key) {
-            if(preg_match("/^type_tax_name_" . $index . "_\d+$/", $temp_key)) {
-              array_push($tax_name_key_list, $temp_key);
-            }
-          }
-          foreach($tax_name_key_list as $tax_name_key) {
-            $tax_slug_key = str_replace('name', 'slug', $tax_name_key);
-            $tax_check_key = str_replace('tax_name', 'check', $tax_name_key);
-            $tax_url_key = str_replace('tax_name', 'url', $tax_name_key);
-            
-            add_post_meta($site_type_id, 'taxonomy_' . $tax_counter . '_name', $_POST[$tax_name_key]);
-            add_post_meta($site_type_id, 'taxonomy_' . $tax_counter . '_slug', $_POST[$tax_slug_key]);
-            
-            if(array_key_exists($tax_check_key, $_POST) && $_POST[$tax_check_key] == 'on') {
-              add_post_meta($site_type_id, 'taxonomy_' . $tax_counter . '_archive_flag', 1);
-              add_post_meta($site_type_id, 'taxonomy_' . $tax_counter . '_archive_url', $_POST[$tax_url_key]);
-            } else {
-              add_post_meta($site_type_id, 'taxonomy_' . $tax_counter . '_archive_flag', 0);
-            }
-            
-            $tax_counter++;
-          }
-          add_post_meta($site_type_id, 'taxonomy', $tax_counter);
-        }
-        
-        $wpdb->query('COMMIT');
-      } catch(Exception $ex) {
-        $result = false;
-        $error_list['system_site'] = __( 'Failed to create site', $lang_domain );
-        $wpdb->query('ROLLBACK');
+        add_post_meta($site_type_id, 'taxonomy', $tax_counter);
       }
-    } else {
+      
+      $wpdb->query('COMMIT');
+    } catch(Exception $ex) {
       $result = false;
-      $error_list['system_site'] = __('Login is necessary to create site', $lang_domain);
+      $error_list['system_site'] = __( 'Failed to create site', $lang_domain );
+      $wpdb->query('ROLLBACK');
     }
+  } else {
+    $result = false;
+    $error_list['system_site'] = __('Login is necessary to create site', $lang_domain);
   }
   
   // リポジトリ出力

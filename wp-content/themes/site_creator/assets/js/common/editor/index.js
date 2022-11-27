@@ -75,7 +75,35 @@ $(document).ready(function(){
 //    initFormColorEditor($(this)); 
 //  });
   
-  $('.form-background').each(function(){ 
-    initFormBackground($(this)); 
+  $('.form-block-slidehandler').each(function(){ initFormBlockSlidehandler($(this)); });
+  $('.form-background').each(function(){ initFormBackground($(this)); });
+  $('.form-layout').each(function(){ initFormLayout($(this)); });
+  $('.form-position').each(function(){ initFormPosition($(this)); });
+  
+  $('.header-save').on('click', function(){
+    var fd = new FormData();
+    fd.append('action', 'editor_save_style');
+    $($('.form-style').serializeArray()).each(function(i, v) {
+      fd.append(v.name, v.value);
+    });
+    
+    $.ajax({
+      type: 'POST',
+      url: ajaxurl,
+      data: fd,
+      processData: false,
+      contentType: false,
+      success: function( response ){
+        var res = JSON.parse(response);
+        if(res['result'] == true) {
+          $.each(res['block_id_list'], function(target, block_id) {
+            $('input[name="' + target + '__block_id"]').val(block_id);
+          });
+        } else {
+        }
+      },
+      error: function( response ){
+      }
+    });
   });
 });

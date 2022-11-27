@@ -116,6 +116,27 @@ function create_site_type_type() {
 add_action('init', 'create_site_type_type');
 
 
+/*
+ * 「HTMLブロック」投稿タイプ追加
+ */
+function create_html_block_type() {
+  // 記事タイプ「HTMLブロック」追加
+  register_post_type('html_block',
+    array(
+      'label' => 'HTMLブロック',
+      'public' => true,
+      'has_archive' => false,
+      'menu_position' => 105,
+      'supports' => [
+        'title',
+        'custom-fields',
+      ]
+    )
+  );
+}
+add_action('init', 'create_html_block_type');
+
+
 
 
 

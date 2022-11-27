@@ -27,9 +27,9 @@ var changeHexToRgb = function(hex) {
 // 単位値を属性に変換
 var changeUnitValueToAttr = function(unit) {
   var result = '';
-  if(unit == 'pixel') {
+  if(unit == 'px') {
     result = 'px';
-  } else if(unit == 'percent') {
+  } else if(unit == 'pct') {
     result = '%';
   }
   return result;
@@ -43,7 +43,7 @@ const initFormBackgroundSolid = function(obj) {
   var checkbox = obj.find('.form-color-checkbox');
   var check = obj.find('.form-color-checkbox-check');
   var picker = obj.find('.form-color-txtpicker');
-  var opacity = obj.find('.form-color-opacity-select');
+  var opacity = obj.find('.form-color-selopacity');
   
   // 編集対象取得用の変数を定義
   var target = obj.closest('.form-block').data('target');
@@ -59,6 +59,10 @@ const initFormBackgroundSolid = function(obj) {
       sim_target = $('#sim-' + target + '-background-' + layerid + '-sp');
     }
     
+    // 背景を初期化
+    sim_target.css('background-color', 'transparent');
+    sim_target.css('background-image', 'none');
+    
     // 編集の設定値を取得
     var hex = picker.val();
     var opa = opacity.val();
@@ -67,14 +71,14 @@ const initFormBackgroundSolid = function(obj) {
       // 色と透明度のフォーマットが正しい場合シミュレーションに反映
       var rgb = changeHexToRgb(hex);
       var color = 'rgba(' + rgb['r'] + ', ' + rgb['g'] + ', ' + rgb['b'] + ', ' + opa + ')';
-      sim_target.css('background', color);
+      sim_target.css('background-color', color);
       show.css('background', color);
       check.prop('checked', true);
       checkbox.addClass('checked');
       opacity.prop('disabled', false);
     } else {
       // 色と透明度のフォーマットが正しくない場合シミュレーションが透明になる
-      sim_target.css('background', 'transparent');
+      sim_target.css('background-color', 'transparent');
       show.css('background', 'transparent');
       check.prop('checked', false);
       checkbox.removeClass('checked');
@@ -133,6 +137,10 @@ const initFormBackgroundPicture = function(obj) {
     } else if(obj.closest('.form-responsive-area').hasClass('setting-sp')) {
       sim_target = $('#sim-' + target + '-background-' + layerid + '-sp');
     }
+    
+    // 背景を初期化
+    sim_target.css('background-color', 'transparent');
+    sim_target.css('background-image', 'none');
     
     // 画像URL反映
     var url = obj.find('.form-upload').data('url');
@@ -309,7 +317,7 @@ const initFormBackgroundPicture = function(obj) {
   // 背景画像位置距離入力変更
   obj.find('.form-position-txtdistance').on('keyup change', function(){
     // 数値ではない場合0にする
-    if(!$(this).val().match(/^[\d,]+(\.\d+)?$/)) {
+    if(!$(this).val().match(/^\-?\d*(\.\d+)?$/)) {
       $(this).val(0);
     }
     // シミュレーション更新
@@ -393,7 +401,7 @@ const initFormBackgroundPicture = function(obj) {
   // 画像サイズ入力変更
   obj.find('.form-size-txtvalue').on('keyup change', function(){
     // 数値ではない場合0にする
-    if(!$(this).val().match(/^[\d,]+(\.\d+)?$/)) {
+    if(!$(this).val().match(/^\d*(\.\d+)?$/)) {
       $(this).val(0);
     }
     // シミュレーション更新
@@ -409,47 +417,6 @@ const initFormBackgroundPicture = function(obj) {
   // 初期化にシミュレーションを一度反映
   updateSimulation();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // 背景編集ブロック変色エリアを初期化
@@ -468,6 +435,10 @@ const initFormBackgroundGradient = function(obj) {
       sim_target = $('#sim-' + target + '-background-' + layerid + '-sp');
     }
     
+    // 背景を初期化
+    sim_target.css('background-color', 'transparent');
+    sim_target.css('background-image', 'none');
+    
     // 背景関数を取得
     var type = obj.find('.form-gradient-rdotype-radio:checked').val();
     var background = '';
@@ -483,7 +454,7 @@ const initFormBackgroundGradient = function(obj) {
       var direction = obj.find('.form-gradient-seldirection').val();
       if(direction == 'rotate') {
         var rotate = $('.form-gradient-txtrotate').val();
-        if(rotate.match(/^[\d,]+(\.\d+)?$/)) {
+        if(rotate.match(/^\d*(\.\d+)?$/)) {
           background += rotate + 'deg ';
         } else {
           done_flag = false;
@@ -510,13 +481,15 @@ const initFormBackgroundGradient = function(obj) {
       // 中心点を取得
       var center = obj.find('.form-gradient-selcenter').val();
       if(center == 'position') {
-        var distance_x = obj.find('.form-position-txtcenterdistance.centerdistance-x').val();
-        var distance_y = obj.find('.form-position-txtcenterdistance.centerdistance-y').val();
-        var unit_x = changeUnitValueToAttr(obj.find('.form-position-selcenterunit.centerunit-x').val());
-        var unit_y = changeUnitValueToAttr(obj.find('.form-position-selcenterunit.centerunit-y').val());
+        var from_x = obj.find('.form-position-selcenterfrom.from-x').val();
+        var from_y = obj.find('.form-position-selcenterfrom.from-y').val();
+        var distance_x = obj.find('.form-position-txtcenterdistance.distance-x').val();
+        var distance_y = obj.find('.form-position-txtcenterdistance.distance-y').val();
+        var unit_x = changeUnitValueToAttr(obj.find('.form-position-selcenterunit.unit-x').val());
+        var unit_y = changeUnitValueToAttr(obj.find('.form-position-selcenterunit.unit-y').val());
         
-        if(distance_x.match(/^[\d,]+(\.\d+)?$/) && distance_y.match(/^[\d,]+(\.\d+)?$/) && unit_x && unit_y) {
-          background += distance_x + unit_x + ' ' + distance_y + unit_y + ' ';
+        if(distance_x.match(/^\d*(\.\d+)?$/) && distance_y.match(/^\d*(\.\d+)?$/) && unit_x && unit_y) {
+          background += from_x + ' ' + distance_x + unit_x + ' ' + from_y + ' ' + distance_y + unit_y + ' ';
         } else {
           done_flag = false;
         }
@@ -529,8 +502,8 @@ const initFormBackgroundGradient = function(obj) {
     
     if(done_flag == true) {
       // 詳細設定に問題がない場合色配列を整理
-      var calc_percent = 0;
-      var calc_pixel = 0;
+      var calc_pct = 0;
+      var calc_px = 0;
       var counter = 0;
       
       obj.find('.form-gradient-color').each(function(){
@@ -550,7 +523,7 @@ const initFormBackgroundGradient = function(obj) {
           }
         }
         
-        if(size.match(/^[\d,]+(\.\d+)?$/)) {
+        if(size.match(/^\d*(\.\d+)?$/)) {
           // 変色範囲サイズが数値の場合データ型切り替え
           size = parseInt(size);
         } else {
@@ -563,17 +536,17 @@ const initFormBackgroundGradient = function(obj) {
         }
         
         if(type ==  'conic') {
-          calc_percent += size;
-          background += ', ' + color + ' ' + calc_percent + '% ';
+          calc_pct += size;
+          background += ', ' + color + ' ' + calc_pct + '% ';
         } else {
-          if(unit == 'pixel') {
-            calc_pixel += size;
-          } else if(unit == 'percent') {
-            calc_percent += size;
+          if(unit == 'px') {
+            calc_px += size;
+          } else if(unit == 'pct') {
+            calc_pct += size;
           } else {
             return true;  // continue
           }
-          background += ', ' + color + ' calc(' + calc_percent + '% + ' + calc_pixel + 'px) ';
+          background += ', ' + color + ' calc(' + calc_pct + '% + ' + calc_px + 'px) ';
         }
         
         counter++;
@@ -730,7 +703,7 @@ const initFormBackgroundGradient = function(obj) {
     // 変色範囲サイズ変更
     obj_c.find('.form-color-txtsize').on('change keyup', function(){
       // 数値ではない場合0にする
-      if(!$(this).val().match(/^[\d,]+(\.\d+)?$/)) {
+      if(!$(this).val().match(/^\-?\d*(\.\d+)?$/)) {
         $(this).val(0);
       }
       // シミュレーション更新
@@ -759,12 +732,20 @@ const initFormBackgroundGradient = function(obj) {
         
       // 背景色部分HTML作成
       var color = parseInt(obj.data('index'));
-      var key = target + '__background__' + layerid + '__' + color;
-      var id = 'fbg-' + target + '-' + layerid + '-' + color;
+      var key = target + '__style__background__' + layerid;
+      var device = $('.header-sim-device.checked').data('device');
+      if(obj.closest('.form-responsive').find('.form-responsive-chkdevice-check.chkdevice-check-' + device).prop('checked')) {
+        key += '__' + device;
+      } else if(obj.closest('.form-responsive').find('.form-responsive-chkflag-check').prop('checked')) {
+        key += '__' + device;
+      } else {
+        key += '__pc';
+      }
+      key += '__colors__' + color;
       var type = obj.find('.form-gradient-rdotype-radio:checked').val();
       
       html = `
-        <div class="form-color form-gradient-color" id="` + id + `" data-colorid="` + color + `">
+        <div class="form-color form-gradient-color" data-colorid="` + color + `">
           <div class="form-gradient-color-header">
             <p class="form-gradient-color-btnsort"></p>
             <div class="form-color-showarea form-gradient-color-showarea">
@@ -813,8 +794,8 @@ const initFormBackgroundGradient = function(obj) {
               </p>
               <p class="form-color-unit">
                 <select class="form-color-selunit" name="` + key + `__unit">
-                  <option value="percent">%</option>
-                  <option value="pixel">px</option>
+                  <option value="pct">%</option>
+                  <option value="px">px</option>
                 </select>
               </p>
               <p class="form-color-percent">%</p>
@@ -826,7 +807,7 @@ const initFormBackgroundGradient = function(obj) {
       
       // 新しい色設定エリアを追加
       obj.find('.form-gradient-list').append(html);
-      var new_color = obj.find('#' + id);
+      var new_color = obj.find('.form-gradient-list').find('.form-gradient-color').last();
       new_color.hide();
       
       if(type == 'conic') {
@@ -989,7 +970,7 @@ const initFormBackgroundGradient = function(obj) {
       select.addClass('working');
       
       // 選択によって詳細設定部分の表示を切り替える
-      if($(this).val() == 'position') {
+      if($(this).val() == 'rotate') {
         obj.find('.form-gradient-rotate').slideDown(function(){
           // シミュレーション更新
           updateSimulation();
@@ -1007,7 +988,7 @@ const initFormBackgroundGradient = function(obj) {
   
   // 線型変色角度変更
   obj.find('.form-gradient-txtrotate').on('keyup change', function() {
-    if($(this).val().match(/^[\d,]+(\.\d+)?$/)) {
+    if($(this).val().match(/^\d*(\.\d+)?$/)) {
       // 数値の場合0~359の間に固定
       var rotate = parseInt($(this).val());
       if(rotate < 0) {
@@ -1054,10 +1035,16 @@ const initFormBackgroundGradient = function(obj) {
     }
   });
   
+  // 円型・扇型変色中心点位置出発方向選択変更
+  obj.find('.form-position-selcenterfrom').on('change', function(){
+    // シミュレーション更新
+    updateSimulation();
+  });
+  
   // 円型・扇型変色中心点位置座標変更
   obj.find('.form-position-txtcenterdistance').on('keyup change', function(){
     // 数値ではない場合0にする
-    if(!$(this).val().match(/^[\d,]+(\.\d+)?$/)) {
+    if(!$(this).val().match(/^\-?\d*(\.\d+)?$/)) {
       $(this).val(0);
     }
     // シミュレーション更新
@@ -1107,7 +1094,7 @@ const initFormBackgroundGradient = function(obj) {
   // 背景サイズ入力変更
   obj.find('.form-size-txtvalue').on('keyup change', function(){
     // 数値ではない場合0にする
-    if(!$(this).val().match(/^[\d,]+(\.\d+)?$/)) {
+    if(!$(this).val().match(/^\d*(\.\d+)?$/)) {
       $(this).val(0);
     }
     // シミュレーション更新
@@ -1179,7 +1166,7 @@ const initFormBackgroundGradient = function(obj) {
   // 背景画像位置距離入力変更
   obj.find('.form-position-txtdistance').on('keyup change', function() {
     // 数値ではない場合0にする
-    if(!$(this).val().match(/^[\d,]+(\.\d+)?$/)) {
+    if(!$(this).val().match(/^\-?\d*(\.\d+)?$/)) {
       $(this).val(0);
     }
     // シミュレーション更新
@@ -1215,7 +1202,15 @@ const initFormBackgroundResponsiveArea = function(obj) {
       
       var target = obj.closest('.form-block').data('target');
       var layerid = parseInt(obj.closest('.form-background-layer').data('layerid'));
-      var key = target + '__background__' + layerid;
+      var key = target + '__style__background__' + layerid;
+      var device = $('.header-sim-device.checked').data('device');
+      if(obj.closest('.form-responsive').find('.form-responsive-chkdevice-check.chkdevice-check-' + device).prop('checked')) {
+        key += '__' + device;
+      } else if(obj.closest('.form-responsive').find('.form-responsive-chkflag-check').prop('checked')) {
+        key += '__' + device;
+      } else {
+        key += '__pc';
+      }
       var type = select.val();
       
       content.slideUp(function(){
@@ -1303,8 +1298,8 @@ const initFormBackgroundResponsiveArea = function(obj) {
                     </p>
                     <p class="form-position-unit">
                       <select class="form-position-selunit unit-y" name="` + key + `__unit_y">
-                        <option value="percent">%</option>
-                        <option value="pixel">px</option>
+                        <option value="pct">%</option>
+                        <option value="px">px</option>
                       </select>
                     </p>
                   </div>
@@ -1320,8 +1315,8 @@ const initFormBackgroundResponsiveArea = function(obj) {
                     </p>
                     <p class="form-position-unit">
                       <select class="form-position-selunit unit-x" name="` + key + `__unit_x">
-                        <option value="percent">%</option>
-                        <option value="pixel">px</option>
+                        <option value="pct">%</option>
+                        <option value="px">px</option>
                       </select>
                     </p>
                   </div>
@@ -1348,8 +1343,8 @@ const initFormBackgroundResponsiveArea = function(obj) {
                       </p>
                       <p class="form-size-unit">
                         <select class="form-size-selunit unit-w" name="` + key + `__unit_w">
-                          <option value="percent">%</option>
-                          <option value="pixel">px</option>
+                          <option value="pct">%</option>
+                          <option value="px">px</option>
                         </select>
                       </p>
                     </div>
@@ -1360,8 +1355,8 @@ const initFormBackgroundResponsiveArea = function(obj) {
                       </p>
                       <p class="form-size-unit">
                         <select class="form-size-selunit unit-h" name="` + key + `__unit_h">
-                          <option value="percent">%</option>
-                          <option value="pixel">px</option>
+                          <option value="pct">%</option>
+                          <option value="px">px</option>
                         </select>
                       </p>
                     </div>
@@ -1384,21 +1379,21 @@ const initFormBackgroundResponsiveArea = function(obj) {
                 <div class="form-gradient-rdotype checked">
                   <p class="form-gradient-rdotype-preview preview-solid"></p>
                   <p class="form-gradient-rdotype-title">` + translations.gradient_linear + `</p>
-                  <input type="radio" class="form-gradient-rdotype-radio" name="` + key + `__type" value="linear" checked />
+                  <input type="radio" class="form-gradient-rdotype-radio" name="` + key + `__gradient_type" value="linear" checked />
                 </div>
                 <div class="form-gradient-rdotype">
                   <p class="form-gradient-rdotype-preview preview-radial"></p>
                   <p class="form-gradient-rdotype-title">` + translations.gradient_radial + `</p>
-                  <input type="radio" class="form-gradient-rdotype-radio" name="` + key + `__type" value="radial" />
+                  <input type="radio" class="form-gradient-rdotype-radio" name="` + key + `__gradient_type" value="radial" />
                 </div>
                 <div class="form-gradient-rdotype">
                   <p class="form-gradient-rdotype-preview preview-conic"></p>
                   <p class="form-gradient-rdotype-title">` + translations.gradient_conic + `</p>
-                  <input type="radio" class="form-gradient-rdotype-radio" name="` + key + `__type" value="conic" />
+                  <input type="radio" class="form-gradient-rdotype-radio" name="` + key + `__gradient_type" value="conic" />
                 </div>
               </div>
               <p class="form-checkbox form-background-chkrepeat form-gradient-chkrepeat">
-                <input class="form-gradient-chkrepeat-check" type="checkbox" name="` + key + `__grepeat" />` + translations.gradient_repeat + `
+                <input class="form-gradient-chkrepeat-check" type="checkbox" name="` + key + `__gradient_repeat" />` + translations.gradient_repeat + `
               </p>
               <div class="form-gradient-option">
                 <p class="form-gradient-direction">
@@ -1426,7 +1421,7 @@ const initFormBackgroundResponsiveArea = function(obj) {
                 <div class="form-position form-gradient-center" style="display: none;">
                   <p class="form-position-title">` + translations.gradient_center + `</p>
                   <p class="form-position-position">
-                    <select class="form-gradient-selcenter" name="` + key + `__centerunit">
+                    <select class="form-gradient-selcenter" name="` + key + `__center">
                       <option value="center">` + translations.background_center + `</option>
                       <option value="top">` + translations.background_top + `</option>
                       <option value="bottom">` + translations.background_bottom + `</option>
@@ -1441,26 +1436,36 @@ const initFormBackgroundResponsiveArea = function(obj) {
                   </p>
                   <div class="form-position-detail form-gradient-center-detail">
                     <div class="form-position-line">
-                      <p class="form-position-key">` + translations.gradient_center_position_x + `</p>
+                      <p class="form-position-key">
+                        <select class="form-position-selcenterfrom from-y" name="` + key + `__center_from_y">
+                          <option value="top">` + translations.from_top + `</option>
+                          <option value="bottom">` + translations.from_bottom + `</option>
+                        </select>
+                      </p>
                       <p class="form-position-distance">
-                        <input class="form-position-txtcenterdistance centerdistance-x" type="number" min="0" name="` + key + `__centerdistance_x" value="0" />
+                        <input class="form-position-txtcenterdistance distance-y" type="number" min="0" name="` + key + `__center_distance_y" value="0" />
                       </p>
                       <p class="form-position-unit">
-                        <select class="form-position-selcenterunit centerunit-x" name="` + key + `__centerunit_x">
-                          <option value="percent">%</option>
-                          <option value="pixel">px</option>
+                        <select class="form-position-selcenterunit unit-y" name="` + key + `__center_unit_y">
+                          <option value="pct">%</option>
+                          <option value="px">px</option>
                         </select>
                       </p>
                     </div>
                     <div class="form-position-line">
-                      <p class="form-position-key">` + translations.gradient_center_position_y + `</p>
+                      <p class="form-position-key">
+                        <select class="form-position-selcenterfrom from-x" name="` + key + `__center_from_x">
+                          <option value="left">` + translations.from_left + `</option>
+                          <option value="right">` + translations.from_right + `</option>
+                        </select>
+                      </p>
                       <p class="form-position-distance">
-                        <input class="form-position-txtcenterdistance centerdistance-y" type="number" min="0" name="` + key + `__centerdistance_y" value="0" />
+                        <input class="form-position-txtcenterdistance distance-x" type="number" min="0" name="` + key + `__center_distance_x" value="0" />
                       </p>
                       <p class="form-position-unit">
-                        <select class="form-position-selcenterunit centerunit-y" name="` + key + `__centerunit_y">
-                          <option value="percent">%</option>
-                          <option value="pixel">px</option>
+                        <select class="form-position-selcenterunit unit-x" name="` + key + `__center_unit_x">
+                          <option value="pct">%</option>
+                          <option value="px">px</option>
                         </select>
                       </p>
                     </div>
@@ -1483,8 +1488,8 @@ const initFormBackgroundResponsiveArea = function(obj) {
                       </p>
                       <p class="form-size-unit">
                         <select class="form-size-selunit unit-w" name="` + key + `__unit_w">
-                          <option value="percent">%</option>
-                          <option value="pixel">px</option>
+                          <option value="pct">%</option>
+                          <option value="px">px</option>
                         </select>
                       </p>
                     </div>
@@ -1495,8 +1500,8 @@ const initFormBackgroundResponsiveArea = function(obj) {
                       </p>
                       <p class="form-size-unit">
                         <select class="form-size-selunit unit-h" name="` + key + `__unit_h">
-                          <option value="percent">%</option>
-                          <option value="pixel">px</option>
+                          <option value="pct">%</option>
+                          <option value="px">px</option>
                         </select>
                       </p>
                     </div>
@@ -1533,8 +1538,8 @@ const initFormBackgroundResponsiveArea = function(obj) {
                         </p>
                         <p class="form-position-unit">
                           <select class="form-position-selunit unit-y" name="` + key + `__unit_y">
-                            <option value="percent">%</option>
-                            <option value="pixel">px</option>
+                            <option value="pct">%</option>
+                            <option value="px">px</option>
                           </select>
                         </p>
                       </div>
@@ -1550,8 +1555,8 @@ const initFormBackgroundResponsiveArea = function(obj) {
                         </p>
                         <p class="form-position-unit">
                           <select class="form-position-selunit unit-x" name="` + key + `__unit_x">
-                            <option value="percent">%</option>
-                            <option value="pixel">px</option>
+                            <option value="pct">%</option>
+                            <option value="px">px</option>
                           </select>
                         </p>
                       </div>
@@ -1674,7 +1679,7 @@ const initFormBackgroundResponsive = function(obj) {
           
           // 入力のnameの「__sp」を消す
           responsive_area.find('input, select').each(function(){
-            $(this).prop('name', check.prop('name').replace('__sp', ''));
+            $(this).prop('name', $(this).prop('name').replace('__sp__', '__pc__'));
           });
         }
       } else {
@@ -1685,17 +1690,33 @@ const initFormBackgroundResponsive = function(obj) {
         // SPサイト編集エリア用HTML文を追加し、PC/SP表示コントロール用クラスを追加
         var responsive_area = obj.find('.form-responsive-area');
         responsive_area.addClass('setting-pc');
-        responsive_area.before(responsive_area.prop('outerHTML').replace('setting-pc', 'setting-sp'));
+        responsive_area.after(responsive_area.prop('outerHTML').replace(/__pc/g, '__sp').replace('setting-pc', 'setting-sp'));
         var responsive_area_sp = obj.find('.form-responsive-area.setting-sp');
         
         // 現在編集中の端末の編集エリアのみを表示
         obj.find('.form-responsive-area.setting-' + device).addClass('active');
         
-        // SPサイト入力に対して値をコピーし、nameに「__sp」を付ける
+        // SPサイトの入力、選択、チェックボックス、ラジオボタンでループする
         responsive_area_sp.find('input, select').each(function(){
-          var name = $(this).prop('name');
-          $(this).prop('name', name + '__sp');
-          $(this).val(responsive_area.find('[name="' + name + '"]').val());
+          var name_pc = $(this).prop('name').replace('__sp__', '__pc__');
+          var type = $(this).prop('type');
+          
+          if(type == 'checkbox') {
+            // チェックボックスの場合現在のチェック状態をSP設定に反映
+            if(responsive_area.find('[name="' + name_pc + '"]').prop('checked')) {
+              $(this).prop('checked', true);
+            } else {
+              $(this).prop('checked', false);
+            }
+          } else if(type == 'radio') {
+            // ラジオボタンの場合親要素にcheckedがあるかどうかでPCSP両方設定にチェックを反映
+            if($(this).parent().hasClass('checked')) {
+              $(this).prop('checked', true);
+            }
+          } else {
+            // 入力、選択の場合現在の値をSP設定に反映
+            $(this).val(responsive_area.find('[name="' + name_pc + '"]').val());
+          }
         });
         
         // SPサイト入力部分を初期化し直す
@@ -1776,7 +1797,7 @@ const initFormBackground = function(obj) {
       // 背景層HTML作成
       var lastid = parseInt(obj.data('lastid'));
       var target = obj.closest('.form-block').data('target');
-      var key = target + '__background__' + lastid;
+      var key = target + '__style__background__' + lastid;
       var class_pc = '';
       var class_sp = '';
       var device = $('.header-sim-device.checked').data('device');
@@ -1799,10 +1820,10 @@ const initFormBackground = function(obj) {
           <div class="form-background-body form-responsive">
             <div class="form-responsive-controller">
               <p class="form-checkbox form-responsive-checkbox form-responsive-chkdevice setting-pc ` + class_pc + `">
-                <input type="checkbox" name="` + key + `__pc" class="form-responsive-chkdevice-check"/>` + translations.responsive_pc + `
+                <input type="checkbox" name="` + key + `__pc_only" class="form-responsive-chkdevice-check chkdevice-check-pc"/>` + translations.responsive_pc + `
               </p>
               <p class="form-checkbox form-responsive-checkbox form-responsive-chkdevice setting-sp ` + class_sp + `">
-                <input type="checkbox" name="` + key + `__sp" class="form-responsive-chkdevice-check" />` + translations.responsive_sp + `
+                <input type="checkbox" name="` + key + `__sp_only" class="form-responsive-chkdevice-check chkdevice-check-sp" />` + translations.responsive_sp + `
               </p>
               <p class="form-checkbox form-responsive-checkbox form-responsive-chkflag">
                 <input type="checkbox" name="` + key + `__responsive" class="form-responsive-chkflag-check" />` + translations.responsive_flag + `
@@ -1810,7 +1831,7 @@ const initFormBackground = function(obj) {
             </div>
             <div class="form-responsive-area">
               <p class="form-background-type">
-                <select class="form-background-seltype" name="` + key + `__type">
+                <select class="form-background-seltype" name="` + key + `__pc__type">
                   <option value="" hidden>` + translations.background_type_ph + `</option>
                   <option value="solid">` + translations.background_solid + `</option>
                   <option value="picture">` + translations.background_picture + `</option>

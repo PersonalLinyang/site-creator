@@ -25,6 +25,10 @@
       display: block !important;
     }
   }
+  
+  &-none {
+    display: none !important;
+  }
 }
 
 .form {
@@ -40,6 +44,12 @@
   &-block {
     width: $editor_setting_width;
     height: 100%;
+    float: left;
+    display: none;
+    
+    &.active {
+      display: block;
+    }
   }
   
   &-topic {
@@ -49,6 +59,26 @@
     display: flex;
     align-items: center;
     height: 34px;
+    
+    &-back {
+      position: relative;
+      width: 25px;
+      height: 100%;
+      background: #000;
+      border-right: 1px solid #fff;
+      cursor: pointer;
+      
+      &:before {
+        content: "";
+        position: absolute;
+        border-right: 10px solid #fff;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        top: 50%;
+        left: 5px;
+        transform: translateY(-50%);
+      }
+    }
     
     &-text {
       padding: 0 10px;
@@ -600,8 +630,135 @@
       margin-top: 8px;
     }
   }
-}
-
-.working {
-  cursor: wait !important;
+  
+  &-layout {
+    &-sim {
+      border: 2px solid $block_border_color;
+      margin: 8px 0;
+      
+      &-item {
+        border: 1px solid $block_border_color;
+        margin: 3px;
+        text-align: center;
+        cursor: pointer;
+      }
+    }
+  }
+  
+  &-bodylayout {
+    &-sim {
+      border: 2px solid $block_border_color;
+      margin: 8px 0;
+      
+      &-item {
+        margin: 3px;
+        text-align: center;
+      }
+      &-main {
+        margin-top: 3px;
+        padding: 3px;
+        border: 1px solid $block_border_color;
+        
+        &-controller {
+          display: flex;
+          justify-content: space-between;
+        }
+        
+        &-inner {
+          margin-top: 3px;
+          display: flex;
+          justify-content: space-between;
+        }
+        
+        &-text {
+          position: relative;
+          width: 100%;
+          text-align: center;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+      
+      &-content {
+        border: 1px solid $block_border_color;
+        height: 100px;
+        width: calc(100% - 46px);
+        padding-top: 20px;
+        position: relative;
+        
+        &area {
+          display: flex;
+          position: relative;
+          justify-content: space-between;
+          width: 100%;
+        }
+      }
+      
+      &-sidebar {
+        border: 1px solid $block_border_color;
+        position: relative;
+        writing-mode: vertical-rl;
+        text-align: center;
+      }
+      
+      &-btnaddsidebar {
+        border: 1px solid $block_border_color;
+        width: 20px;
+        min-height: 20px;
+        position: relative;
+        
+        &:before {
+          content: "+";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+      
+      &-btndelete {
+        border: 1px solid $block_border_color;
+        width: 50%;
+        height: 20px;
+        background: #f00;
+        cursor: pointer;
+        
+        &.btndelete-main {
+          max-width: 120px;
+        }
+        
+        &.btndelete-inner {
+          max-width: 20px;
+        }
+      }
+      
+      &-btnsort {
+        border: 1px solid $block_border_color;
+        width: 50%;
+        height: 20px;
+        background-image: url("../../img/common/move.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 16px;
+        cursor: pointer;
+        
+        &.btnsort-main {
+          max-width: 120px;
+        }
+        
+        &.btnsort-inner {
+          max-width: 20px;
+          position: absolute;
+          top: 0;
+          left: 23px;
+        }
+      }
+      
+      &-footer {
+        margin-top: 3px;
+        border: 1px solid $block_border_color;
+        text-align: center;
+      }
+    }
+  }
 }

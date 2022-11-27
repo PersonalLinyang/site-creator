@@ -64,8 +64,6 @@ function get_js_translations($key) {
         'background_bottom_left'        => __('Background Bottom Left', $lang_domain),
         'background_bottom_right'       => __('Background Bottom Right', $lang_domain),
         'background_custom_position'    => __('Background Custom Position', $lang_domain),
-        'gradient_center_position_x'    => __('Gradient Center Position X', $lang_domain),
-        'gradient_center_position_y'    => __('Gradient Center Position Y', $lang_domain),
         'background_position'    => __('Background Position', $lang_domain),
         'background_size'    => __('Background Size', $lang_domain),
         'keep_proportion'    => __('Keep Proportion', $lang_domain),
@@ -154,9 +152,17 @@ function my_enqueue_scripts() {
     wp_enqueue_script('js_common_editor_background', get_theme_file_uri($js_common_editor_background_path), 
         array('js_common_editor_common'), filemtime(get_theme_file_path($js_common_editor_background_path)));
     
+    $js_common_editor_layout_path = 'assets/js/common/editor/layout.js';
+    wp_enqueue_script('js_common_editor_layout', get_theme_file_uri($js_common_editor_layout_path), 
+        array('js_common_editor_common'), filemtime(get_theme_file_path($js_common_editor_layout_path)));
+    
+    $js_common_editor_position_path = 'assets/js/common/editor/position.js';
+    wp_enqueue_script('js_common_editor_position', get_theme_file_uri($js_common_editor_position_path), 
+        array('js_common_editor_common'), filemtime(get_theme_file_path($js_common_editor_position_path)));
+    
     $js_common_editor_index_path = 'assets/js/common/editor/index.js';
     wp_enqueue_script('js_common_editor_index', get_theme_file_uri($js_common_editor_index_path), 
-        array('js_common_editor_background'), filemtime(get_theme_file_path($js_common_editor_index_path)));
+        array('js_common_editor_background', 'js_common_editor_layout', 'js_common_editor_position'), filemtime(get_theme_file_path($js_common_editor_index_path)));
     
     $translations = array_merge($translations, get_js_translations('common_editor'));
   }
