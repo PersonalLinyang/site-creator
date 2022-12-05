@@ -75,10 +75,11 @@ $(document).ready(function(){
 //    initFormColorEditor($(this)); 
 //  });
   
-  $('.form-block-slidehandler').each(function(){ initFormBlockSlidehandler($(this)); });
-  $('.form-background').each(function(){ initFormBackground($(this)); });
-  $('.form-layout').each(function(){ initFormLayout($(this)); });
-  $('.form-position').each(function(){ initFormPosition($(this)); });
+  $('.form-block').each(function(){ 
+    initFormBlock($(this)); 
+  });
+  
+  $('.setting').data('index', $('.form-block').length);
   
   $('.header-save').on('click', function(){
     var fd = new FormData();

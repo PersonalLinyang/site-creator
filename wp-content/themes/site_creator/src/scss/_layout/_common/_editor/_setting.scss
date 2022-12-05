@@ -81,13 +81,21 @@
     }
     
     &-text {
-      padding: 0 10px;
+      margin: 0 10px;
+      width: calc(100% - 45px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
   
   &-content {
     height: calc(100% - 34px);
     overflow-y: auto;
+    
+    &-main {
+      margin-top: 15px;
+    }
   }
   
   &-line {
@@ -134,6 +142,10 @@
     
     &-checkbox {
       width: calc(50% - 4px);
+      
+      &.center {
+        margin: 0 auto;
+      }
     }
   }
   
@@ -274,10 +286,10 @@
       width: 100%;
       height: 100%;
       cursor: pointer;
-      background: linear-gradient(to right top, #dddddd calc(50% - 1.5px), #ff0000 calc(50% - 1.5px), #ff0000 calc(50% + 1.5px), #dddddd calc(50% + 1.5px));
+      background: transparent;
       
       &.checked {
-        background: transparent;
+        background: linear-gradient(to right top, #dddddd calc(50% - 1.5px), #ff0000 calc(50% - 1.5px), #ff0000 calc(50% + 1.5px), #dddddd calc(50% + 1.5px));
       }
       
       &-check {
@@ -442,6 +454,10 @@
       margin-top: 8px;
     }
     
+    &-chkrepeat {
+      margin-top: 8px;
+    }
+    
     &-rdotype {
       width: calc((100% - 12px) / 3);
       display: block;
@@ -467,7 +483,7 @@
         height: 60px;
         margin: 12px auto 5px;
         
-        &.preview-solid {
+        &.preview-linear {
           background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff);
         }
         
@@ -632,15 +648,93 @@
   }
   
   &-layout {
+    &-btnadd {
+      border: 1px solid $block_border_color;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    
     &-sim {
       border: 2px solid $block_border_color;
       margin: 8px 0;
       
-      &-item {
-        border: 1px solid $block_border_color;
+      &.row-layout {
+        display: flex;
+        overflow-x: auto;
+      }
+      
+      &-dummy {
         margin: 3px;
         text-align: center;
-        cursor: pointer;
+        display: none;
+        
+        &.active {
+          display: block;
+        }
+      }
+      
+      &-item {
+        position: relative;
+        border: 1px solid $block_border_color;
+        margin: 3px;
+        padding: 0 68px 0 2px;
+        text-align: center;
+        width: calc(100% - 6px);
+        min-width: 68px;
+        
+        .row-layout & {
+          padding: 24px 2px 0;
+        }
+        
+        &.checked {
+          background: $block_border_color;
+          color: #fff;
+        }
+        
+        &-btnsort {
+          position: absolute;
+          top: 2px;
+          right: 46px;
+          width: 20px;
+          height: 20px;
+          border: 1px solid $block_border_color;
+          background-color: #fff;
+          background-image: url("../../img/common/move.svg");
+          background-size: 16px;
+          background-position: center;
+          background-repeat: no-repeat;
+          cursor: pointer;
+        }
+        
+        &-btnedit {
+          position: absolute;
+          top: 2px;
+          right: 24px;
+          width: 20px;
+          height: 20px;
+          border: 1px solid $block_border_color;
+          background-color: #0f0;
+          cursor: pointer;
+        }
+        
+        &-btndelete {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+          width: 20px;
+          height: 20px;
+          border: 1px solid $block_border_color;
+          background-color: #f00;
+          cursor: pointer;
+        }
+        
+        &-text {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
     }
   }

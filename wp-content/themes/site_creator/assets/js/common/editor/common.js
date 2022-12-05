@@ -73,37 +73,3 @@ const resizeSP = function(){
   
   return rate;
 }
-
-// 設定対象切り替えを初期化
-const initFormBlockSlidehandler = function(obj) {
-  obj.on('click', function(){
-    var button = $(this);
-    if(!button.hasClass('working')) {
-      $('.form-block-slidehandler').addClass('working');
-      
-      var block_this = button.closest('.form-block');
-      var index_this = $('.form-block').index(block_this);
-      var target = button.data('target');
-      var block_target = $('.form-block[data-target="' + target + '"]');
-      var index_target = $('.form-block').index(block_target);
-      var width = $('.form-block').width();
-      
-      $('.form-block').hide();
-      block_this.show();
-      block_target.show();
-      if(index_this > index_target) {
-        $('.form-body').css('margin-left', (0 - width) + 'px');
-        $('.form-body').animate({'marginLeft': '0px'}, 500, 'linear', function(){
-          block_this.hide();
-          $('.form-block-slidehandler').removeClass('working');
-        });
-      } else {
-        $('.form-body').animate({'marginLeft': (0 - width) + 'px'}, 500, 'linear', function(){
-          block_this.hide();
-          $('.form-body').css('margin-left', '0px');
-          $('.form-block-slidehandler').removeClass('working');
-        });
-      }
-    }
-  });
-}

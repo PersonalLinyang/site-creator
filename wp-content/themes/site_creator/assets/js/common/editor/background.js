@@ -1,3 +1,318 @@
+const updateBackgroundSimulation = function(target) {
+  var getBackgroundInfo = function(area) {
+    var bg_image = '';
+    var bg_repeat = '';
+    var bg_size = '';
+    var bg_position = '';
+    
+    if(typeof(area) != 'undefined') {
+      var type = area.find('.form-background-seltype').val();
+      if(type == 'solid') { 
+        // 純色処理
+        var hex = area.find('.form-color-txtpicker').val();
+        var opa = area.find('.form-color-selopacity').val();
+        if(hex.match(/[a-f\d]{6}/) && opa.match(/[0-1]{1}(\.[1-9]){0,1}/)) {
+          var rgb = changeHexToRgb(hex);
+          var color = 'rgba(' + rgb['r'] + ', ' + rgb['g'] + ', ' + rgb['b'] + ', ' + opa + ')';
+          bg_image = 'linear-gradient(0deg, ' + color + ', ' + color + ')';
+          bg_repeat = 'repeat';
+          bg_size = '100% 100%';
+          bg_position = 'center';
+        }
+      } else if(type == 'picture') { 
+        // 画像処理
+        // 画像URL反映
+        var url = area.find('.form-upload').data('url');
+        if(url) {
+          bg_image = 'url(' + url + ')';
+        }
+        
+        // 背景重複性反映
+        if(area.find('.form-background-chkrepeat-check').prop('checked')) {
+          bg_repeat = 'repeat';
+        } else {
+          bg_repeat = 'no-repeat';
+        }
+        
+        // 背景場所反映
+        if(area.find('.form-position-selposition').val() == 'custom') {
+          var from_y = area.find('.form-position-selfrom.from-y').val();
+          var distance_y = area.find('.form-position-txtdistance.distance-y').val();
+          var unit_y = changeUnitValueToAttr(area.find('.form-position-selunit.unit-y').val());
+          var from_x = area.find('.form-position-selfrom.from-x').val();
+          var distance_x = area.find('.form-position-txtdistance.distance-x').val();
+          var unit_x = changeUnitValueToAttr(area.find('.form-position-selunit.unit-x').val());
+          bg_position = from_y + ' ' + distance_y + unit_y + ' ' + from_x + ' ' + distance_x + unit_x;
+        } else {
+          bg_position = area.find('.form-position-selposition').val();
+        }
+        
+        // 背景サイズ反映
+        if(!area.find('.form-size-chkunset-check').prop('checked')) {
+          var width = area.find('.form-size-txtvalue.value-w').val();
+          var unit_w = changeUnitValueToAttr(area.find('.form-size-selunit.unit-w').val());
+          var size = width + unit_w;
+          if(!area.find('.form-size-chkproportion-check').prop('checked')) {
+            var height = area.find('.form-size-txtvalue.value-h').val();
+            var unit_h = changeUnitValueToAttr(area.find('.form-size-selunit.unit-h').val());
+            size += ' ' + height + unit_h;
+          }
+          bg_size = size;
+        } else {
+          bg_size = 'auto';
+        }
+      } else if(type == 'gradient') { 
+        // 変色処理
+        // 背景関数を取得
+        var type = area.find('.form-gradient-rdotype-radio:checked').val();
+        var str_bg_image = '';
+        if(area.find('.form-gradient-chkrepeat-check').prop('checked')) {
+          str_bg_image = 'repeating-';
+        }
+        str_bg_image += type + '-gradient(';
+        
+        // 背景詳細設定取得
+        var image_done_flag = true;
+        if(type == 'linear') {
+          // 線型変色で変色方向を取得
+          var direction = area.find('.form-gradient-seldirection').val();
+          if(direction == 'rotate') {
+            var rotate = $('.form-gradient-txtrotate').val();
+            if(rotate.match(/^\d*(\.\d+)?$/)) {
+              str_bg_image += rotate + 'deg ';
+            } else {
+              image_done_flag = false;
+            }
+          } else if(direction != '') {
+            str_bg_image += direction + ' ';
+          } else {
+            image_done_flag = false;
+          }
+        } else if(type == 'conic' || type == 'radial') {
+          // 円型・扇型変色
+          if(type == 'radial') {
+            // 円型変色で形状を取得
+            var shape = area.find('.form-gradient-selshape').val();
+            if(shape != '') {
+              str_bg_image += shape + ' at ';
+            } else {
+              image_done_flag = false;
+            }
+          } else {
+            str_bg_image += ' from 0deg at '
+          }
+          
+          // 中心点を取得
+          var center = area.find('.form-gradient-selcenter').val();
+          if(center == 'custom') {
+            var from_x = area.find('.form-position-selcenterfrom.from-x').val();
+            var from_y = area.find('.form-position-selcenterfrom.from-y').val();
+            var distance_x = area.find('.form-position-txtcenterdistance.distance-x').val();
+            var distance_y = area.find('.form-position-txtcenterdistance.distance-y').val();
+            var unit_x = changeUnitValueToAttr(area.find('.form-position-selcenterunit.unit-x').val());
+            var unit_y = changeUnitValueToAttr(area.find('.form-position-selcenterunit.unit-y').val());
+            
+            if(distance_x.match(/^\d*(\.\d+)?$/) && distance_y.match(/^\d*(\.\d+)?$/) && unit_x && unit_y) {
+              str_bg_image += from_x + ' ' + distance_x + unit_x + ' ' + from_y + ' ' + distance_y + unit_y + ' ';
+            } else {
+              image_done_flag = false;
+            }
+          } else if(center != '') {
+            str_bg_image += center + ' ';
+          } else {
+            image_done_flag = false;
+          }
+        }
+        
+        if(image_done_flag == true) {
+          // 詳細設定に問題がない場合色配列を整理
+          var calc_pct = 0;
+          var calc_px = 0;
+          var counter = 0;
+          
+          if(area.find('.form-gradient-color').length) {
+            area.find('.form-gradient-color').each(function(){
+              // 色設定エリアをループして処理
+              var check = $(this).find('.form-color-checkbox-check');
+              var hex = $(this).find('.form-color-txtpicker').val();
+              var opa = $(this).find('.form-color-selopacity').val();
+              var size = $(this).find('.form-color-txtsize').val();
+              var unit = $(this).find('.form-color-selunit').val();
+              var color = 'transparent';
+              
+              // 色と透明度を整理、色が設定されてない場合は透明のまま
+              if(!check.prop('checked')) {
+                if(hex.match(/[a-f\d]{6}/) && opa.match(/[0-1]{1}(\.[1-9]){0,1}/)) {
+                  var rgb = changeHexToRgb(hex);
+                  color = 'rgba(' + rgb['r'] + ', ' + rgb['g'] + ', ' + rgb['b'] + ', ' + opa + ')';
+                }
+              }
+              
+              if(size.match(/^\d*(\.\d+)?$/)) {
+                // 変色範囲サイズが数値の場合データ型切り替え
+                size = parseInt(size);
+              } else {
+                // 変色範囲サイズが数値ではない場合スキップ
+                return true;  // continue
+              }
+              
+              if(counter == 0) {
+                str_bg_image += ', ' + color + ' 0 ';
+              }
+              
+              if(type ==  'conic') {
+                calc_pct += size;
+                str_bg_image += ', ' + color + ' ' + calc_pct + '% ';
+              } else {
+                if(unit == 'px') {
+                  calc_px += size;
+                } else if(unit == 'pct') {
+                  calc_pct += size;
+                } else {
+                  return true;  // continue
+                }
+                str_bg_image += ', ' + color + ' calc(' + calc_pct + '% + ' + calc_px + 'px) ';
+              }
+              
+              counter++;
+            });
+            
+            str_bg_image += ')';
+          } else {
+            str_bg_image = '';
+          }
+          
+          bg_image = str_bg_image;
+        }
+        
+        // 背景重複性反映
+        if(area.find('.form-background-chkrepeat-check').prop('checked')) {
+          bg_repeat = 'repeat';
+        } else {
+          bg_repeat = 'no-repeat';
+        }
+        
+        // 背景場所反映
+        if(area.find('.form-position-selposition').val() == 'custom') {
+          var from_y = area.find('.form-position-selfrom.from-y').val();
+          var distance_y = area.find('.form-position-txtdistance.distance-y').val();
+          var unit_y = changeUnitValueToAttr(area.find('.form-position-selunit.unit-y').val());
+          var from_x = area.find('.form-position-selfrom.from-x').val();
+          var distance_x = area.find('.form-position-txtdistance.distance-x').val();
+          var unit_x = changeUnitValueToAttr(area.find('.form-position-selunit.unit-x').val());
+          bg_position = from_y + ' ' + distance_y + unit_y + ' ' + from_x + ' ' + distance_x + unit_x;
+        } else {
+          bg_position = area.find('.form-position-selposition').val();
+        }
+        
+        // 背景サイズ反映
+        if(!area.find('.form-size-chkunset-check').prop('checked')) {
+          var width = area.find('.form-size-txtvalue.value-w').val();
+          var unit_w = changeUnitValueToAttr(area.find('.form-size-selunit.unit-w').val());
+          var size = width + unit_w;
+          if(!area.find('.form-size-chkproportion-check').prop('checked')) {
+            var height = area.find('.form-size-txtvalue.value-h').val();
+            var unit_h = changeUnitValueToAttr(area.find('.form-size-selunit.unit-h').val());
+            size += ' ' + height + unit_h;
+          }
+          bg_size = size;
+        } else {
+          bg_size = '100% 100%';
+        }
+      }
+    }
+    
+    return [bg_image, bg_repeat, bg_size, bg_position];
+  }
+  
+  var background = $('.form-block[data-target="' + target + '"]').find('.form-background');
+  if(background.length) {
+    var bg_image_pc = '';
+    var bg_repeat_pc = '';
+    var bg_size_pc = '';
+    var bg_position_pc = '';
+    var comma_pc = '';
+    
+    var bg_image_sp = '';
+    var bg_repeat_sp = '';
+    var bg_size_sp = '';
+    var bg_position_sp = '';
+    var comma_sp = '';
+    
+    var layer_list = background.first().find('.form-background-layer');
+    layer_list.each(function(){
+      var layer = $(this);
+      var pc_flag = layer.find('.form-responsive-chkdevice-check.chkdevice-check-pc').prop('checked');
+      var sp_flag = layer.find('.form-responsive-chkdevice-check.chkdevice-check-sp').prop('checked');
+      var re_flag = layer.find('.form-responsive-chkflag-check').prop('checked');
+      
+      if(pc_flag == true) {
+        var area = layer.find('.form-responsive-area').first();
+        var [bg_image, bg_repeat, bg_size, bg_position] = getBackgroundInfo(area);
+        if(bg_image && bg_repeat && bg_size && bg_position) {
+          bg_image_pc += comma_pc + bg_image;
+          bg_repeat_pc += comma_pc + bg_repeat;
+          bg_size_pc += comma_pc + bg_size;
+          bg_position_pc += comma_pc + bg_position;
+          comma_pc = ', ';
+        }
+      } else if(sp_flag == true) {
+        var area = layer.find('.form-responsive-area').first();
+        var [bg_image, bg_repeat, bg_size, bg_position] = getBackgroundInfo(area);
+        if(bg_image && bg_repeat && bg_size && bg_position) {
+          bg_image_sp += comma_sp + bg_image;
+          bg_repeat_sp += comma_sp + bg_repeat;
+          bg_size_sp += comma_sp + bg_size;
+          bg_position_sp += comma_sp + bg_position;
+          comma_sp = ', ';
+        }
+      } else if(re_flag == true ) {
+        var area_pc = layer.find('.form-responsive-area.setting-pc').first();
+        var [bg_image, bg_repeat, bg_size, bg_position] = getBackgroundInfo(area_pc);
+        if(bg_image && bg_repeat && bg_size && bg_position) {
+          bg_image_pc += comma_pc + bg_image;
+          bg_repeat_pc += comma_pc + bg_repeat;
+          bg_size_pc += comma_pc + bg_size;
+          bg_position_pc += comma_pc + bg_position;
+          comma_pc = ', ';
+        }
+        
+        var area_sp = layer.find('.form-responsive-area.setting-sp').first();
+        var [bg_image, bg_repeat, bg_size, bg_position] = getBackgroundInfo(area_sp);
+        if(bg_image && bg_repeat && bg_size && bg_position) {
+          bg_image_sp += comma_sp + bg_image;
+          bg_repeat_sp += comma_sp + bg_repeat;
+          bg_size_sp += comma_sp + bg_size;
+          bg_position_sp += comma_sp + bg_position;
+          comma_sp = ', ';
+        }
+      } else {
+        var area = layer.find('.form-responsive-area').first();
+        var [bg_image, bg_repeat, bg_size, bg_position] = getBackgroundInfo(area);
+        if(bg_image && bg_repeat && bg_size && bg_position) {
+          bg_image_pc += comma_pc + bg_image;
+          bg_repeat_pc += comma_pc + bg_repeat;
+          bg_size_pc += comma_pc + bg_size;
+          bg_position_pc += comma_pc + bg_position;
+          comma_pc = ', ';
+          
+          bg_image_sp += comma_sp + bg_image;
+          bg_repeat_sp += comma_sp + bg_repeat;
+          bg_size_sp += comma_sp + bg_size;
+          bg_position_sp += comma_sp + bg_position;
+          comma_sp = ', ';
+        }
+      }
+    });
+    
+    $('#sim-' + target + '-pc').css('background-image', bg_image_pc).css('background-repeat', bg_repeat_pc)
+        .css('background-size', bg_size_pc).css('background-position', bg_position_pc);
+    
+    $('#sim-' + target + '-sp').css('background-image', bg_image_sp).css('background-repeat', bg_repeat_sp)
+        .css('background-size', bg_size_sp).css('background-position', bg_position_sp);
+  }
+}
+
 // 背景層のindexを更新
 const updateBackgroundLayerIndex = function(layer_list) {
   layer_list.each(function(){
@@ -50,19 +365,7 @@ const initFormBackgroundSolid = function(obj) {
   var layerid = obj.closest('.form-background-layer').data('layerid');
   
   // 編集対象シミュレーションと色編集エリア色シミュレーションにスタイル反映
-  var updateSimulation = function() {
-    // 編集対象を取得
-    var sim_target = $('.sim-' + target + '-background-' + layerid);
-    if(obj.closest('.form-responsive-area').hasClass('setting-pc')) {
-      sim_target = $('#sim-' + target + '-background-' + layerid + '-pc');
-    } else if(obj.closest('.form-responsive-area').hasClass('setting-sp')) {
-      sim_target = $('#sim-' + target + '-background-' + layerid + '-sp');
-    }
-    
-    // 背景を初期化
-    sim_target.css('background-color', 'transparent');
-    sim_target.css('background-image', 'none');
-    
+  var updateShowSimulation = function() {
     // 編集の設定値を取得
     var hex = picker.val();
     var opa = opacity.val();
@@ -71,17 +374,15 @@ const initFormBackgroundSolid = function(obj) {
       // 色と透明度のフォーマットが正しい場合シミュレーションに反映
       var rgb = changeHexToRgb(hex);
       var color = 'rgba(' + rgb['r'] + ', ' + rgb['g'] + ', ' + rgb['b'] + ', ' + opa + ')';
-      sim_target.css('background-color', color);
       show.css('background', color);
-      check.prop('checked', true);
-      checkbox.addClass('checked');
+      check.prop('checked', false);
+      checkbox.removeClass('checked');
       opacity.prop('disabled', false);
     } else {
       // 色と透明度のフォーマットが正しくない場合シミュレーションが透明になる
-      sim_target.css('background-color', 'transparent');
       show.css('background', 'transparent');
-      check.prop('checked', false);
-      checkbox.removeClass('checked');
+      check.prop('checked', true);
+      checkbox.addClass('checked');
       opacity.prop('disabled', true);
     }
   }
@@ -91,7 +392,8 @@ const initFormBackgroundSolid = function(obj) {
     e.preventDefault();
     if(checkbox.hasClass('checked')) {
       picker.val('');
-      updateSimulation();
+      updateShowSimulation();
+      updateBackgroundSimulation(target);
     } else {
       picker.click();
     }
@@ -102,23 +404,27 @@ const initFormBackgroundSolid = function(obj) {
     onSubmit: function(hsb, hex, rgb, el) {
       $(el).val(hex);
       $(el).ColorPickerHide();
-      updateSimulation();
+      updateShowSimulation();
+      updateBackgroundSimulation(target);
     },
     onBeforeShow: function () {
       $(this).ColorPickerSetColor(this.value);
     }
   }).bind('keyup', function(){
     $(this).ColorPickerSetColor('#' + this.value);
-    updateSimulation();
+    updateShowSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 透明度を変更
   opacity.on('change', function(){
-    updateSimulation();
+    updateShowSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 初期化にシミュレーションを一度反映
-  updateSimulation();
+  updateShowSimulation();
+  updateBackgroundSimulation(target);
 }
 
 
@@ -127,64 +433,6 @@ const initFormBackgroundPicture = function(obj) {
   // 編集対象取得用の変数を定義
   var target = obj.closest('.form-block').data('target');
   var layerid = parseInt(obj.closest('.form-background-layer').data('layerid'));
-  
-  // 編集対象シミュレーションと色編集エリア色シミュレーションにスタイル反映
-  var updateSimulation = function() {
-    // 編集対象を取得
-    var sim_target = $('.sim-' + target + '-background-' + layerid);
-    if(obj.closest('.form-responsive-area').hasClass('setting-pc')) {
-      sim_target = $('#sim-' + target + '-background-' + layerid + '-pc');
-    } else if(obj.closest('.form-responsive-area').hasClass('setting-sp')) {
-      sim_target = $('#sim-' + target + '-background-' + layerid + '-sp');
-    }
-    
-    // 背景を初期化
-    sim_target.css('background-color', 'transparent');
-    sim_target.css('background-image', 'none');
-    
-    // 画像URL反映
-    var url = obj.find('.form-upload').data('url');
-    if(url) {
-      sim_target.css('background-image', 'url(' + url + ')');
-    } else {
-      sim_target.css('background-image', 'none');
-    }
-    
-    // 背景重複性反映
-    if(obj.find('.form-background-chkrepeat-check').prop('checked')) {
-      sim_target.css('background-repeat', 'repeat');
-    } else {
-      sim_target.css('background-repeat', 'no-repeat');
-    }
-    
-    // 背景場所反映
-    if(obj.find('.form-position-selposition').val() == 'custom') {
-      var from_y = obj.find('.form-position-selfrom.from-y').val();
-      var distance_y = obj.find('.form-position-txtdistance.distance-y').val();
-      var unit_y = changeUnitValueToAttr(obj.find('.form-position-selunit.unit-y').val());
-      var from_x = obj.find('.form-position-selfrom.from-x').val();
-      var distance_x = obj.find('.form-position-txtdistance.distance-x').val();
-      var unit_x = changeUnitValueToAttr(obj.find('.form-position-selunit.unit-x').val());
-      sim_target.css('background-position', from_y + ' ' + distance_y + unit_y + ' ' + from_x + ' ' + distance_x + unit_x);
-    } else {
-      sim_target.css('background-position', obj.find('.form-position-selposition').val());
-    }
-    
-    // 背景サイズ反映
-    if(!obj.find('.form-size-chkunset-check').prop('checked')) {
-      var width = obj.find('.form-size-txtvalue.value-w').val();
-      var unit_w = changeUnitValueToAttr(obj.find('.form-size-selunit.unit-w').val());
-      var size = width + unit_w;
-      if(!obj.find('.form-size-chkproportion-check').prop('checked')) {
-        var height = obj.find('.form-size-txtvalue.value-h').val();
-        var unit_h = changeUnitValueToAttr(obj.find('.form-size-selunit.unit-h').val());
-        size += ' ' + height + unit_h;
-      }
-      sim_target.css('background-size', size);
-    } else {
-      sim_target.css('background-size', 'unset');
-    }
-  }
   
   // アップロード画像ファイル名部分をクリック
   obj.find('.form-upload-text').on('click', function(){
@@ -221,7 +469,7 @@ const initFormBackgroundPicture = function(obj) {
         obj.find('.form-upload-btndelete').fadeIn();
         
         // シミュレーション更新
-        updateSimulation();
+        updateBackgroundSimulation(target);
       },
       function ( jqXHR, textStatus, errorThrown ) {
         console.log( 'error!' );
@@ -254,7 +502,7 @@ const initFormBackgroundPicture = function(obj) {
       }
       
       // シミュレーション更新
-      updateSimulation();
+      updateBackgroundSimulation(target);
       
       // ボタンクリックのロックを外す
       checkbox.removeClass('working');
@@ -276,7 +524,7 @@ const initFormBackgroundPicture = function(obj) {
       obj.find('.form-upload-text').removeClass('active').html(translations.file_upload);
       obj.find('.form-upload-btndelete').fadeOut(function(){
         // シミュレーション更新
-        updateSimulation();
+        updateBackgroundSimulation(target);
         
         // ボタンクリックのロックを外す
         button.removeClass('working');
@@ -295,13 +543,13 @@ const initFormBackgroundPicture = function(obj) {
       if($(this).val() == 'custom') {
         $(this).closest('.form-position').find('.form-position-detail').slideDown(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           select.removeClass('working');
         });
       } else {
         $(this).closest('.form-position').find('.form-position-detail').slideUp(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           select.removeClass('working');
         });
       }
@@ -311,7 +559,7 @@ const initFormBackgroundPicture = function(obj) {
   // 背景画像位置出発方向選択変更
   obj.find('.form-position-selfrom').on('change', function(){
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 背景画像位置距離入力変更
@@ -321,13 +569,13 @@ const initFormBackgroundPicture = function(obj) {
       $(this).val(0);
     }
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 背景画像位置単位変更
   obj.find('.form-position-selunit').on('change', function(){
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 画像の元サイズで表示のボタンをクリック
@@ -346,7 +594,7 @@ const initFormBackgroundPicture = function(obj) {
         // 画像サイズ詳細設定部分表示
         checkbox.closest('.form-size').find('.form-size-setting').slideDown(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           // ボタンクリックのロックを外す
           checkbox.removeClass('working');
         });
@@ -356,7 +604,7 @@ const initFormBackgroundPicture = function(obj) {
         // 画像サイズ詳細設定部分非表示
         checkbox.closest('.form-size').find('.form-size-setting').slideUp(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           // ボタンクリックのロックを外す
           checkbox.removeClass('working');
         });
@@ -380,7 +628,7 @@ const initFormBackgroundPicture = function(obj) {
         // 画像サイズ高さ設定部分表示
         checkbox.closest('.form-size').find('.form-size-line.line-height').slideDown(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           // ボタンクリックのロックを外す
           checkbox.removeClass('working');
         });
@@ -390,7 +638,7 @@ const initFormBackgroundPicture = function(obj) {
         // 画像サイズ高さ設定部分非表示
         checkbox.closest('.form-size').find('.form-size-line.line-height').slideUp(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           // ボタンクリックのロックを外す
           checkbox.removeClass('working');
         });
@@ -405,17 +653,17 @@ const initFormBackgroundPicture = function(obj) {
       $(this).val(0);
     }
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 画像サイズ単位変更
   obj.find('.form-size-selunit').on('change', function(){
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 初期化にシミュレーションを一度反映
-  updateSimulation();
+  updateBackgroundSimulation(target);
 }
 
 
@@ -425,201 +673,33 @@ const initFormBackgroundGradient = function(obj) {
   var target = obj.closest('.form-block').data('target');
   var layerid = parseInt(obj.closest('.form-background-layer').data('layerid'));
   
-  // シミュレーション更新
-  var updateSimulation = function() {
-    // 編集対象を取得
-    var sim_target = $('.sim-' + target + '-background-' + layerid);
-    if(obj.closest('.form-responsive-area').hasClass('setting-pc')) {
-      sim_target = $('#sim-' + target + '-background-' + layerid + '-pc');
-    } else if(obj.closest('.form-responsive-area').hasClass('setting-sp')) {
-      sim_target = $('#sim-' + target + '-background-' + layerid + '-sp');
-    }
-    
-    // 背景を初期化
-    sim_target.css('background-color', 'transparent');
-    sim_target.css('background-image', 'none');
-    
-    // 背景関数を取得
-    var type = obj.find('.form-gradient-rdotype-radio:checked').val();
-    var background = '';
-    if(obj.find('.form-gradient-chkrepeat-check').prop('checked')) {
-      background = 'repeating-';
-    }
-    background += type + '-gradient(';
-    
-    // 背景詳細設定取得
-    var done_flag = true;
-    if(type == 'linear') {
-      // 線型変色で変色方向を取得
-      var direction = obj.find('.form-gradient-seldirection').val();
-      if(direction == 'rotate') {
-        var rotate = $('.form-gradient-txtrotate').val();
-        if(rotate.match(/^\d*(\.\d+)?$/)) {
-          background += rotate + 'deg ';
-        } else {
-          done_flag = false;
-        }
-      } else if(direction != '') {
-        background += direction + ' ';
-      } else {
-        done_flag = false;
-      }
-    } else if(type == 'conic' || type == 'radial') {
-      // 円型・扇型変色
-      if(type == 'radial') {
-        // 円型変色で形状を取得
-        var shape = obj.find('.form-gradient-selshape').val();
-        if(shape != '') {
-          background += shape + ' at ';
-        } else {
-          done_flag = false;
-        }
-      } else {
-        background += ' from 0deg at '
-      }
-      
-      // 中心点を取得
-      var center = obj.find('.form-gradient-selcenter').val();
-      if(center == 'position') {
-        var from_x = obj.find('.form-position-selcenterfrom.from-x').val();
-        var from_y = obj.find('.form-position-selcenterfrom.from-y').val();
-        var distance_x = obj.find('.form-position-txtcenterdistance.distance-x').val();
-        var distance_y = obj.find('.form-position-txtcenterdistance.distance-y').val();
-        var unit_x = changeUnitValueToAttr(obj.find('.form-position-selcenterunit.unit-x').val());
-        var unit_y = changeUnitValueToAttr(obj.find('.form-position-selcenterunit.unit-y').val());
-        
-        if(distance_x.match(/^\d*(\.\d+)?$/) && distance_y.match(/^\d*(\.\d+)?$/) && unit_x && unit_y) {
-          background += from_x + ' ' + distance_x + unit_x + ' ' + from_y + ' ' + distance_y + unit_y + ' ';
-        } else {
-          done_flag = false;
-        }
-      } else if(center != '') {
-        background += center + ' ';
-      } else {
-        done_flag = false;
-      }
-    }
-    
-    if(done_flag == true) {
-      // 詳細設定に問題がない場合色配列を整理
-      var calc_pct = 0;
-      var calc_px = 0;
-      var counter = 0;
-      
-      obj.find('.form-gradient-color').each(function(){
-        // 色設定エリアをループして処理
-        var check = $(this).find('.form-color-checkbox-check');
-        var hex = $(this).find('.form-color-txtpicker').val();
-        var opa = $(this).find('.form-color-selopacity').val();
-        var size = $(this).find('.form-color-txtsize').val();
-        var unit = $(this).find('.form-color-selunit').val();
-        var color = 'transparent';
-        
-        // 色と透明度を整理、色が設定されてない場合は透明のまま
-        if(check.prop('checked')) {
-          if(hex.match(/[a-f\d]{6}/) && opa.match(/[0-1]{1}(\.[1-9]){0,1}/)) {
-            var rgb = changeHexToRgb(hex);
-            color = 'rgba(' + rgb['r'] + ', ' + rgb['g'] + ', ' + rgb['b'] + ', ' + opa + ')';
-          }
-        }
-        
-        if(size.match(/^\d*(\.\d+)?$/)) {
-          // 変色範囲サイズが数値の場合データ型切り替え
-          size = parseInt(size);
-        } else {
-          // 変色範囲サイズが数値ではない場合スキップ
-          return true;  // continue
-        }
-        
-        if(counter == 0) {
-          background += ', ' + color + ' 0 ';
-        }
-        
-        if(type ==  'conic') {
-          calc_pct += size;
-          background += ', ' + color + ' ' + calc_pct + '% ';
-        } else {
-          if(unit == 'px') {
-            calc_px += size;
-          } else if(unit == 'pct') {
-            calc_pct += size;
-          } else {
-            return true;  // continue
-          }
-          background += ', ' + color + ' calc(' + calc_pct + '% + ' + calc_px + 'px) ';
-        }
-        
-        counter++;
-      });
-      
-      background += ')';
-      
-      sim_target.css('background-image', background);
-    }
-    
-    // 背景重複性反映
-    if(obj.find('.form-background-chkrepeat-check').prop('checked')) {
-      sim_target.css('background-repeat', 'repeat');
-    } else {
-      sim_target.css('background-repeat', 'no-repeat');
-    }
-    
-    // 背景場所反映
-    if(obj.find('.form-position-selposition').val() == 'custom') {
-      var from_y = obj.find('.form-position-selfrom.from-y').val();
-      var distance_y = obj.find('.form-position-txtdistance.distance-y').val();
-      var unit_y = changeUnitValueToAttr(obj.find('.form-position-selunit.unit-y').val());
-      var from_x = obj.find('.form-position-selfrom.from-x').val();
-      var distance_x = obj.find('.form-position-txtdistance.distance-x').val();
-      var unit_x = changeUnitValueToAttr(obj.find('.form-position-selunit.unit-x').val());
-      sim_target.css('background-position', from_y + ' ' + distance_y + unit_y + ' ' + from_x + ' ' + distance_x + unit_x);
-    } else {
-      sim_target.css('background-position', obj.find('.form-position-selposition').val());
-    }
-    
-    // 背景サイズ反映
-    if(!obj.find('.form-size-chkunset-check').prop('checked')) {
-      var width = obj.find('.form-size-txtvalue.value-w').val();
-      var unit_w = changeUnitValueToAttr(obj.find('.form-size-selunit.unit-w').val());
-      var size = width + unit_w;
-      if(!obj.find('.form-size-chkproportion-check').prop('checked')) {
-        var height = obj.find('.form-size-txtvalue.value-h').val();
-        var unit_h = changeUnitValueToAttr(obj.find('.form-size-selunit.unit-h').val());
-        size += ' ' + height + unit_h;
-      }
-      sim_target.css('background-size', size);
-    } else {
-      sim_target.css('background-size', 'unset');
-    }
-  }
-  
   // 色のindexを更新
   const updateBackgroundGradientColorIndex = function(gradient_list) {
     gradient_list.each(function(){
       var colorid = $(this).data('colorid');
       var index = gradient_list.index($(this));
       $(this).find('.form-gradient-index').val(index);
-      updateSimulation();
+      updateBackgroundSimulation(target);
     });
   }
   
   // 変色の色設定エリアを初期化
   var initFormBackgroundGradientColor = function(obj_c) {
     // 色シミュレーション部分を更新
-    var updateColorSimulation = function() {
+    var updateShowSimulation = function() {
       var hex = obj_c.find('.form-color-txtpicker').val();
       var opacity = obj_c.find('.form-color-selopacity').val();
       if(hex.match(/[a-f\d]{6}/)) {
         var rgb = changeHexToRgb(hex);
         var color = 'rgba(' + rgb['r'] + ', ' + rgb['g'] + ', ' + rgb['b'] + ', ' + opacity + ')';
         obj_c.find('.form-color-show').css('background', color);
-        obj_c.find('.form-color-checkbox-check').prop('checked', true);
-        obj_c.find('.form-color-checkbox').addClass('checked');
+        obj_c.find('.form-color-checkbox-check').prop('checked', false);
+        obj_c.find('.form-color-checkbox').removeClass('checked');
         obj_c.find('.form-color-selopacity').prop('disabled', false);
       } else {
         obj_c.find('.form-color-show').css('background', 'transparent');
-        obj_c.find('.form-color-checkbox-check').prop('checked', false);
-        obj_c.find('.form-color-checkbox').removeClass('checked');
+        obj_c.find('.form-color-checkbox-check').prop('checked', true);
+        obj_c.find('.form-color-checkbox').addClass('checked');
         obj_c.find('.form-color-selopacity').prop('disabled', true);
       }
     }
@@ -659,7 +739,7 @@ const initFormBackgroundGradient = function(obj) {
         obj_c.slideUp(function(){
           obj_c.remove();
           $('.sim-' + target + '-background-' + colorid).remove();
-          updateSimulation();
+          updateBackgroundSimulation(target);
           updateBackgroundLayerIndex(gradient_list.find('.form-gradient-color'));
         });
       }
@@ -670,8 +750,8 @@ const initFormBackgroundGradient = function(obj) {
       e.preventDefault();
       if(obj_c.find('.form-color-checkbox').hasClass('checked')) {
         obj_c.find('.form-color-txtpicker').val('');
-        updateColorSimulation();
-        updateSimulation();
+        updateShowSimulation();
+        updateBackgroundSimulation(target);
       } else {
         obj_c.find('.form-color-txtpicker').click();
       }
@@ -682,22 +762,22 @@ const initFormBackgroundGradient = function(obj) {
       onSubmit: function(hsb, hex, rgb, el) {
         $(el).val(hex);
         $(el).ColorPickerHide();
-        updateColorSimulation();
-        updateSimulation();
+        updateShowSimulation();
+        updateBackgroundSimulation(target);
       },
       onBeforeShow: function () {
         $(this).ColorPickerSetColor(this.value);
       }
     }).bind('keyup', function(){
       $(this).ColorPickerSetColor('#' + this.value);
-      updateColorSimulation();
-      updateSimulation();
+      updateShowSimulation();
+      updateBackgroundSimulation(target);
     });
     
     // 透明度変更
     obj_c.find('.form-color-selopacity').on('change', function(){
       // シミュレーション更新
-      updateSimulation();
+      updateBackgroundSimulation(target);
     });
     
     // 変色範囲サイズ変更
@@ -707,17 +787,20 @@ const initFormBackgroundGradient = function(obj) {
         $(this).val(0);
       }
       // シミュレーション更新
-      updateSimulation();
+      updateBackgroundSimulation(target);
     });
     
     // 変色範囲単位変更
     obj_c.find('.form-color-selunit').on('change', function(){
       // シミュレーション更新
-      updateSimulation();
+      updateBackgroundSimulation(target);
     });
     
+    // シミュレーション色初期表示
+    updateShowSimulation();
+    
     // 初期化にシミュレーションを一度反映
-    updateSimulation();
+    updateBackgroundSimulation(target);
     
     // 色のindexを更新
     updateBackgroundGradientColorIndex(obj.find('.form-gradient-color'));
@@ -750,9 +833,7 @@ const initFormBackgroundGradient = function(obj) {
             <p class="form-gradient-color-btnsort"></p>
             <div class="form-color-showarea form-gradient-color-showarea">
               <div class="form-color-show">
-                <p class="form-color-checkbox form-gradient-color-checkbox">
-                  <input class="form-color-checkbox-check" type="checkbox" name="` + key + `__transparent" checked />
-                </p>
+                <p class="form-color-checkbox form-gradient-color-checkbox"></p>
               </div>
             </div>
             <p class="form-gradient-color-btnslide"></p>
@@ -824,7 +905,7 @@ const initFormBackgroundGradient = function(obj) {
       obj.find('.form-gradient-list').sortable({
         handle: '.form-gradient-color-btnsort',
         stop: function(e, ui){
-          updateSimulation();
+          updateBackgroundSimulation(target);
           updateBackgroundGradientColorIndex(obj.find('.form-gradient-color'));
         },
       });
@@ -894,7 +975,7 @@ const initFormBackgroundGradient = function(obj) {
           
           // 変色中心点設定を表示
           option.find('.form-gradient-center').show();
-          if(obj.find('.form-gradient-selcenter').val() == 'position') {
+          if(obj.find('.form-gradient-selcenter').val() == 'custom') {
             // 変色中心点詳細設定を表示
             option.find('.form-gradient-center-detail').show();
           } else {
@@ -916,7 +997,7 @@ const initFormBackgroundGradient = function(obj) {
           
           // 変色中心点設定を表示
           option.find('.form-gradient-center').show();
-          if(obj.find('.form-gradient-selcenter').val() == 'position') {
+          if(obj.find('.form-gradient-selcenter').val() == 'custom') {
             // 変色中心点詳細設定を表示
             option.find('.form-gradient-center-detail').show();
           } else {
@@ -928,7 +1009,7 @@ const initFormBackgroundGradient = function(obj) {
         // 詳細設定部分表示
         option.slideDown(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           // ラジオボタンクリックのロックを外す
           button_group.removeClass('working');
         });
@@ -955,7 +1036,7 @@ const initFormBackgroundGradient = function(obj) {
       }
       
       // シミュレーション更新
-      updateSimulation();
+      updateBackgroundSimulation(target);
       
       // ボタンクリックのロックを外す
       checkbox.removeClass('working');
@@ -973,13 +1054,13 @@ const initFormBackgroundGradient = function(obj) {
       if($(this).val() == 'rotate') {
         obj.find('.form-gradient-rotate').slideDown(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           select.removeClass('working');
         });
       } else {
         obj.find('.form-gradient-rotate').slideUp(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           select.removeClass('working');
         });
       }
@@ -1002,13 +1083,13 @@ const initFormBackgroundGradient = function(obj) {
       $(this).val(0);
     }
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 円型変色形状選択変更
   obj.find('.form-gradient-selshape').on('change', function() {
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 円型・扇型変色中心点位置タイプ変更
@@ -1019,16 +1100,16 @@ const initFormBackgroundGradient = function(obj) {
       select.addClass('working');
       
       // 選択によって詳細設定部分の表示を切り替える
-      if($(this).val() == 'position') {
+      if($(this).val() == 'custom') {
         obj.find('.form-gradient-center-detail').slideDown(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           select.removeClass('working');
         });
       } else {
         obj.find('.form-gradient-center-detail').slideUp(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           select.removeClass('working');
         });
       }
@@ -1038,7 +1119,7 @@ const initFormBackgroundGradient = function(obj) {
   // 円型・扇型変色中心点位置出発方向選択変更
   obj.find('.form-position-selcenterfrom').on('change', function(){
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 円型・扇型変色中心点位置座標変更
@@ -1048,13 +1129,13 @@ const initFormBackgroundGradient = function(obj) {
       $(this).val(0);
     }
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 円型・扇型変色中心点位置単位選択変更
   obj.find('.form-position-selcenterunit').on('change', function(){
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 完全に背景カバーボタンをクリック
@@ -1073,7 +1154,7 @@ const initFormBackgroundGradient = function(obj) {
         // 画像サイズ詳細設定部分表示
         checkbox.closest('.form-size').find('.form-size-setting').slideDown(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           // ボタンクリックのロックを外す
           checkbox.removeClass('working');
         });
@@ -1083,7 +1164,7 @@ const initFormBackgroundGradient = function(obj) {
         // 画像サイズ詳細設定部分非表示
         checkbox.closest('.form-size').find('.form-size-setting').slideUp(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           // ボタンクリックのロックを外す
           checkbox.removeClass('working');
         });
@@ -1098,13 +1179,13 @@ const initFormBackgroundGradient = function(obj) {
       $(this).val(0);
     }
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 背景サイズ単位変更
   obj.find('.form-size-selunit').on('change', function(){
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 背景重複性チェックボックスをクリック
@@ -1126,7 +1207,7 @@ const initFormBackgroundGradient = function(obj) {
       }
       
       // シミュレーション更新
-      updateSimulation();
+      updateBackgroundSimulation(target);
       
       // ボタンクリックのロックを外す
       checkbox.removeClass('working');
@@ -1144,13 +1225,13 @@ const initFormBackgroundGradient = function(obj) {
       if($(this).val() == 'custom') {
         $(this).closest('.form-position').find('.form-position-detail').slideDown(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           select.removeClass('working');
         });
       } else {
         $(this).closest('.form-position').find('.form-position-detail').slideUp(function(){
           // シミュレーション更新
-          updateSimulation();
+          updateBackgroundSimulation(target);
           select.removeClass('working');
         });
       }
@@ -1160,7 +1241,7 @@ const initFormBackgroundGradient = function(obj) {
   // 背景位置出発方向選択変更
   obj.find('.form-position-selfrom').on('change', function(){
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 背景画像位置距離入力変更
@@ -1170,17 +1251,17 @@ const initFormBackgroundGradient = function(obj) {
       $(this).val(0);
     }
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 背景画像位置単位変更
   obj.find('.form-position-selunit').on('change', function() {
     // シミュレーション更新
-    updateSimulation();
+    updateBackgroundSimulation(target);
   });
   
   // 初期化にシミュレーションを一度反映
-  updateSimulation();
+  updateBackgroundSimulation(target);
   
   // 既存色設定エリアを初期化
   obj.find('.form-gradient-color').each(function(){
@@ -1374,10 +1455,10 @@ const initFormBackgroundResponsiveArea = function(obj) {
           html = `
             <div class="form-gradient" data-index="0">
               <div class="form-gradient-list"></div>
-              <p class="form-gradient-button">` + translations.add_gradient + `</p>
+              <p class="form-gradient-button">` + translations.gradient_add + `</p>
               <div class="form-gradient-type">
                 <div class="form-gradient-rdotype checked">
-                  <p class="form-gradient-rdotype-preview preview-solid"></p>
+                  <p class="form-gradient-rdotype-preview preview-linear"></p>
                   <p class="form-gradient-rdotype-title">` + translations.gradient_linear + `</p>
                   <input type="radio" class="form-gradient-rdotype-radio" name="` + key + `__gradient_type" value="linear" checked />
                 </div>
@@ -1392,7 +1473,7 @@ const initFormBackgroundResponsiveArea = function(obj) {
                   <input type="radio" class="form-gradient-rdotype-radio" name="` + key + `__gradient_type" value="conic" />
                 </div>
               </div>
-              <p class="form-checkbox form-background-chkrepeat form-gradient-chkrepeat">
+              <p class="form-checkbox form-gradient-chkrepeat">
                 <input class="form-gradient-chkrepeat-check" type="checkbox" name="` + key + `__gradient_repeat" />` + translations.gradient_repeat + `
               </p>
               <div class="form-gradient-option">
@@ -1431,7 +1512,7 @@ const initFormBackgroundResponsiveArea = function(obj) {
                       <option value="top right">` + translations.background_top_right + `</option>
                       <option value="bottom left">` + translations.background_bottom_left + `</option>
                       <option value="bottom right">` + translations.background_bottom_right + `</option>
-                      <option value="position">` + translations.background_custom_position + `</option>
+                      <option value="custom">` + translations.background_custom_position + `</option>
                     </select>
                   </p>
                   <div class="form-position-detail form-gradient-center-detail">
@@ -1623,11 +1704,17 @@ const initFormBackgroundResponsive = function(obj) {
         checkbox.removeClass('checked');
         
         // デバイスがどちらでも設定部分の背景層を表示する
-        obj.closest('.form-responsive-target').removeClass('setting-' + device).removeClass('active');
+        obj.closest('.form-responsive-target').removeClass('setting-pc').removeClass('setting-sp').removeClass('active');
+        
+        // 入力のnameの「__sp」を「__pc」にする
+        obj.find('.form-responsive-area').find('input, select').each(function(){
+          $(this).prop('name', $(this).prop('name').replace('__sp', '__pc'));
+        });
+        
         // レスポンシブ対応ボタン部分を表示
         flag.slideDown(function() {
-          // 相応シミュレーションを非表示
-          $('#sim-' + target + '-background-' + layerid + '-' + other).show();
+          // シミュレーションを更新
+          updateBackgroundSimulation(target);
           checkbox.removeClass('working');
         });
       } else {
@@ -1635,12 +1722,27 @@ const initFormBackgroundResponsive = function(obj) {
         check.prop('checked', true);
         checkbox.addClass('checked');
         
-        // デバイスがPCの場合のみ設定部分の背景層を表示する
+        // デバイスがPC/SPの場合のみ設定部分の背景層を表示する
         obj.closest('.form-responsive-target').addClass('setting-' + device).addClass('active');
+        
+        // レスポンシブ対応ボタンがONの場合、不要な設定エリアを削除する、対象の設定エリアの表示制限を外す
+        if(flag.find('.form-responsive-chkflag-check').prop('checked')) {
+          obj.find('.form-responsive-area.setting-' + other).remove();
+          obj.find('.form-responsive-area').removeClass('setting-pc').removeClass('setting-sp').removeClass('active');
+        }
+        
+        // PCのみなら入力のnameの「__sp」を「__pc」に、SPのみなら入力のnameの「__pc」を「__sp」にする
+        obj.find('.form-responsive-area').find('input, select').each(function(){
+          $(this).prop('name', $(this).prop('name').replace('__' + other, '__' + device));
+        });
+        
         // レスポンシブ対応ボタン部分を非表示
         flag.slideUp(function(){
-          // 相応シミュレーションを非表示
-          $('#sim-' + target + '-background-' + layerid + '-' + other).hide();
+          // シミュレーションを更新
+          updateBackgroundSimulation(target);
+          // レスポンシブ対応ボタンをOFFにする
+          flag.removeClass('checked');
+          flag.find('.form-responsive-chkflag-check').prop('checked', false);
           checkbox.removeClass('working');
         });
       }
@@ -1670,18 +1772,15 @@ const initFormBackgroundResponsive = function(obj) {
         var responsive_area = obj.find('.form-responsive-area');
         responsive_area.removeClass('active').removeClass('setting-pc').removeClass('setting-sp');
         
-        if(device == 'pc') {
-          // シミュレーションの相応部分のPCスタイルをSPスタイルにコピー
-          $('#sim-' + target + '-background-' + layerid + '-sp').css('background', $('#sim-' + target + '-background-' + layerid + '-pc').css('background'));
-        } else {
-          // シミュレーションの相応部分のPCスタイルをSPスタイルにコピー
-          $('#sim-' + target + '-background-' + layerid + '-pc').css('background', $('#sim-' + target + '-background-' + layerid + '-sp').css('background'));
-          
-          // 入力のnameの「__sp」を消す
+        if(device == 'sp') {
+          // 入力のnameの「__sp」を「__pc」にする
           responsive_area.find('input, select').each(function(){
-            $(this).prop('name', $(this).prop('name').replace('__sp__', '__pc__'));
+            $(this).prop('name', $(this).prop('name').replace('__sp', '__pc'));
           });
         }
+        
+        // シミュレーションを更新
+        updateBackgroundSimulation(target);
       } else {
         // レスポンシブ対応を有効にする
         check.prop('checked', true);
@@ -1698,7 +1797,7 @@ const initFormBackgroundResponsive = function(obj) {
         
         // SPサイトの入力、選択、チェックボックス、ラジオボタンでループする
         responsive_area_sp.find('input, select').each(function(){
-          var name_pc = $(this).prop('name').replace('__sp__', '__pc__');
+          var name_pc = $(this).prop('name').replace('__sp', '__pc');
           var type = $(this).prop('type');
           
           if(type == 'checkbox') {
@@ -1736,6 +1835,8 @@ const initFormBackgroundResponsive = function(obj) {
 
 // 背景編集ブロックを初期化
 const initFormBackgroundLayer = function(obj) {
+  var target = obj.closest('.form-block').data('target');
+  
   // 背景層スライドボタンをクリック
   obj.find('.form-background-btnslide').on('click', function(){
     // ボタンクリックのロックをかける
@@ -1768,12 +1869,11 @@ const initFormBackgroundLayer = function(obj) {
       
       // 背景層を削除
       var layerlist = obj.closest('.form-background-layerlist');
-      var target = obj.closest('.form-block').data('target');
       var layerid = obj.data('layerid');
-      layer.slideUp(function(){
-        layer.remove();
-        $('.sim-' + target + '-background-' + layerid).remove();
+      obj.slideUp(function(){
+        obj.remove();
         updateBackgroundLayerIndex(layerlist.find('.form-background-layer'));
+        updateBackgroundSimulation(target);
       });
     }
   });
@@ -1787,6 +1887,8 @@ const initFormBackgroundLayer = function(obj) {
 
 // 背景編集エリアを初期化
 const initFormBackground = function(obj) {
+  var target = obj.closest('.form-block').data('target');
+  
   // 背景層追加ボタンをクリック
   obj.find('.form-background-btninsert').on('click', function(){
     // ボタンクリックのロックをかける
@@ -1796,7 +1898,6 @@ const initFormBackground = function(obj) {
       
       // 背景層HTML作成
       var lastid = parseInt(obj.data('lastid'));
-      var target = obj.closest('.form-block').data('target');
       var key = target + '__style__background__' + lastid;
       var class_pc = '';
       var class_sp = '';
@@ -1807,7 +1908,7 @@ const initFormBackground = function(obj) {
         class_sp = 'active';
       }
       var html = `
-        <div class="form-background-layer form-responsive-target" id="fbl-` + target + `-` + lastid + `" data-layerid="` + lastid + `" style="display: none;">
+        <div class="form-background-layer form-responsive-target" data-layerid="` + lastid + `" style="display: none;">
           <div class="form-background-header">
             <p class="form-background-btnsort"></p>
             <p class="form-background-name">
@@ -1848,12 +1949,7 @@ const initFormBackground = function(obj) {
       
       // 背景層HTMLを追加して一時的に非表示
       obj.find('.form-background-layerlist').prepend(html);
-      var layer = $('#fbl-' + target + '-' + lastid.toString());
-      
-      // 相応シミュレーションブロックを追加
-      var key_sim = 'sim-' + target + '-background-' + lastid.toString();
-      $('#sim-' + target + '-pc').append('<div class="sim-background ' + key_sim + '" id="' + key_sim + '-pc"></div>');
-      $('#sim-' + target + '-sp').append('<div class="sim-background ' + key_sim + '" id="' + key_sim + '-sp"></div>');
+      var layer = obj.find('.form-background-layer').first();
       
       // 背景ブロック動作を有効化
       initFormBackgroundLayer(layer);
@@ -1877,6 +1973,7 @@ const initFormBackground = function(obj) {
     handle: '.form-background-btnsort',
     stop: function(e, ui){
       updateBackgroundLayerIndex(obj.find('.form-background-layer'));
+      updateBackgroundSimulation(target);
     },
   });
   
@@ -1887,4 +1984,7 @@ const initFormBackground = function(obj) {
   obj.find('.form-background-layer').each(function(){
     initFormBackgroundLayer($(this));
   });
+  
+  // 既存背景情報でシミュレーション初期化
+  updateBackgroundSimulation(target);
 }

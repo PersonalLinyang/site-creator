@@ -48,7 +48,7 @@ switch($block_type) {
 
 ?>
 
-<div class="form-block <?php if($block_type == 'body'){ echo 'active'; } ?>" data-target="<?php echo $block_target; ?>">
+<div class="form-block <?php if($block_type == 'header'){ echo 'active'; } ?>" data-target="<?php echo $block_target; ?>">
   <div class="form-topic">
     <?php if($block_type != 'body'): ?>
     <p class="form-block-slidehandler form-topic-back" data-target="<?php echo $block_parent; ?>"></p>
@@ -56,9 +56,69 @@ switch($block_type) {
     <p class="form-topic-text"><?php echo $topic_text; ?></p>
   </div>
   <div class="form-content">
+    <?php if($block_type !='body'): ?>
+    <div class="form-responsive-target">
+      <div class="form-responsive">
+        <div class="form-responsive-controller">
+          <p class="form-checkbox form-responsive-checkbox form-responsive-chkdevice setting-pc active">
+            <input type="checkbox" name="<?php echo $block_key; ?>__pc_only" class="form-responsive-chkdevice-check chkdevice-check-pc" />
+            <?php echo __('Responsive PC', $lang_domain); ?>
+          </p>
+          <p class="form-checkbox form-responsive-checkbox form-responsive-chkdevice setting-sp">
+            <input type="checkbox" name="<?php echo $block_key; ?>__sp_only" class="form-responsive-chkdevice-check chkdevice-check-sp" />
+            <?php echo __('Responsive SP', $lang_domain); ?>
+          </p>
+        </div>
+        <div class="form-responsive-area">
+    <?php endif; ?>
     
-    <!-- ヘッダータイプ -->
-    <?php if(in_array($block_type, ['header'])) : ?>
+    <?php 
+    // ヘッダーレイアウト
+    if(in_array($block_type, ['header'])): 
+    ?>
+    <div class="form-line">
+      <p class="form-title"><?php echo __('Layout', $lang_domain); ?></p>
+      <div class="form-input form-layout">
+        <p class="form-layout-type">
+          <select class="form-layout-seltype" name="<?php echo $block_key; ?>__style__layout__type">
+            <option value="l"><?php echo __('Line Layout', $lang_domain); ?></option>
+            <option value="r"><?php echo __('Row Layout', $lang_domain); ?></option>
+          </select>
+        </p>
+        <p class="form-layout-btnadd"><?php echo __('Add Block', $lang_domain); ?></p>
+        <div class="form-layout-sim">
+          <p class="form-layout-sim-dummy"><?php echo __('Please Add Block', $lang_domain); ?></p>
+        </div>
+      </div>
+    </div>
+    <?php endif; ?>
+    
+    <?php if($block_type !='body'): ?>
+        </div>
+      </div>
+    </div>
+    <?php endif; ?>
+    
+    <?php 
+    // 全体レイアウト
+    if(in_array($block_type, ['body'])) : 
+    ?>
+    <div class="form-line">
+      <p class="form-title"><?php echo __('Layout', $lang_domain); ?></p>
+      <div class="form-input form-layout">
+        <div class="form-layout-sim">
+          <p class="form-block-slidehandler form-layout-sim-item" data-target="header"><?php echo __('Header', $lang_domain); ?></p>
+          <p class="form-block-slidehandler form-layout-sim-item" data-target="main"><?php echo __('Main Content', $lang_domain); ?></p>
+          <p class="form-block-slidehandler form-layout-sim-item" data-target="footer"><?php echo __('Footer', $lang_domain); ?></p>
+        </div>
+      </div>
+    </div>
+    <?php endif; ?>
+    
+    <?php 
+    // ヘッダータイプ
+    if(in_array($block_type, ['header'])) : 
+    ?>
     <div class="form-line">
       <p class="form-title"><?php echo __('Header Position', $lang_domain); ?></p>
       <div class="form-input form-position setting-pc active">
@@ -84,37 +144,10 @@ switch($block_type) {
     </div>
     <?php endif; ?>
     
-    <!-- 全体レイアウト -->
-    <?php if(in_array($block_type, ['body'])) : ?>
-    <div class="form-line">
-      <p class="form-title"><?php echo __('Layout', $lang_domain); ?></p>
-      <div class="form-input form-layout">
-        <p class="form-layout-header">
-          <select class="form-layout-selheader" name="<?php echo $block_key; ?>__style__layout__header">
-            <option value="all"><?php echo __('Use Common Header ALL', $lang_domain); ?></p>
-            <option value="pc"><?php echo __('Use Common Header PC', $lang_domain); ?></p>
-            <option value="sp"><?php echo __('Use Common Header SP', $lang_domain); ?></p>
-            <option value="none"><?php echo __('Use Common Header None', $lang_domain); ?></p>
-          </select>
-        </p>
-        <div class="form-layout-sim">
-          <p class="form-block-slidehandler form-layout-sim-item" data-target="header"><?php echo __('Header', $lang_domain); ?></p>
-          <p class="form-block-slidehandler form-layout-sim-item" data-target="main"><?php echo __('Main Content', $lang_domain); ?></p>
-          <p class="form-block-slidehandler form-layout-sim-item" data-target="footer"><?php echo __('Footer', $lang_domain); ?></p>
-        </div>
-        <p class="form-layout-footer">
-          <select class="form-layout-selfooter" name="<?php echo $block_key; ?>__style__layout__footer">
-            <option value="all"><?php echo __('Use Common Footer ALL', $lang_domain); ?></p>
-            <option value="pc"><?php echo __('Use Common Footer PC', $lang_domain); ?></p>
-            <option value="sp"><?php echo __('Use Common Footer SP', $lang_domain); ?></p>
-            <option value="none"><?php echo __('Use Common Footer None', $lang_domain); ?></p>
-          </select>
-        </p>
-      </div>
-    </div>
-    <?php endif; ?>
-    
-    <!-- 背景 -->
+    <?php 
+    // 背景
+    if(in_array($block_type, ['header'])) : 
+    ?>
     <div class="form-line">
       <p class="form-title"><?php echo __('Background', $lang_domain); ?></p>
       <div class="form-input form-background" data-lastid="0">
@@ -122,6 +155,8 @@ switch($block_type) {
         <div class="form-background-layerlist"></div>
       </div>
     </div>
+    <?php endif; ?>
+
   </div>
   <input type="hidden" name="<?php echo $block_key; ?>__block_id" value="<?php echo $block_id; ?>" />
   <?php if($block_parent): ?>

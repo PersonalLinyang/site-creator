@@ -1,364 +1,44 @@
 <?php
 
+// 必要関数をロードする
 require_once get_template_directory() . '/inc/custom-functions/check_site_editor_permission.inc.php';
+require_once get_template_directory() . '/inc/custom-functions/get_html_block_info.inc.php';
 
 get_header();
 
 $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
 $lang_domain = 'site-creator-' . $lang_code;
 
-$target_uid = get_query_var('target_uid');
+// 編集権限をチェックする
 $check_result = check_site_editor_permission();
 
-$temp_args = array(
-  'base_flag' => true,
-  'block_id' => '',
-  'block_type' => '',
-  'block_parent' => '',
-);
 if($check_result['result']) :
+  // 編集可能の場合編集ターゲットを取得
   $target = $check_result['target'];
+  
   if($target->post_type == 'site') {
-    $temp_args['block_type'] = 'body';
+    // 編集ターゲットがサイトの場合初期ブロック情報を構築
+    $base_block = array(
+      'id' => '', 'key' => 'body', 'name' => __('Site Whole Style', $lang_domain), 'type' => 'body', 'style' => array(),
+      'blocks' => array(
+        array( 'id' => '', 'key' => 'header', 'name' => __('Header', $lang_domain), 'type' => 'header', 'style' => array(), 'blocks' => array() ),
+        array( 'id' => '', 'key' => 'main', 'name' => __('Main Content', $lang_domain), 'type' => 'main', 'style' => array(), 'blocks' => array() ),
+        array( 'id' => '', 'key' => 'footer', 'name' => __('Footer', $lang_domain), 'type' => 'footer', 'style' => array(), 'blocks' => array() ),
+      ),
+    );
   } else {
-    $temp_args['block_id'] = $target->ID;
-    $temp_args['block_type'] = 'body';
+    // 編集ターゲットがHTMLブロックの場合ブロック情報を取得(再帰処理)
+    $base_block = get_html_block_info($target->ID);
   }
 ?>
 
 <section class="sim sim-pc">
   <div class="sim-inner sim-inner-pc">
     <div class="sim-item sim-html sim-html-pc" id="sim-body-pc">
-    <div class="sim-body">
-      <div class="sim-header" id="sim-header-pc" style="background: #f00; width: 100%; height: 50px; margin-top: 5px;">
-      </div>
-      <div class="sim-main" id="sim-main-pc" style="background: #fff; min-height: 2500px;">
-        <p>START</p>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <p>END</p>
-      </div>
-      <div class="sim-footer" id="sim-footer-pc" style="background: #f00; height: 50px;">
-      </div>
-      </div>
+    <?php 
+      // PCサイトのシミュレーションエリアのHTMLを構築（再帰処理）
+      get_template_part('template-parts/editor/simulation', null, array('device' => 'pc', 'block' => $base_block)); 
+    ?>
     </div>
   </div>
 </section>
@@ -366,354 +46,33 @@ if($check_result['result']) :
 <section class="sim sim-sp">
   <div class="sim-inner sim-inner-sp">
     <div class="sim-html sim-html-sp" id="sim-body-sp">
-    <div class="sim-body">
-      <div class="sim-header" id="sim-header-sp" style="background: #f00; width: 100%; height: 50px; ">
-      </div>
-      <div class="sim-main" id="sim-main-sp" style="background: #fff; min-height: 2500px;">
-        <p>START</p>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <div class="sim-content" id="sim-content0">
-          <h1><?php echo __('Site H1 Simulation Content', $lang_domain); ?></h1>
-          <h2><?php echo __('Site H2 Simulation Content', $lang_domain); ?></h2>
-          <h3><?php echo __('Site H3 Simulation Content', $lang_domain); ?></h3>
-          <h4><?php echo __('Site H4 Simulation Content', $lang_domain); ?></h4>
-          <h5><?php echo __('Site H5 Simulation Content', $lang_domain); ?></h5>
-          <p><?php echo __('Site P Simulation Content', $lang_domain); ?></p>
-          <img href="" />
-          <a><?php echo __('Site A Simulation Content', $lang_domain); ?></a>
-          <ul>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-            <li><?php echo __('Site Li Simulation Content', $lang_domain); ?></li>
-          </ul>
-        </div>
-        <p>END</p>
-      </div>
-      <div class="sim-footer" id="sim-footer-sp" style="background: #f00; height: 50px;">
-      </div>
-      </div>
+    <?php 
+      // SPサイトのシミュレーションエリアのHTMLを構築（再帰処理）
+      get_template_part('template-parts/editor/simulation', null, array('device' => 'sp', 'block' => $base_block)); 
+    ?>
     </div>
   </div>
 </section>
 
-<section class="setting">
+<section class="setting" data-index="">
   <h2 class="setting-title"><?php echo __('Site Common Style Edit', $lang_domain); ?></h2>
   
   <form class="form form-style" id="common-style-form">
     <input type="hidden" name="target_id" value="<?php echo $target->ID; ?>" />
     
     <div class="form-body">
-      <?php get_template_part('template-parts/editor/form-block', null, $temp_args); ?>
+    <?php 
+      // 編集エリアのHTMLを構築（再帰処理）
+      get_template_part('template-parts/editor/setting', null, array('block' => $base_block, 'parent' => '')); 
+    ?>
     </div>
   </form>
 </section>
 
-<?php else: ?>
-  <?php get_template_part('template-parts/error/' . $check_result['error']); ?>
 <?php 
+else: 
+  // 編集権限がない場合エラーページを表示
+  get_template_part('template-parts/error/' . $check_result['error']); 
 endif;
+
 get_footer();

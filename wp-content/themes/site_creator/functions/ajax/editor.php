@@ -25,14 +25,16 @@ function format_block_list($key_list, $value, $block_list) {
  */
 function func_editor_save_style(){
   $result = true;
+  $error_list = array();
+  $except_list = ['action', 'target_id'];
+  
   $block_id_list = array();
   $block_list = array();
-  $except_list = ['action', 'target_uid'];
   
   if(is_user_logged_in()) {
     $user_id = get_current_user_id();
     
-    $target = get_page_by_path($_POST['target_uid'], OBJECT, array('site', 'html_block'));
+    $target = get_post($_POST['target_id']);
     
     if($target) {
       foreach($_POST as $key => $value) {
@@ -44,15 +46,34 @@ function func_editor_save_style(){
       
       foreach($block_list as $block_key => $info) {
         // HTMLブロックとして存在する場合IDを取得、存在しない場合追加する
-        $block_id = 0;
         if(in_array('block_id', array_keys($info)) && $info['block_id']) {
           $block_id = $info['block_id'];
         } else {
           $block_uid = md5(uniqid(rand(), true));
-          $block_name = '';
-          if($block_key == 'html') {
-            $block_name = 'HTML-' . $target->post_title;
+          
+          switch($block_key) {
+            case 'body':
+              $block_name = 'BODY-' . $target->post_title;
+              $block_type = 'body';
+              break;
+            case 'header':
+              $block_name = 'HEADER-' . $target->post_title;
+              $block_type = 'header';
+              break;
+            case 'main':
+              $block_name = 'MAIN-' . $target->post_title;
+              $block_type = 'main';
+              break;
+            case 'footer':
+              $block_name = 'FOOTER-' . $target->post_title;
+              $block_type = 'footer';
+              break;
+            default:
+              $block_name = $block_key;
+              $block_type = 'block';
+              break;
           }
+          
           $block = array(
             'post_name'      => $block_uid,
             'post_title'     => $block_name,
@@ -61,6 +82,8 @@ function func_editor_save_style(){
             'post_author'    => $user_id,
           );
           $block_id = wp_insert_post($block);
+          
+          update_field('type', $block_type, $block_id);
         }
         $block_id_list[$block_key] = $block_id;
         
@@ -70,7 +93,7 @@ function func_editor_save_style(){
         }
         
         // HTMLの場合サイトの共通スタイルとして保存
-        if($block_key == 'html') {
+        if($block_key == 'body') {
           $common_style = get_field('common_style', $target->ID);
           if($common_style) {
             if(!in_array($block_id, $common_style)) {
@@ -80,6 +103,20 @@ function func_editor_save_style(){
           } else {
             update_field('common_style', array($block_id), $target->ID);
           }
+        }
+      }
+      
+      $block_key_list = array_keys($block_id_list);
+      
+      foreach($block_list as $block_key => $info) {
+        if(in_array('blocks', array_keys($info)) && in_array($block_key, $block_key_list)) {
+          $blocks = array();
+          foreach($info['blocks'] as $child_block_key) {
+            if(in_array($child_block_key, $block_key_list)) {
+              array_push($blocks, $block_id_list[$child_block_key]);
+            }
+          }
+          update_field('blocks', $blocks, $block_id_list[$block_key]);
         }
       }
     } else {
@@ -94,6 +131,7 @@ function func_editor_save_style(){
   // リポジトリ出力
   $response = array(
     'result' => $result,
+    'error_list' => $error_list,
     'block_id_list' => $block_id_list,
   );
   echo json_encode($response);
