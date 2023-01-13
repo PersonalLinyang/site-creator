@@ -3,6 +3,19 @@
 $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
 $lang_domain = 'site-creator-' . $lang_code;
 
+// テンプレートパーツパラメータ変数化
+$site_id = $args['site_id'];
+
+$design_width_pc = 1200;
+$design_width_sp = 375;
+$design_fontsize_pc = 16;
+$design_fontsize_sp = 12;
+if($site_id) {
+  $design_width_pc = get_field('design_width_pc', $site_id);
+  $design_width_sp = get_field('design_width_sp', $site_id);
+  $design_fontsize_pc = get_field('design_fontsize_pc', $site_id);
+  $design_fontsize_sp = get_field('design_fontsize_sp', $site_id);
+}
 ?>
 
 <header class="header header-editor">
@@ -13,7 +26,7 @@ $lang_domain = 'site-creator-' . $lang_code;
       <div class="header-sim-setting active" data-device="pc">
         <div class="header-sim-setting-inner">
           <p class="header-sim-setting-title"><?php echo __( 'Width', $lang_domain ); ?></p>
-          <p><input class="header-sim-setting-input header-sim-setting-width-pc" type="number" value="1200" /></p>
+          <p><input class="header-sim-setting-input header-sim-setting-width-pc" type="number" value="<?php echo $design_width_pc; ?>" /></p>
           <p class="header-sim-setting-unit"><?php echo __( 'px', $lang_domain ); ?></p>
           <p class="header-sim-button header-sim-adaptive header-sim-adaptive-pc checked"></p>
         </div>
@@ -27,7 +40,7 @@ $lang_domain = 'site-creator-' . $lang_code;
             </select>
           </p>
           <p class="header-sim-setting-title"><?php echo __( 'Width', $lang_domain ); ?></p>
-          <p><input class="header-sim-setting-input header-sim-setting-width-sp" type="number" value="375" /></p>
+          <p><input class="header-sim-setting-input header-sim-setting-width-sp" type="number" value="<?php echo $design_width_sp; ?>" /></p>
           <p class="header-sim-setting-unit"><?php echo __( 'px', $lang_domain ); ?></p>
           <p class="header-sim-setting-title"><?php echo __( 'Height', $lang_domain ); ?></p>
           <p><input class="header-sim-setting-input header-sim-setting-height-sp" type="number" value="667" /></p>

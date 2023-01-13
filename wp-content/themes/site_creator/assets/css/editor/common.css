@@ -1,0 +1,124 @@
+/* line 2, ../../../src/scss/_layout/_editor/_header.scss */
+.header-editor {
+  font-size: 16px;
+}
+/* line 6, ../../../src/scss/_layout/_editor/_header.scss */
+.header-inner-editor {
+  height: 55px;
+}
+/* line 10, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim {
+  color: #ffffff;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+/* line 16, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-button {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  margin: 0 10px;
+  border-radius: 3px;
+}
+/* line 24, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-device {
+  background-color: #b0c4de;
+}
+/* line 27, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-device.checked {
+  background-color: #e6e6fa;
+  cursor: initial;
+}
+/* line 32, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-device-pc {
+  background-image: url("../../img/editor/computer.svg");
+  background-position: center;
+  background-size: 20px;
+  background-repeat: no-repeat;
+}
+/* line 39, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-device-sp {
+  background-image: url("../../img/editor/smartphone.svg");
+  background-position: center;
+  background-size: 20px;
+  background-repeat: no-repeat;
+}
+/* line 47, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-setting {
+  display: none;
+}
+/* line 50, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-setting.active {
+  display: block;
+}
+/* line 54, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-setting-inner {
+  display: flex;
+  align-items: center;
+}
+/* line 59, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-setting-input {
+  width: 60px;
+  height: 30px;
+  padding: 5px;
+  margin: 0 5px;
+}
+/* line 65, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-setting-input-device {
+  width: 120px;
+}
+/* line 70, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-setting-title {
+  margin-left: 5px;
+}
+/* line 74, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-setting-unit {
+  margin-right: 5px;
+}
+/* line 79, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-adaptive {
+  background-color: #e6e6fa;
+  background-image: url("../../img/editor/shrink.svg");
+  background-position: center;
+  background-size: 20px;
+  background-repeat: no-repeat;
+}
+/* line 86, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-adaptive.checked {
+  background-image: url("../../img/editor/expansion.svg");
+}
+/* line 91, ../../../src/scss/_layout/_editor/_header.scss */
+.header-sim-swirl {
+  background-color: #e6e6fa;
+  background-image: url("../../img/editor/swirl.svg");
+  background-position: center;
+  background-size: 20px;
+  background-repeat: no-repeat;
+}
+/* line 100, ../../../src/scss/_layout/_editor/_header.scss */
+.header-controller-editor {
+  padding: 0 20px;
+}
+/* line 104, ../../../src/scss/_layout/_editor/_header.scss */
+.header-button {
+  height: 30px;
+  background: #32cd32;
+  width: 80px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 3px;
+  text-shadow: 1px 1px 2px #2f4f4f;
+  letter-spacing: 0.05em;
+  color: #f0fff0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* line 1, ../../../src/scss/_layout/_editor/_main.scss */
+.main-editor {
+  display: flex;
+  height: 100vh;
+  padding-top: 55px;
+  font-size: 16px;
+}

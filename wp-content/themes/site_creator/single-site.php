@@ -61,7 +61,9 @@ if(!is_array($common_style_list)) {
     <div class="single-site-line">
       <p class="single-site-name"><?php echo $common_style->post_title; ?></p>
       <p class="single-site-btnedit">
-        <a class="full-link" href="<?php echo get_site_url(); ?>/common-style/<?php echo $common_style->post_name; ?>/"><?php echo __('Edit', $lang_domain); ?></a>
+        <a class="full-link" href="<?php echo get_site_url(); ?>/common-style/<?php echo $post->post_name; ?>/<?php echo $common_style->post_name; ?>/">
+          <?php echo __('Edit', $lang_domain); ?>
+        </a>
       </p>
       <p class="single-site-btndelete"><?php echo __('Delete', $lang_domain); ?></p>
     </div>

@@ -30,14 +30,14 @@
       }
       
       &-pc {
-        background-image: url("../../img/common/computer.svg");
+        background-image: url("../../img/editor/computer.svg");
         background-position: center;
         background-size: 20px;
         background-repeat: no-repeat;
       }
       
       &-sp {
-        background-image: url("../../img/common/smartphone.svg");
+        background-image: url("../../img/editor/smartphone.svg");
         background-position: center;
         background-size: 20px;
         background-repeat: no-repeat;
@@ -78,19 +78,19 @@
     
     &-adaptive {
       background-color: #e6e6fa;
-      background-image: url("../../img/common/shrink.svg");
+      background-image: url("../../img/editor/shrink.svg");
       background-position: center;
       background-size: 20px;
       background-repeat: no-repeat;
       
       &.checked {
-        background-image: url("../../img/common/expansion.svg");
+        background-image: url("../../img/editor/expansion.svg");
       }
     }
     
     &-swirl {
       background-color: #e6e6fa;
-      background-image: url("../../img/common/swirl.svg");
+      background-image: url("../../img/editor/swirl.svg");
       background-position: center;
       background-size: 20px;
       background-repeat: no-repeat;

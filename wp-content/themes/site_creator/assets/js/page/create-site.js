@@ -133,7 +133,7 @@ const initCreateSubmit = function(submit_key) {
 
 // 固定ページと子ページ追加
 const addPage = function(obj){
-  // 親固定ページURLHMTL文取得（再帰関数）
+  // 親固定ページURLHMTL文取得(再帰関数)
   var getParentUrl = function(obj, url){
     if(obj.parent('.create-page-line').length) {
       var line = obj.parent('.create-page-line');
@@ -141,6 +141,7 @@ const addPage = function(obj){
       if(input.length > 0) {
         url = '<span class="auto-' + input[0].name + '">' + input.val() + '</span>/' + url;
       }
+      // 再帰処理
       return getParentUrl(line, url);
     } else {
       return url;

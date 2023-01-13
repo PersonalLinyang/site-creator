@@ -4,6 +4,7 @@
 function check_site_editor_permission() {
   $result = array(
     'result' => True,
+    'site_id' => NULL,
     'target' => NULL,
     'error' => NULL,
   );
@@ -26,8 +27,13 @@ function check_site_editor_permission() {
               $result['error'] = 'permission';
             }
           }
+          $result['site_id'] = $target->ID;
         } elseif($target->post_type == 'html_block') {
           //
+          $site = get_page_by_path(get_query_var('site_uid'), OBJECT, array('site'));
+          if($site) {
+            $result['site_id'] = $site->ID;
+          }
         }
       } else {
         $result['result'] = False;

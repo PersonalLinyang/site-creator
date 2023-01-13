@@ -1,0 +1,32 @@
+.setting {
+  width: $editor_setting_width;
+  overflow: hidden;
+  background: $editor_setting_back_color;
+  user-select: none;
+  
+  &-title {
+    height: 30px;
+    line-height: 30px;
+    margin: 10px 0;
+  }
+  
+  &-pc {
+    display: none !important;
+    
+    &.active {
+      display: block !important;
+    }
+  }
+  
+  &-sp {
+    display: none !important;
+    
+    &.active {
+      display: block !important;
+    }
+  }
+  
+  &-none {
+    display: none !important;
+  }
+}

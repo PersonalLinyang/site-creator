@@ -45,35 +45,40 @@ function func_editor_save_style(){
       }
       
       foreach($block_list as $block_key => $info) {
-        // HTMLブロックとして存在する場合IDを取得、存在しない場合追加する
+        switch($block_key) {
+          case 'body':
+            $block_name = 'BODY-' . $target->post_title;
+            $block_type = 'body';
+            break;
+          case 'header':
+            $block_name = 'HEADER-' . $target->post_title;
+            $block_type = 'header';
+            break;
+          case 'main':
+            $block_name = 'MAIN-' . $target->post_title;
+            $block_type = 'main';
+            break;
+          case 'footer':
+            $block_name = 'FOOTER-' . $target->post_title;
+            $block_type = 'footer';
+            break;
+          default:
+            $block_name = in_array('name', array_keys($info)) ? $info['name'] : '';
+            $block_type = 'block';
+            break;
+        }
+        
         if(in_array('block_id', array_keys($info)) && $info['block_id']) {
+          // HTMLブロックとして存在する場合タイトルを更新
           $block_id = $info['block_id'];
+          $html_block = array(
+            'ID' => $block_id,
+            'post_title' => $block_name,
+          );
+          wp_update_post($html_block);
         } else {
+          // HTMLブロックとして存在しない場合追加する
           $block_uid = md5(uniqid(rand(), true));
-          
-          switch($block_key) {
-            case 'body':
-              $block_name = 'BODY-' . $target->post_title;
-              $block_type = 'body';
-              break;
-            case 'header':
-              $block_name = 'HEADER-' . $target->post_title;
-              $block_type = 'header';
-              break;
-            case 'main':
-              $block_name = 'MAIN-' . $target->post_title;
-              $block_type = 'main';
-              break;
-            case 'footer':
-              $block_name = 'FOOTER-' . $target->post_title;
-              $block_type = 'footer';
-              break;
-            default:
-              $block_name = $block_key;
-              $block_type = 'block';
-              break;
-          }
-          
           $block = array(
             'post_name'      => $block_uid,
             'post_title'     => $block_name,
@@ -131,6 +136,7 @@ function func_editor_save_style(){
   // リポジトリ出力
   $response = array(
     'result' => $result,
+    'info' => $block_list,
     'error_list' => $error_list,
     'block_id_list' => $block_id_list,
   );
@@ -139,3 +145,28 @@ function func_editor_save_style(){
 }
 add_action('wp_ajax_editor_save_style', 'func_editor_save_style');
 add_action('wp_ajax_nopriv_editor_save_style', 'func_editor_save_style');
+
+
+
+/*
+ * メディア投稿情報取得
+ */
+function func_get_media_info(){
+  $result = true;
+  
+  $media_id = $_POST['media_id'];
+  
+  // リポジトリ出力
+  $response = array(
+    'result' => $result,
+    'data' => array(
+      'name' => basename(get_attached_file($media_id)),
+      'url' => wp_get_attachment_url($media_id),
+    ),
+    'errors' => $error_list,
+  );
+  echo json_encode($response);
+  die();
+}
+add_action('wp_ajax_get_media_info', 'func_get_media_info');
+add_action('wp_ajax_nopriv_get_media_info', 'func_get_media_info');

@@ -1,0 +1,57 @@
+.form-color {
+  display: flex;
+  align-items: center;
+  
+  &-show {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    
+    &area {
+      width: 16px;
+      height: 26px;
+      border: 1px solid;
+      border-radius: 3px;
+      background: #ffffff;
+    }
+  }
+  
+  &-checkbox {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background: transparent;
+    
+    &.checked {
+      background: linear-gradient(to right top, #dddddd calc(50% - 1.5px), #ff0000 calc(50% - 1.5px), #ff0000 calc(50% + 1.5px), #dddddd calc(50% + 1.5px));
+    }
+    
+    &-check {
+      display: none;
+    }
+  }
+  
+  &-picker {
+    position: relative;
+    width: 90px;
+    margin: 0 6px;
+    
+    input[type="text"] {
+      padding-left: 18px;
+    }
+    
+    &:before {
+      content: "#";
+      position: absolute;
+      font-size: 13px;
+      font-weight: bold;
+      top: 8px;
+      left: 9px;
+    }
+  }
+  
+  &-opacity {
+    width: 80px;
+  }
+}

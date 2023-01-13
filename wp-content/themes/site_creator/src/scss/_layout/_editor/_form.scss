@@ -1,0 +1,128 @@
+.form {
+  height: calc(100% - 50px);
+  overflow: hidden;
+  
+  &-body {
+    overflow: hidden;
+    height: 100%;
+    width: $editor_setting_dwidth;
+  }
+  
+  &-block {
+    width: $editor_setting_width;
+    height: 100%;
+    float: left;
+    display: none;
+    
+    &.active {
+      display: block;
+    }
+  }
+  
+  &-topic {
+    background: #4169e1;
+    color: #ffffff;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    height: 34px;
+    
+    &-back {
+      position: relative;
+      width: 25px;
+      height: 100%;
+      background: #000;
+      border-right: 1px solid #fff;
+      cursor: pointer;
+      
+      &:before {
+        content: "";
+        position: absolute;
+        border-right: 10px solid #fff;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        top: 50%;
+        left: 5px;
+        transform: translateY(-50%);
+      }
+    }
+    
+    &-text {
+      margin: 0 10px;
+      width: calc(100% - 45px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  
+  &-content {
+    height: calc(100% - 34px);
+    overflow-y: auto;
+    
+    &-main {
+      margin-top: 15px;
+    }
+  }
+  
+  &-line {
+    padding: 0 10px;
+    margin-bottom: 12px;
+  }
+  
+  &-title {
+    padding: 8px 0;
+    font-weight: 600;
+  }
+  
+  &-object {
+    margin-top: 8px;
+  }
+  
+  &-input {
+    padding: 0 5px;
+  }
+  
+  &-checkbox {
+    display: block;
+    border: 1px solid $block_border_color;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+    
+    &.checked {
+      background: $block_border_color;
+    }
+    
+    input[type="checkbox"] {
+      display: none;
+    }
+  }
+  
+  &-responsive {
+    &-controller {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 8px;
+    }
+    
+    &-area {
+      margin-top: 8px;
+    }
+    
+    &-checkbox {
+      width: calc(50% - 4px);
+      
+      &.center {
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
+.working {
+  cursor: wait !important;
+  pointer-events: none;
+}

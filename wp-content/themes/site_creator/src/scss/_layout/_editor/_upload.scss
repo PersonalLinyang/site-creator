@@ -1,0 +1,61 @@
+.form-upload {
+  position: relative;
+  margin-top: 8px;
+  border: 1px solid $block_border_color;
+  border-radius: 5px;
+  line-height: 34px;
+  cursor: pointer;
+  
+  &-text {
+    padding: 0 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #cccccc;
+    
+    &.active {
+      color: unset;
+    }
+  }
+  
+  &-btndelete {
+    position: absolute;
+    top: 0;
+    right: 34px;
+    width: 34px;
+    height: 34px;
+    border-left: 1px solid $block_border_color;
+    display: none;
+    cursor: pointer;
+    
+    &:before {
+      content: "×";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  
+  &-btnupload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    width: 34px;
+    height: 34px;
+    border-left: 1px solid $block_border_color;
+    cursor: pointer;
+    
+    &:before {
+      content: "↑";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  
+  &-file {
+    display: none;
+  }
+}
