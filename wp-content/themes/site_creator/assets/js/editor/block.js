@@ -1,6 +1,25 @@
 /* 
  * ブロック編集対象切り替え
  * params 
+ *   target : 編集したいブロックの識別キー
+ */
+const changeFormBlock = function(target) {
+  // 切り替え前後の編集部分を取得
+  var block_target = $('.form-block[data-target="' + target + '"]');
+  if(block_target.length == 1) {
+    // 切り替え後の編集部分のみ表示
+    $('.form-block').hide();
+    $('.form-block').removeClass('active');
+    block_target.show();
+    block_target.addClass('active');
+    block_target.find('.form-content').scrollTop(0);
+  }
+}
+
+
+/* 
+ * ブロック編集対象切り替え(スライド式)
+ * params 
  *   now : 現在編集中ブロックの識別キー
  *   target : 編集したいブロックの識別キー
  */
@@ -25,12 +44,16 @@ const slideFormBlock = function(now, target) {
       $('.form-body').css('margin-left', (0 - width) + 'px');
       $('.form-body').animate({'marginLeft': '0px'}, 500, 'linear', function(){
         block_now.hide();
+        $('.form-block').removeClass('active');
+        block_target.addClass('active');
       });
     } else {
       // 現在のブロックが対象ブロックの前にある場合、右へスライド
       $('.form-body').animate({'marginLeft': (0 - width) + 'px'}, 500, 'linear', function(){
         block_now.hide();
         $('.form-body').css('margin-left', '0px');
+        $('.form-block').removeClass('active');
+        block_target.addClass('active');
       });
     }
   }
@@ -51,6 +74,9 @@ const initFormBlockSlidehandler = function(obj) {
       // ブロック編集部分をスライド
       slideFormBlock(button.closest('.form-block').data('target'), button.data('target'))
     ).done(function(){
+      // 相応シミュレーション部分選択
+      selectSimulationBlock(button.data('target'));
+      
       // 全ブロック編集対象切り替えハンドラーを稼働状態に変更
       $('.form-block-slidehandler').removeClass('working');
     });
@@ -152,8 +178,11 @@ const initFormBlock = function(obj) {
  * return 背景層編集部分HTML
  */
 const htmlFormBlockResponsiveAreaInner = function(block_key, options) {
-  // ブロックタイプを取得
+  // ブロックタイプを取得してチェック
   var type = checkDirectionKey('type', options) ? options['type'] : '';
+  if(!checkDirectionKey(type, block_type_options)) {
+    return '';
+  }
   
   // スタイル情報を取得
   var style = (checkDirectionKey('style', options) && $.isPlainObject(options['style'])) ? options['style'] : {};
@@ -185,7 +214,7 @@ const htmlFormBlockResponsiveAreaInner = function(block_key, options) {
   if(checkDirectionKey('layout', style)) {
     style_layout = style['layout'];
   }
-  html += htmlFormLayout(block_key, {'style':style_layout, 'blocks':blocks});
+  html += htmlFormLayout(block_key, {'style':style_layout, 'type':type, 'blocks':blocks});
   
   return html;
 }
@@ -229,7 +258,7 @@ const htmlFormBlock = function(block_info, parent_key = '', base_flag = false) {
   if(base_flag) {
     // ベースブロックなら表示する
     active_flag = 'active';
-  } else if(parent_key) {
+  } else {
     // ベースブロック以外では戻りボタンHTMLを構築
     form_topic_back = '<p class="form-block-slidehandler form-topic-back" data-target="' + parent_key + '"></p>';
   }
@@ -288,26 +317,26 @@ const htmlFormBlock = function(block_info, parent_key = '', base_flag = false) {
 const addFormBlock = function(block_info, parent_key = '', base_flag = false) {
   // ブロック情報を変数化
   var key = checkDirectionKey('key', block_info) ? block_info['key'] : '';
+  var type = checkDirectionKey('type', block_info) ? block_info['type'] : '';
   var blocks = (checkDirectionKey('blocks', block_info) && $.isArray(block_info['blocks'])) ? block_info['blocks'] : [];
   
   // シミュレーション部分に相応要素追加
   if(base_flag) {
-    $('#sim-html-pc').append('<div class="sim-item sim-block" id="sim-' + key + '-pc"></div>');
-    $('#sim-html-sp').append('<div class="sim-item sim-block" id="sim-' + key + '-sp"></div>');
-  } else {
-    $('#sim-' + parent_key + '-pc').append('<div class="sim-item sim-block" id="sim-' + key + '-pc"></div>');
-    $('#sim-' + parent_key + '-sp').append('<div class="sim-item sim-block" id="sim-' + key + '-sp"></div>');
+    parent_key = 'html';
   }
+  addSimulationBlock(block_info, parent_key);
   
   // 編集部分に相応要素追加
   var form_block = htmlFormBlock(block_info, parent_key, base_flag);
-  $('.form-body').append(form_block);
-  
-  // 新しく追加したブロックを有効化
-  initFormBlock($('.form-block[data-target="' + key + '"]'));
-  
-  // 子ブロックをループし、ブロック編集HTMLを構築(再帰処理)
-  $.each(blocks, function(index, block){
-    addFormBlock(block, key);
-  });
+  if(form_block) {
+    $('.form-body').append(form_block);
+    
+    // 新しく追加したブロックを有効化
+    initFormBlock($('.form-block[data-target="' + key + '"]'));
+    
+    // 子ブロックをループし、ブロック編集HTMLを構築(再帰処理)
+    $.each(blocks, function(index, block){
+      addFormBlock(block, key);
+    });
+  }
 }

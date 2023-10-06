@@ -43,16 +43,48 @@ if($check_result['result']) :
   }
 ?>
 
-<section class="sim sim-pc">
-  <div class="sim-inner sim-inner-pc">
-    <div class="sim-item sim-html sim-html-pc" id="sim-html-pc" style="--design-width: <?php echo $design_width_pc; ?>; --design-fontsize: <?php echo $design_fontsize_pc; ?>;">
+<section class="sim">
+  <div class="sim-device sim-pc">
+    <div class="sim-inner sim-inner-pc">
+      <div class="sim-html sim-html-pc" id="sim-html-pc" data-scale="1" style="--design-width: <?php echo $design_width_pc; ?>; --design-fontsize: <?php echo $design_fontsize_pc; ?>;">
+        <div class="sim-selector" id="sim-selector-pc"  data-target="pc">
+          <div class="sim-selector-point sim-selector-point-top" data-point="top"></div>
+          <div class="sim-selector-point sim-selector-point-left" data-point="left"></div>
+          <div class="sim-selector-point sim-selector-point-bottom" data-point="bottom"></div>
+          <div class="sim-selector-point sim-selector-point-right" data-point="right"></div>
+          <div class="sim-selector-point sim-selector-point-topleft" data-point="topleft"></div>
+          <div class="sim-selector-point sim-selector-point-bottomleft" data-point="bottomleft"></div>
+          <div class="sim-selector-point sim-selector-point-topright" data-point="topright"></div>
+          <div class="sim-selector-point sim-selector-point-bottomright" data-point="bottomright"></div>
+          <div class="sim-selector-line sim-selector-line-top"></div>
+          <div class="sim-selector-line sim-selector-line-left"></div>
+          <div class="sim-selector-line sim-selector-line-bottom"></div>
+          <div class="sim-selector-line sim-selector-line-right"></div>
+          <div class="sim-selector-sim"></div>
+        </div>
+      </div>
     </div>
   </div>
-</section>
 
-<section class="sim sim-sp">
-  <div class="sim-inner sim-inner-sp">
-    <div class="sim-html sim-html-sp" id="sim-html-sp" style="--design-width: <?php echo $design_width_sp; ?>; --design-fontsize: <?php echo $design_fontsize_sp; ?>;">
+  <div class="sim-device sim-sp">
+    <div class="sim-inner sim-inner-sp">
+      <div class="sim-html sim-html-sp" id="sim-html-sp" data-scale="1" style="--design-width: <?php echo $design_width_sp; ?>; --design-fontsize: <?php echo $design_fontsize_sp; ?>;">
+        <div class="sim-selector" id="sim-selector-sp" data-target="sp">
+          <div class="sim-selector-point sim-selector-point-top" data-point="top"></div>
+          <div class="sim-selector-point sim-selector-point-left" data-point="left"></div>
+          <div class="sim-selector-point sim-selector-point-bottom" data-point="bottom"></div>
+          <div class="sim-selector-point sim-selector-point-right" data-point="right"></div>
+          <div class="sim-selector-point sim-selector-point-topleft" data-point="topleft"></div>
+          <div class="sim-selector-point sim-selector-point-bottomleft" data-point="bottomleft"></div>
+          <div class="sim-selector-point sim-selector-point-topright" data-point="topright"></div>
+          <div class="sim-selector-point sim-selector-point-bottomright" data-point="bottomright"></div>
+          <div class="sim-selector-line sim-selector-line-top"></div>
+          <div class="sim-selector-line sim-selector-line-left"></div>
+          <div class="sim-selector-line sim-selector-line-bottom"></div>
+          <div class="sim-selector-line sim-selector-line-right"></div>
+          <div class="sim-selector-sim"></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

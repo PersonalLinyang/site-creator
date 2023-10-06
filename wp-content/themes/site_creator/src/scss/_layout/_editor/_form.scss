@@ -57,8 +57,20 @@
   }
   
   &-content {
+    --scrollbar-size: 10px;
     height: calc(100% - 34px);
     overflow-y: auto;
+    
+    &::-webkit-scrollbar {
+      width: var(--scrollbar-size);
+      height: var(--scrollbar-size);
+      background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: #4169e1;
+      border-radius: calc(var(--scrollbar-size) / 2);
+    }
     
     &-main {
       margin-top: 15px;

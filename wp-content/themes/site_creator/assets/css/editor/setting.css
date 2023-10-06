@@ -94,32 +94,44 @@
 }
 /* line 59, ../../../src/scss/_layout/_editor/_form.scss */
 .form-content {
+  --scrollbar-size: 10px;
   height: calc(100% - 34px);
   overflow-y: auto;
 }
-/* line 63, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 64, ../../../src/scss/_layout/_editor/_form.scss */
+.form-content::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+  background: transparent;
+}
+/* line 70, ../../../src/scss/_layout/_editor/_form.scss */
+.form-content::-webkit-scrollbar-thumb {
+  background: #4169e1;
+  border-radius: calc(var(--scrollbar-size) / 2);
+}
+/* line 75, ../../../src/scss/_layout/_editor/_form.scss */
 .form-content-main {
   margin-top: 15px;
 }
-/* line 68, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 80, ../../../src/scss/_layout/_editor/_form.scss */
 .form-line {
   padding: 0 10px;
   margin-bottom: 12px;
 }
-/* line 73, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 85, ../../../src/scss/_layout/_editor/_form.scss */
 .form-title {
   padding: 8px 0;
   font-weight: 600;
 }
-/* line 78, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 90, ../../../src/scss/_layout/_editor/_form.scss */
 .form-object {
   margin-top: 8px;
 }
-/* line 82, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 94, ../../../src/scss/_layout/_editor/_form.scss */
 .form-input {
   padding: 0 5px;
 }
-/* line 86, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 98, ../../../src/scss/_layout/_editor/_form.scss */
 .form-checkbox {
   display: block;
   border: 1px solid #6495ed;
@@ -128,35 +140,35 @@
   width: 100%;
   cursor: pointer;
 }
-/* line 94, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 106, ../../../src/scss/_layout/_editor/_form.scss */
 .form-checkbox.checked {
   background: #6495ed;
 }
-/* line 98, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 110, ../../../src/scss/_layout/_editor/_form.scss */
 .form-checkbox input[type="checkbox"] {
   display: none;
 }
-/* line 104, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 116, ../../../src/scss/_layout/_editor/_form.scss */
 .form-responsive-controller {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 6px 8px;
 }
-/* line 111, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 123, ../../../src/scss/_layout/_editor/_form.scss */
 .form-responsive-area {
   margin-top: 8px;
 }
-/* line 115, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 127, ../../../src/scss/_layout/_editor/_form.scss */
 .form-responsive-checkbox {
   width: calc(50% - 4px);
 }
-/* line 118, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 130, ../../../src/scss/_layout/_editor/_form.scss */
 .form-responsive-checkbox.center {
   margin: 0 auto;
 }
 
-/* line 125, ../../../src/scss/_layout/_editor/_form.scss */
+/* line 137, ../../../src/scss/_layout/_editor/_form.scss */
 .working {
   cursor: wait !important;
   pointer-events: none;
@@ -664,35 +676,46 @@
 }
 
 /* line 2, ../../../src/scss/_layout/_editor/_layout.scss */
+.form-layout-add {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* line 9, ../../../src/scss/_layout/_editor/_layout.scss */
+.form .form-layout-seladd {
+  width: calc(100% - 108px);
+}
+/* line 13, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-btnadd {
+  cursor: pointer;
   border: 1px solid #6495ed;
   border-radius: 5px;
   text-align: center;
-  cursor: pointer;
-  margin-top: 8px;
+  width: 100px;
 }
-/* line 10, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 21, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-sim {
   border: 2px solid #6495ed;
   margin: 8px 0;
 }
-/* line 14, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 25, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-sim.row-layout {
   display: flex;
   overflow-x: auto;
 }
-/* line 19, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 30, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-sim-dummy {
   margin: 3px 0;
   width: 100%;
   text-align: center;
   display: none;
 }
-/* line 25, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 36, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-sim-dummy.active {
   display: block;
 }
-/* line 30, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 41, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-sim-item {
   border: 1px solid #6495ed;
   margin: 3px;
@@ -702,22 +725,22 @@
   min-width: 68px;
   background: #fff;
 }
-/* line 39, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 50, ../../../src/scss/_layout/_editor/_layout.scss */
 .row-layout .form-layout-sim-item {
   padding: 24px 2px 0;
 }
-/* line 43, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 54, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-sim-item.checked {
   background: #6495ed;
   color: #fff;
 }
-/* line 48, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 59, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-sim-item-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-/* line 54, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 65, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-sim-item-btnsort {
   width: 20px;
   height: 20px;
@@ -729,7 +752,7 @@
   background-repeat: no-repeat;
   cursor: pointer;
 }
-/* line 66, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 77, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-sim-item-btnedit {
   width: 20px;
   height: 20px;
@@ -737,7 +760,7 @@
   background-color: #0f0;
   cursor: pointer;
 }
-/* line 74, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 85, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-sim-item-btndelete {
   width: 20px;
   height: 20px;
@@ -745,30 +768,30 @@
   background-color: #f00;
   cursor: pointer;
 }
-/* line 82, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 93, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-sim-item-text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: calc(100% - 69px);
 }
-/* line 91, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 102, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-seltype {
   cursor: pointer;
 }
-/* line 95, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 106, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-position {
   display: flex;
   justify-content: space-between;
 }
-/* line 100, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 111, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdoposition {
   width: calc(25% - 4.5px);
   border: 1px solid #6495ed;
   border-radius: 5px;
   cursor: pointer;
 }
-/* line 106, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 117, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdoposition-preview {
   width: 50px;
   height: 40px;
@@ -779,86 +802,86 @@
   border: 1px dotted #00f;
   overflow: hidden;
 }
-/* line 116, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 127, ../../../src/scss/_layout/_editor/_layout.scss */
 .row .form-layout-rdoposition-preview {
   flex-direction: row;
 }
-/* line 121, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 132, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdoposition-preview.preview-unstretch .preview-item-1 {
   width: 40px;
 }
-/* line 124, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 135, ../../../src/scss/_layout/_editor/_layout.scss */
 .row .form-layout-rdoposition-preview.preview-unstretch .preview-item-1 {
   height: 30px;
   width: 12px;
 }
-/* line 129, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 140, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdoposition-preview.preview-unstretch .preview-item-2 {
   width: 30px;
 }
-/* line 132, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 143, ../../../src/scss/_layout/_editor/_layout.scss */
 .row .form-layout-rdoposition-preview.preview-unstretch .preview-item-2 {
   height: 20px;
   width: 12px;
 }
-/* line 137, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 148, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdoposition-preview.preview-unstretch .preview-item-3 {
   width: 50px;
 }
-/* line 140, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 151, ../../../src/scss/_layout/_editor/_layout.scss */
 .row .form-layout-rdoposition-preview.preview-unstretch .preview-item-3 {
   height: 40px;
   width: 12px;
 }
-/* line 147, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 158, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdoposition-preview.preview-flex-start {
   align-items: flex-start;
 }
-/* line 151, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 162, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdoposition-preview.preview-center {
   align-items: center;
 }
-/* line 155, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 166, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdoposition-preview.preview-flex-end {
   align-items: flex-end;
 }
-/* line 159, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 170, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdoposition-preview-item {
   height: 9px;
   background: #00f;
 }
-/* line 163, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 174, ../../../src/scss/_layout/_editor/_layout.scss */
 .row .form-layout-rdoposition-preview-item {
   width: 12px;
 }
-/* line 167, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 178, ../../../src/scss/_layout/_editor/_layout.scss */
 .preview-stretch .form-layout-rdoposition-preview-item {
   width: 50px;
 }
-/* line 170, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 181, ../../../src/scss/_layout/_editor/_layout.scss */
 .row .preview-stretch .form-layout-rdoposition-preview-item {
   width: 12px;
   height: 40px;
 }
-/* line 178, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 189, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdoposition-title {
   text-align: center;
 }
-/* line 182, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 193, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdoposition-radio {
   display: none;
 }
-/* line 186, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 197, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdoposition.checked {
   background: #6495ed;
 }
-/* line 191, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 202, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-space {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
 }
-/* line 197, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 208, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace {
   width: calc((100% - 12px) / 3);
   border: 1px solid #6495ed;
@@ -867,7 +890,7 @@
   margin-right: 6px;
   cursor: pointer;
 }
-/* line 205, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 216, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace-preview {
   width: 60px;
   height: 40px;
@@ -877,100 +900,100 @@
   border: 1px dotted #00f;
   overflow: hidden;
 }
-/* line 214, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 225, ../../../src/scss/_layout/_editor/_layout.scss */
 .row .form-layout-rdospace-preview {
   flex-direction: row;
 }
-/* line 218, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 229, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace-preview.preview-space-between {
   justify-content: space-between;
 }
-/* line 222, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 233, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace-preview.preview-space-around {
   justify-content: space-around;
 }
-/* line 226, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 237, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace-preview.preview-flex-start {
   justify-content: flex-start;
 }
-/* line 230, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 241, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace-preview.preview-center {
   justify-content: center;
 }
-/* line 234, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 245, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace-preview.preview-flex-end {
   justify-content: flex-end;
 }
-/* line 238, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 249, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace-preview-item {
   width: 60px;
   height: 8px;
 }
-/* line 242, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 253, ../../../src/scss/_layout/_editor/_layout.scss */
 .row .form-layout-rdospace-preview-item {
   width: 12px;
   height: 40px;
 }
-/* line 247, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 258, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace-preview-item.preview-item-1 {
   background: #f00;
 }
-/* line 251, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 262, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace-preview-item.preview-item-2 {
   background: #0f0;
 }
-/* line 255, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 266, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace-preview-item.preview-item-3 {
   background: #00f;
 }
-/* line 261, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 272, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace-title {
   text-align: center;
 }
-/* line 265, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 276, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace-radio {
   display: none;
 }
-/* line 269, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 280, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace.checked {
   background: #6495ed;
 }
-/* line 273, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 284, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-rdospace:nth-child(3n) {
   margin-right: 0;
 }
-/* line 278, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 289, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-padding {
   border: 2px solid #6495ed;
 }
-/* line 281, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 292, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-padding-row {
   display: flex;
   justify-content: center;
   padding: 3px;
 }
-/* line 287, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 298, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-padding-line {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 3px;
 }
-/* line 294, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 305, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-padding-middle {
   display: flex;
 }
-/* line 298, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 309, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-padding-number {
   width: 60px;
   margin: 3px;
 }
-/* line 303, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 314, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-padding-unit {
   width: 60px;
   margin: 3px;
 }
-/* line 308, ../../../src/scss/_layout/_editor/_layout.scss */
+/* line 319, ../../../src/scss/_layout/_editor/_layout.scss */
 .form-layout-padding-center {
   width: 100%;
   padding: 30px 0;
@@ -1081,7 +1104,7 @@
 }
 /* line 109, ../../../src/scss/_layout/_editor/_position.scss */
 .form-position-margin-number {
-  width: calc(100% - 85px);
+  width: calc(50% - 85px);
 }
 /* line 113, ../../../src/scss/_layout/_editor/_position.scss */
 .form-position-margin-unit {
@@ -1107,95 +1130,67 @@
   width: 80px;
 }
 /* line 139, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-horizontal {
+.form-position-position {
   display: flex;
   justify-content: space-between;
 }
 /* line 144, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdohorizontal {
-  width: calc((100% - 12px) / 3);
-  border: 1px solid #6495ed;
-  border-radius: 5px;
-  cursor: pointer;
-}
-/* line 150, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdohorizontal-preview {
-  width: 60px;
-  margin: 12px auto 5px;
-  display: flex;
-  border: 1px dotted #00f;
-  overflow: hidden;
-}
-/* line 157, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdohorizontal-preview.preview-center {
-  justify-content: center;
-}
-/* line 161, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdohorizontal-preview.preview-right {
-  justify-content: right;
-}
-/* line 165, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdohorizontal-preview-item {
-  width: 35px;
-  height: 40px;
-  background: #00f;
-}
-/* line 172, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdohorizontal-title {
-  text-align: center;
-}
-/* line 176, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdohorizontal-radio {
-  display: none;
-}
-/* line 180, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdohorizontal.checked {
-  background: #6495ed;
-}
-/* line 185, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-vertical {
+.form-position-direction {
   display: flex;
   justify-content: space-between;
+  width: calc(50% - 4px);
 }
-/* line 190, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdovertical {
+/* line 150, ../../../src/scss/_layout/_editor/_position.scss */
+.form-position-rdodirection {
   width: calc((100% - 12px) / 3);
   border: 1px solid #6495ed;
   border-radius: 5px;
   cursor: pointer;
 }
-/* line 196, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdovertical-preview {
-  width: 60px;
-  height: 40px;
-  margin: 12px auto 5px;
+/* line 156, ../../../src/scss/_layout/_editor/_position.scss */
+.form-position-rdodirection-preview {
+  width: 80%;
+  height: 30px;
+  margin: 5px auto 5px;
   display: flex;
   border: 1px dotted #00f;
   overflow: hidden;
 }
-/* line 204, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdovertical-preview.preview-center {
+/* line 164, ../../../src/scss/_layout/_editor/_position.scss */
+.form-position-rdodirection-preview.preview-center {
+  justify-content: center;
+}
+/* line 168, ../../../src/scss/_layout/_editor/_position.scss */
+.form-position-rdodirection-preview.preview-right {
+  justify-content: right;
+}
+/* line 172, ../../../src/scss/_layout/_editor/_position.scss */
+.form-position-rdodirection-preview.preview-middle {
   align-items: center;
 }
-/* line 208, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdovertical-preview.preview-bottom {
+/* line 176, ../../../src/scss/_layout/_editor/_position.scss */
+.form-position-rdodirection-preview.preview-bottom {
   align-items: flex-end;
 }
-/* line 212, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdovertical-preview-item {
-  width: 100%;
-  height: 25px;
+/* line 180, ../../../src/scss/_layout/_editor/_position.scss */
+.form-position-rdodirection-preview-item {
   background: #00f;
 }
-/* line 219, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdovertical-title {
-  text-align: center;
+/* line 183, ../../../src/scss/_layout/_editor/_position.scss */
+.form-position-rdodirection-preview-item.preview-item-horizontal {
+  width: 70%;
+  height: 100%;
 }
-/* line 223, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdovertical-radio {
+/* line 188, ../../../src/scss/_layout/_editor/_position.scss */
+.form-position-rdodirection-preview-item.preview-item-vertical {
+  width: 100%;
+  height: 70%;
+}
+/* line 195, ../../../src/scss/_layout/_editor/_position.scss */
+.form-position-rdodirection-radio {
   display: none;
 }
-/* line 227, ../../../src/scss/_layout/_editor/_position.scss */
-.form-position-rdovertical.checked {
+/* line 199, ../../../src/scss/_layout/_editor/_position.scss */
+.form-position-rdodirection.checked {
   background: #6495ed;
 }

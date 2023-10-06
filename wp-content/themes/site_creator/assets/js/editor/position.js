@@ -30,7 +30,7 @@ const position_radio_options = {
   }, 
   'vertical':{
     'top': translations.position_top,
-    'center': translations.position_center,
+    'middle': translations.position_center,
     'bottom': translations.position_bottom,
   }, 
 }
@@ -97,9 +97,9 @@ const getPositionMarginInfo = function(area) {
 const getPositionSimInfo = function(area) {
   var position = area.find('.form-position-seltype').val();
   var widthtype = area.find('.form-position-selwidthtype').val();
-  var horizontal = area.find('.form-position-rdohorizontal-radio:checked').val();
+  var horizontal = area.find('.form-position-rdodirection-radio.radio-horizontal:checked').val();
   var heighttype = area.find('.form-position-selheighttype').val();
-  var vertical = area.find('.form-position-rdovertical-radio:checked').val();
+  var vertical = area.find('.form-position-rdodirection-radio.radio-vertical:checked').val();
   
   var css_list = {
     'position' : position,
@@ -169,7 +169,7 @@ const getPositionSimInfo = function(area) {
     
     if(vertical == 'bottom') {
       css_list['bottom'] = str_bottom;
-    } else if(vertical == 'center') {
+    } else if(vertical == 'middle') {
       css_list['top'] = 'calc(50% - ' + str_top + ')';
       css_list['transform']['translateY'] = '-50%';
     } else {
@@ -188,7 +188,7 @@ const getPositionSimInfo = function(area) {
     if(vertical == 'bottom') {
       css_list['top'] = '100%';
       css_list['transform']['translateY'] = '-100%';
-    } else if(vertical == 'center') {
+    } else if(vertical == 'middle') {
       css_list['top'] = '50%';
       css_list['transform']['translateY'] = '-50%';
     } else {
@@ -343,21 +343,10 @@ const initFormPositionResponsiveArea = function(obj) {
     });
   });
   
-  // 水平位置ラジオボタンをクリック
-  obj.find('.form-position-rdohorizontal').on('click', function(){
-    var radio_item = $(this);
-    var radio_group = obj.find('.form-position-rdohorizontal');
-    clickRadio(radio_item, radio_group, function(){
-      // シミュレーション更新
-      updateSimulation(setting, getPositionSimInfo);
-    });
-  });
-  
-  // 垂直位置ラジオボタンをクリック
-  obj.find('.form-position-rdovertical').on('click', function(){
-    var radio_item = $(this);
-    var radio_group = obj.find('.form-position-rdovertical');
-    clickRadio(radio_item, radio_group, function(){
+  // 水平/垂直位置ラジオボタンをクリック
+  obj.find('.form-position-rdodirection').on('click', function(){
+    var radio_button = $(this);
+    clickRadio(radio_button, function(){
       // シミュレーション更新
       updateSimulation(setting, getPositionSimInfo);
     });
@@ -409,7 +398,7 @@ const htmlPositionRadioGroup = function(direction, name, value) {
   var options = checkDirectionKey(direction, position_radio_options) ? position_radio_options[direction] : position_radio_options['horizontal'];
   
   // HTMLを構築
-  var html = '<div class="form-position-' + direction + '">';
+  var html = '<div class="form-position-direction">';
   
   $.each(options, function(option_value, option_text) {
     // 選択肢をループし、選択状態を取得
@@ -420,12 +409,11 @@ const htmlPositionRadioGroup = function(direction, name, value) {
     
     // 選択肢HTMLを構築
     html += `
-      <div class="form-position-rdo` + direction + ` ` + checked_str + `">
-        <div class="form-position-rdo` + direction + `-preview preview-` + option_value + `">
-          <p class="form-position-rdo` + direction + `-preview-item"></p>
+      <div class="form-position-rdodirection ` + checked_str + `" title="` + option_text + `">
+        <div class="form-position-rdodirection-preview preview-` + option_value + `">
+          <p class="form-position-rdodirection-preview-item preview-item-` + direction + `"></p>
         </div>
-        <p class="form-position-rdo` + direction + `-title">` + option_text + `</p>
-        <input type="radio" class="form-position-rdo` + direction + `-radio" name="` + name + `" value="` + option_value + `" ` + checked_str + ` />
+        <input type="radio" class="form-position-rdodirection-radio radio-` + direction + `" name="` + name + `" value="` + option_value + `" ` + checked_str + ` />
       </div>
     `;
   });
@@ -551,17 +539,6 @@ const htmlFormPositionResponsiveAreaInner = function(base_key, options) {
         ` + htmlUnitSelect('form-position-limit', position_key + '__width_max_unit', getStyleValue(style, ['width_max_unit'], ''), {'select_class':'unit-width-max'}) + `
       </div>
     </div>
-    <div class="form-object form-position-position position-x">
-      <p class="form-subtitle">` + translations.position_horizontal + `</p>
-      ` + htmlPositionRadioGroup('horizontal', position_key + '__position_x', getStyleValue(style, ['position_x'], 'left')) + `
-    </div>
-    <div class="form-object form-position-margin margin-left">
-      <p class="form-subtitle">` + translations.position_margin_left + `</p>
-      <div class="form-position-margin-inner">
-        ` + htmlNumberInput('form-position-margin', position_key + '__margin_left', getStyleValue(style, ['margin_left'], 0), {'input_class':'number-margin-left'}) + `
-        ` + htmlUnitSelect('form-position-margin', position_key + '__margin_left_unit', getStyleValue(style, ['margin_left_unit'], ''), {'select_class':'unit-margin-left'}) + `
-      </div>
-    </div>
     <div class="form-object">
       <div class="form-position-limitflag">
         <p class="form-subtitle form-position-limitflag-title">` + translations.height + `</p>
@@ -604,13 +581,15 @@ const htmlFormPositionResponsiveAreaInner = function(base_key, options) {
         ` + htmlUnitSelect('form-position-limit', position_key + '__height_max_unit', getStyleValue(style, ['height_max_unit'], ''), {'select_class':'unit-height-max'}) + `
       </div>
     </div>
-    <div class="form-object form-position-position position-y">
-      <p class="form-subtitle">` + translations.position_vertical + `</p>
+    <div class="form-object form-position-position">
+      ` + htmlPositionRadioGroup('horizontal', position_key + '__position_x', getStyleValue(style, ['position_x'], 'left')) + `
       ` + htmlPositionRadioGroup('vertical', position_key + '__position_y', getStyleValue(style, ['position_y'], 'top')) + `
     </div>
-    <div class="form-object form-position-margin margin-top">
-      <p class="form-subtitle">` + translations.position_margin_top + `</p>
+    <div class="form-object form-position-margin">
+      <p class="form-subtitle">` + translations.position_margin + `</p>
       <div class="form-position-margin-inner">
+        ` + htmlNumberInput('form-position-margin', position_key + '__margin_left', getStyleValue(style, ['margin_left'], 0), {'input_class':'number-margin-left'}) + `
+        ` + htmlUnitSelect('form-position-margin', position_key + '__margin_left_unit', getStyleValue(style, ['margin_left_unit'], ''), {'select_class':'unit-margin-left'}) + `
         ` + htmlNumberInput('form-position-margin', position_key + '__margin_top', getStyleValue(style, ['margin_top'], 0), {'input_class':'number-margin-top'}) + `
         ` + htmlUnitSelect('form-position-margin', position_key + '__margin_top_unit', getStyleValue(style, ['margin_top_unit'], ''), {'select_class':'unit-margin-top'}) + `
       </div>

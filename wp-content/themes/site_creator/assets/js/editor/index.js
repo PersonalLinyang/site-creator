@@ -1,7 +1,4 @@
 $(document).ready(function(){
-  var rate_pc = -1;
-  var rate_sp = -1;
-  
   // 表示シミュレーションを切り替える
   $('.header-sim-device').on('click', function(){
     if(!$(this).hasClass('checked')) {
@@ -10,14 +7,12 @@ $(document).ready(function(){
       var device = $(this).data('device');
       $('.header-sim-setting').hide();
       $('.header-sim-setting[data-device="' + device + '"]').show();
-      $('.sim').hide();
-      $('.sim-' + device).show();
+      $('.sim-device').css('z-index', -1);
+      $('.sim-' + device).css('z-index', 0);
       if(device == 'pc') {
-        rate_pc = resizePC();
         $('.setting-sp').removeClass('active');
         $('.setting-pc').addClass('active');
       } else {
-        rate_sp = resizeSP();
         $('.setting-pc').removeClass('active');
         $('.setting-sp').addClass('active');
       }
@@ -25,40 +20,40 @@ $(document).ready(function(){
   });
   
   // ページ初期化する際の表示比率を取得
-  rate_pc = resizePC();
-  rate_sp = resizeSP();
+  resizeSimulationPC();
+  resizeSimulationSP();
   
   // 画面全体リサイズ
   $(window).resize(function(){
-    rate_pc = resizePC();
-    rate_sp = resizeSP();
+    resizeSimulationPC();
+    resizeSimulationSP();
   });
   
   // ヘッダPCサイト拡大/縮小ボタンクリック
   $('.header-sim-adaptive-pc').on('click', function(){
     $(this).toggleClass('checked');
-    rate_pc = resizePC();
+    resizeSimulationPC();
   });
   
   // ヘッダSPサイト拡大/縮小ボタンクリック
   $('.header-sim-adaptive-sp').on('click', function(){
     $(this).toggleClass('checked');
-    rate_sp = resizeSP();
+    resizeSimulationSP();
   });
   
   // ヘッダPCサイト幅変更
   $('.header-sim-setting-width-pc').on('change', function(){
-    rate_pc = resizePC();
+    resizeSimulationPC();
   });
   
   // ヘッダSPサイト幅変更
   $('.header-sim-setting-width-sp').on('change', function(){
-    rate_sp = resizeSP();
+    resizeSimulationSP();
   });
   
   // ヘッダSPサイト高さ変更
   $('.header-sim-setting-height-sp').on('change', function(){
-    rate_sp = resizeSP();
+    resizeSimulationSP();
   });
   
   // ヘッダ端末向きボタン(SP用)クリック
@@ -67,7 +62,7 @@ $(document).ready(function(){
     var height = $('.header-sim-setting-height-sp').val();
     $('.header-sim-setting-width-sp').val(height);
     $('.header-sim-setting-height-sp').val(width);
-    rate_sp = resizeSP();
+    resizeSimulationSP();
   });
   
   // ヘッダ表示端末(SP用)選択変更
@@ -77,7 +72,7 @@ $(document).ready(function(){
     var height = option.data('height');
     $('.header-sim-width-sp').val(width);
     $('.header-sim-height-sp').val(height);
-    rate_sp = resizeSP();
+    resizeSimulationSP();
   });
   
   // ヘッダ「保存」ボタンクリック
@@ -111,7 +106,7 @@ $(document).ready(function(){
     });
   });
   
-  // 編集部分HTMLを構築
+  // 編集部分HTMLを構築、JS用変数として直接JS読み出しPHPの中で取得
   addFormBlock(base_block, '', true);
   
   // 現在の編集ブロック数を更新

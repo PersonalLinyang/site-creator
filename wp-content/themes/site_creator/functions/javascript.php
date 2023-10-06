@@ -29,6 +29,7 @@ function get_js_translations($key) {
       break;
     case 'editor':
       $translations = array(
+        'add'                  => __('Add', $lang_domain),
         'background'              => __('Background', $lang_domain),
         'background_bottom'             => __('Background Bottom', $lang_domain),
         'background_bottom_left'        => __('Background Bottom Left', $lang_domain),
@@ -51,13 +52,18 @@ function get_js_translations($key) {
         'background_top_left'           => __('Background Top Left', $lang_domain),
         'background_top_right'          => __('Background Top Right', $lang_domain),
         'background_type_ph'            => __('Background Type Placeholder', $lang_domain),
-        'block_add'                  => __('Add Block', $lang_domain),
+        'block'                  => __('Block', $lang_domain),
         'block_name'              => __('Block Name', $lang_domain),
+        'block_type_ph'                => __('Block Type Placeholder', $lang_domain),
         'block_without_name'              => __('Block Without Name', $lang_domain),
+        'body'                  => __('Body', $lang_domain),
+        'button'                  => __('Button', $lang_domain),
         'color_and_opacity'              => __('Color And Opacity', $lang_domain),
         'direction_bottom'              => __('Direction Bottom', $lang_domain),
         'direction_right'              => __('Direction Right', $lang_domain),
         'file_upload'                   => __('File Upload', $lang_domain),
+        'footer'                  => __('Footer', $lang_domain),
+        'form'                  => __('Form', $lang_domain),
         'from_bottom'             => __('From Bottom', $lang_domain),
         'from_left'               => __('From Left', $lang_domain),
         'from_right'              => __('From Right', $lang_domain),
@@ -79,11 +85,14 @@ function get_js_translations($key) {
         'gradient_to_bottom_right'      => __('Gradient To Bottom Right', $lang_domain),
         'has_max' => __('Has Max', $lang_domain),
         'has_min' => __('Has Min', $lang_domain),
+        'header'                  => __('Header', $lang_domain),
+        'headline'                  => __('Headline', $lang_domain),
         'height'              => __('Height', $lang_domain),
         'height_auto'              => __('Height Auto', $lang_domain),
         'height_content'              => __('Height Content', $lang_domain),
         'height_custom'              => __('Height Custom', $lang_domain),
         'height_relative'              => __('Height Relative', $lang_domain),
+        'image'                  => __('Image', $lang_domain),
         'keep_proportion'    => __('Keep Proportion', $lang_domain),
         'layout'              => __('Layout', $lang_domain),
         'layout_block_list'              => __('Layout Block List', $lang_domain),
@@ -113,6 +122,9 @@ function get_js_translations($key) {
         'layout_space_top'              => __('Layout Space Top', $lang_domain),
         'layout_row'              => __('Layout Row', $lang_domain),
         'layout_type'              => __('Layout Type', $lang_domain),
+        'link'                  => __('Link', $lang_domain),
+        'list'                  => __('List', $lang_domain),
+        'main'                  => __('Main', $lang_domain),
         'max'              => __('Max', $lang_domain),
         'min'              => __('Min', $lang_domain),
         'original_size'              => __('Original Size', $lang_domain),
@@ -125,8 +137,7 @@ function get_js_translations($key) {
         'position_horizontal'              => __('Position Horizontal', $lang_domain),
         'position_initial'              => __('Position Initial', $lang_domain),
         'position_left'              => __('Position Left', $lang_domain),
-        'position_margin_left'              => __('Position Margin Left', $lang_domain),
-        'position_margin_top'              => __('Position Margin Top', $lang_domain),
+        'position_margin'              => __('Position Margin', $lang_domain),
         'position_relative_height'     => __('Position Relative Height', $lang_domain),
         'position_relative_width'     => __('Position Relative Width', $lang_domain),
         'position_right'              => __('Position Right', $lang_domain),
@@ -137,6 +148,9 @@ function get_js_translations($key) {
         'responsive_flag'               => __('Responsive Flag', $lang_domain),
         'responsive_pc'                 => __('Responsive PC', $lang_domain),
         'responsive_sp'                 => __('Responsive SP', $lang_domain),
+        'table'                  => __('Table', $lang_domain),
+        'text'                  => __('Text', $lang_domain),
+        'video'                  => __('Video', $lang_domain),
         'width'              => __('Width', $lang_domain),
         'width_auto'              => __('Width Auto', $lang_domain),
         'width_content'              => __('Width Content', $lang_domain),
@@ -266,6 +280,10 @@ function my_enqueue_scripts() {
     // エディターレスポンシブ対応編集JSを読み込み
     $js_editor_responsive_path = 'assets/js/editor/responsive.js';
     wp_enqueue_script('js_editor_responsive', get_theme_file_uri($js_editor_responsive_path), array('js_editor_common'), filemtime(get_theme_file_path($js_editor_responsive_path)));
+    
+    // エディターブロック編集JSを読み込み
+    $js_editor_simulation_path = 'assets/js/editor/simulation.js';
+    wp_enqueue_script('js_editor_simulation', get_theme_file_uri($js_editor_simulation_path), array('js_editor_common'), filemtime(get_theme_file_path($js_editor_simulation_path)));
     
     // エディターメイン処理JSを読み込み
     $js_editor_index_path = 'assets/js/editor/index.js';

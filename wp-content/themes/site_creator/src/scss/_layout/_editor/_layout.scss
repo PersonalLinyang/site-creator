@@ -1,10 +1,21 @@
 .form-layout {
+  &-add {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .form &-seladd {
+    width: calc(100% - 108px);
+  }
+  
   &-btnadd {
+    cursor: pointer;
     border: 1px solid $block_border_color;
     border-radius: 5px;
     text-align: center;
-    cursor: pointer;
-    margin-top: 8px;
+    width: 100px;
   }
   
   &-sim {

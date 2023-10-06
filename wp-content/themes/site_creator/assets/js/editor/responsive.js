@@ -148,7 +148,7 @@ const htmlFormResponsive = function(base_key, base_class, func_html_responsive_a
   `;
   
   if(responsive_flag) {
-    if(responsive) {
+    if(responsive != '0') {
       // レスポンシブ対応
       var options_pc = {};
       var options_sp = {};

@@ -150,10 +150,11 @@ const initFormLayoutResponsiveArea = function(obj) {
       var block_index = parseInt($('.setting').data('index'));
       
       // 編集ブロックを追加
-      addFormBlock({'key': 'block' + block_index, 'type': 'block'}, target);
+      var type = setting.find('.form-layout-seladd').val();
+      addFormBlock({'key': 'block' + block_index, 'type': type}, target);
       
       // 子ブロック情報用の非表示inputを追加
-      setting.append('<input class="form-layout-sim-item-hidden hidden-block' + block_index + '" type="hidden" name="' + target + '__blocks[]" value="block' + block_index + '" />');
+      setting.closest('.form-line').append('<input class="form-layout-sim-item-hidden hidden-block' + block_index + '" type="hidden" name="' + target + '__blocks[]" value="block' + block_index + '" />');
       
       // ブロックがない場合のブロックリストダミー表示を非表示する
       sim.find('.form-layout-sim-dummy').removeClass('active');
@@ -247,9 +248,8 @@ const initFormLayoutResponsiveArea = function(obj) {
   
   // 要素位置ラジオボタン選択変更
   obj.find('.form-layout-rdoposition').on('click', function(){
-    var radio_item = $(this);
-    var radio_group = obj.find('.form-layout-rdoposition');
-    clickRadio(radio_item, radio_group, function(){
+    var radio_button = $(this);
+    clickRadio(radio_button, function(){
       // シミュレーション更新
       updateSimulation(setting, getLayoutFlexInfo);
     });
@@ -257,9 +257,8 @@ const initFormLayoutResponsiveArea = function(obj) {
   
   // 全体位置ラジオボタン選択変更
   obj.find('.form-layout-rdospace').on('click', function(){
-    var radio_item = $(this);
-    var radio_group = obj.find('.form-layout-rdospace');
-    clickRadio(radio_item, radio_group, function(){
+    var radio_button = $(this);
+    clickRadio(radio_button, function(){
       // シミュレーション更新
       updateSimulation(setting, getLayoutFlexInfo);
     });
@@ -415,6 +414,9 @@ const htmlFormLayoutResponsiveAreaInner = function(base_key, options) {
   var device = checkDirectionKey('device', options) ? options['device'] : 'pc';
   var layout_key = base_key + '__' + device;
   
+  // ブロックタイプを取得
+  var block_type = checkDirectionKey('type', options) ? options['type'] : '';
+  
   // レーアウトスタイル情報を取得
   var style = (checkDirectionKey('style', options) && $.isPlainObject(options['style'])) ? options['style'] : {};
   
@@ -439,6 +441,15 @@ const htmlFormLayoutResponsiveAreaInner = function(base_key, options) {
     html_sim += '<p class="form-layout-sim-dummy">' + translations.layout_dummy + '</p>';
   } else {
     html_sim = '<p class="form-layout-sim-dummy active">' + translations.layout_dummy + '</p>';
+  }
+  
+  // 各タイプの子ブロックタイプの選択肢を定義
+  var type_options = {
+    'body': ['header', 'main', 'footer'],
+    'header': ['block', 'headerline', 'text', 'image', 'video', 'table', 'list', 'link', 'button'],
+    'main': ['block', 'headerline', 'text', 'image', 'video', 'table', 'list', 'link', 'button', 'form'],
+    'footer': ['block', 'headerline', 'text', 'image', 'video', 'table', 'list', 'link', 'button'],
+    'block': ['block', 'headerline', 'text', 'image', 'video', 'table', 'list', 'link', 'button', 'form'],
   }
   
   //HTMLを構築
@@ -472,7 +483,10 @@ const htmlFormLayoutResponsiveAreaInner = function(base_key, options) {
       <div class="form-layout-sim">
         ` + html_sim + `
       </div>
-      <p class="form-layout-btnadd">` + translations.block_add + `</p>
+      <div class="form-layout-add">
+        ` + htmlSelect('form-layout-seladd', '', '', getBlockTypeOptions(type_options[block_type])) + `
+        <p class="form-layout-btnadd">` + translations.add + `</p>
+      </div>
     </div>
     <div class="form-object">
       <p class="form-subtitle">` + translations.layout_type + `</p>

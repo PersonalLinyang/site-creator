@@ -13,6 +13,24 @@ const opacity_options = {
   '0.0':'0%',
 }
 
+// 子ブロックタイプ選択の選択肢を取得
+var block_type_options = {
+  'body' : translations.body,
+  'header' : translations.header,
+  'main' : translations.main,
+  'footer' : translations.footer,
+  'block' : translations.block,
+  'headline' : translations.headline,
+  'text' : translations.text,
+  'image' : translations.image,
+  'video' : translations.video,
+  'table' : translations.table,
+  'list' : translations.list,
+  'link' : translations.link,
+  'button' : translations.button,
+  'form' : translations.form,
+};
+
 
 /* 
  * スタイル計算リスト更新
@@ -31,6 +49,23 @@ const updateCalcInner = function(calc_inner, value, unit) {
     calc_inner[unit] = value;
   }
   return calc_inner;
+}
+
+
+/* 
+ * ブロックタイプ選択肢取得
+ * params 
+ *   key_list : 選択肢として使うキーリスト
+ * return ブロックタイプ選択肢リスト
+ */
+const getBlockTypeOptions = function(key_list) {
+  var options = {};
+  $.each(key_list, function(index, key) {
+    if(checkDirectionKey(key, block_type_options)) {
+      options[key] = block_type_options[key];
+    }
+  });
+  return options;
 }
 
 
@@ -471,21 +506,21 @@ const clickCheckbox = function(checkbox, func_click) {
 /* 
  * ラジオボタンのクリックイベント
  * params 
- *   radio_item : クリックしたラジオボタン
- *   radio_group : 同じグループのラジオボタンリスト
+ *   radio_button : クリックしたラジオボタン
  *   func_click : クリック時に実行する処理
  */
-const clickRadio = function(radio_item, radio_group, func_click) {
-  var radio = radio_item.find('input[type="radio"]');
+const clickRadio = function(radio_button, func_click) {
+  var radio_group = radio_button.parent().children();
+  var radio = radio_button.find('input[type="radio"]');
   
   // クリックしたラジオボタンが稼働状態で、現在選択されてない場合のみ有効
-  if(!radio_item.hasClass('working') && !radio_item.hasClass('checked')) {
+  if(!radio_button.hasClass('working') && !radio_button.hasClass('checked')) {
     // 同組のラジオボタンを全部待機状態に変更
     radio_group.removeClass('checked').addClass('working');
     
     // ラジオチェック状態を更新
     radio.prop('checked', true);
-    radio_item.addClass('checked');
+    radio_button.addClass('checked');
     
     $.when(
       func_click()
@@ -678,97 +713,6 @@ const initFormUpload = function(form_upload, func_update) {
       });
     });
   });
-}
-
-
-/* 
- * PCシミュレーションリサイズ 
- * return シミュレーションが拡大する倍数
- */
-const resizePC = function(){
-  // 仮ページ幅設定適用
-  var rate = -1;
-  var width_original = $('.header-sim-setting-width-pc').val();
-  $('.sim-html-pc').css('width', width_original).css('max-width', width_original).css('height', '100%').css('transform', 'scale(1)').css('margin-right', 0);
-  $('.sim-html-pc').data('scale', 1);
-  $('.sim-inner-pc').css('overflow-x', 'auto');
-  
-  var adaptive = $('.header-sim-adaptive-pc').hasClass('checked');
-  if(adaptive) {
-    $('.sim-inner-pc').css('overflow-x', 'hidden');
-    // シミュレーション部分の幅に合わせる場合
-    var width_sim = $('.sim-inner-pc')[0].clientWidth;
-    
-    if(width_original > width_sim) {
-      //設定された仮ページの幅がシミュレーション部分の幅を超える
-      rate = width_sim / width_original;
-      $('.sim-html-pc').css('transform', 'scale(' + rate + ')');
-      
-      var height_sim = $('.sim-html-pc').height();
-      var height_original = height_sim / rate;
-      $('.sim-html-pc').css('height', height_original + 'px');
-      
-      var margin_right = width_sim - width_original;
-      $('.sim-html-pc').css('margin-right', margin_right + 'px');
-    }
-  }
-  
-  // PCサイトシミュレーション端末幅をCSSとして設定(単位がvwの際に使う)
-  $('.sim-html-pc').css('--device-width', width_original);
-  $('.sim-html-pc').css('--sim-fontsize', 32);
-  
-  return rate;
-}
-
-
-/* 
- * SPシミュレーションリサイズ 
- * return シミュレーションが拡大する倍数
- */
-const resizeSP = function(){
-  // 仮ページ幅設定適用
-  var rate = -1;
-  var width_original = $('.header-sim-setting-width-sp').val();
-  var height_original = $('.header-sim-setting-height-sp').val();
-  $('.sim-html-sp').css('width', width_original).css('height', height_original).css('transform', 'scale(1)').css('margin-right', 0).css('margin-bottom', 0);
-  $('.sim-html-sp').data('scale', 1);
-  $('.sim-sp').css('overflow', 'auto');
-  
-  var width_sim = $('.sim-sp')[0].clientWidth;
-  var height_sim = $('.sim-sp')[0].clientHeight;
-  
-  var adaptive = $('.header-sim-adaptive-sp').hasClass('checked');
-  if(adaptive) {
-    // シミュレーション部分の幅に合わせる場合
-    $('.sim-sp').css('overflow', 'hidden');
-    if(width_original > width_sim || height_original > height_sim) {
-      //設定された仮ページの幅か高さがシミュレーション部分の幅や高さを超える
-      rate = width_sim / width_original;
-      var rate_height = height_sim / height_original;
-      if(rate > rate_height) {
-          rate = rate_height;
-      }
-      $('.sim-html-sp').css('transform', 'scale(' + rate + ')');
-      
-      var margin_right = width_original * (rate - 1);
-      $('.sim-html-sp').css('margin-right', margin_right + 'px');
-      
-      var margin_bottom = height_original * (rate - 1);
-      $('.sim-html-sp').css('margin-bottom', margin_bottom + 'px');
-    }
-  }
-  
-  var height_sim_inner = $('.sim-inner-sp').height();
-  $('.sim-inner-sp').css('margin-top', 0);
-  if(height_sim > height_sim_inner) {
-    var margin_top = (height_sim - height_sim_inner) / 2;
-    $('.sim-inner-sp').css('margin-top', margin_top + 'px');
-  }
-  
-  // SPサイトシミュレーション端末幅をCSSとして設定(単位がvwの際に使う)
-  $('.sim-html-sp').css('--device-width', width_original);
-  
-  return rate;
 }
 
 

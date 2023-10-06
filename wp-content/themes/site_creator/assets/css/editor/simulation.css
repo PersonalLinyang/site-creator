@@ -1,45 +1,230 @@
 /* line 1, ../../../src/scss/_layout/_editor/_simulation.scss */
 .sim {
   width: calc(100% - 350px);
+  position: relative;
+}
+/* line 5, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-device {
   background: #f5f5f5;
   overflow: auto;
-}
-/* line 6, ../../../src/scss/_layout/_editor/_simulation.scss */
-.sim-background {
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
 }
-/* line 14, ../../../src/scss/_layout/_editor/_simulation.scss */
+/* line 15, ../../../src/scss/_layout/_editor/_simulation.scss */
 .sim-pc {
   display: flex;
+  z-index: 0;
 }
-/* line 18, ../../../src/scss/_layout/_editor/_simulation.scss */
+/* line 20, ../../../src/scss/_layout/_editor/_simulation.scss */
 .sim-sp {
-  display: none;
+  --scrollbar-size: 10px;
+  z-index: -1;
 }
-/* line 22, ../../../src/scss/_layout/_editor/_simulation.scss */
+/* line 24, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-sp::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+  background: transparent;
+}
+/* line 30, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-sp::-webkit-scrollbar-thumb {
+  background: #696969;
+  border-radius: calc(var(--scrollbar-size) / 2);
+}
+/* line 36, ../../../src/scss/_layout/_editor/_simulation.scss */
 .sim-inner {
   position: relative;
   border: 2px solid #696969;
   background: #ffffff;
   margin: 0 auto;
+}
+/* line 42, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-inner-pc {
+  --scrollbar-size: 10px;
+  border-right: 0;
+}
+/* line 46, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-inner-pc::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+  background: #696969;
+}
+/* line 52, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-inner-pc::-webkit-scrollbar-thumb {
+  background: #FFF;
+  border: 2px solid #696969;
+  border-radius: calc(var(--scrollbar-size) / 2);
+}
+/* line 58, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-inner-pc::-webkit-scrollbar-corner {
+  background: #696969;
+}
+/* line 63, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-inner-sp {
+  border-right: 0;
+  overflow: hidden;
   width: fit-content;
+}
+/* line 70, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-html {
+  --scrollbar-size: 10px;
+  transform-origin: left top;
+}
+/* line 74, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-html::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  background: #696969;
+}
+/* line 79, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-html::-webkit-scrollbar-thumb {
+  background: #FFF;
+  border: 2px solid #696969;
+  border-radius: calc(var(--scrollbar-size) / 2);
+}
+/* line 85, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-html-pc {
+  --sim-fontsize: 16px;
   overflow: hidden;
 }
-/* line 31, ../../../src/scss/_layout/_editor/_simulation.scss */
-.sim-html {
-  overflow-x: hidden;
-  min-height: 100%;
-  min-width: 100%;
-  transform-origin: left top;
-  position: relative;
+/* line 90, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-html-sp {
+  --sim-fontsize: 12px;
+  overflow: hidden scroll;
 }
-/* line 39, ../../../src/scss/_layout/_editor/_simulation.scss */
+/* line 96, ../../../src/scss/_layout/_editor/_simulation.scss */
 .sim-item {
   position: relative;
   display: flex;
   flex-direction: column;
+}
+/* line 102, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector {
+  position: absolute;
+  z-index: 9999;
+  pointer-events: none;
+  display: none;
+}
+/* line 108, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector.active {
+  display: block;
+}
+/* line 112, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-point {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  background: #FFF;
+  pointer-events: auto;
+  z-index: 1;
+}
+/* line 122, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-point-top {
+  top: -2px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: ns-resize;
+}
+/* line 129, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-point-left {
+  top: 50%;
+  left: -2px;
+  transform: translate(-50%, -50%);
+  cursor: ew-resize;
+}
+/* line 136, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-point-bottom {
+  bottom: -2px;
+  right: 50%;
+  transform: translate(50%, 50%);
+  cursor: ns-resize;
+}
+/* line 143, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-point-right {
+  bottom: 50%;
+  right: -2px;
+  transform: translate(50%, 50%);
+  cursor: ew-resize;
+}
+/* line 150, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-point-topleft {
+  top: -2px;
+  left: -2px;
+  transform: translate(-50%, -50%);
+  cursor: nwse-resize;
+}
+/* line 157, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-point-bottomleft {
+  bottom: -2px;
+  left: -2px;
+  transform: translate(-50%, 50%);
+  cursor: nesw-resize;
+}
+/* line 164, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-point-topright {
+  top: -2px;
+  right: -2px;
+  transform: translate(50%, -50%);
+  cursor: nesw-resize;
+}
+/* line 171, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-point-bottomright {
+  bottom: -2px;
+  right: -2px;
+  transform: translate(50%, 50%);
+  cursor: nwse-resize;
+}
+/* line 179, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-line {
+  position: absolute;
+  background: #FFF;
+  box-shadow: 0 0 2px #000;
+  pointer-events: auto;
+  cursor: move;
+}
+/* line 186, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-line-top {
+  top: -4px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+}
+/* line 193, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-line-bottom {
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+}
+/* line 200, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-line-left {
+  left: -4px;
+  top: 0;
+  height: 100%;
+  width: 4px;
+}
+/* line 207, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-line-right {
+  right: -4px;
+  top: 0;
+  height: 100%;
+  width: 4px;
+}
+/* line 215, ../../../src/scss/_layout/_editor/_simulation.scss */
+.sim-selector-sim {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: -2px;
+  right: -2px;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed #000;
+  z-index: -1;
+  pointer-events: none;
+  box-sizing: content-box;
 }

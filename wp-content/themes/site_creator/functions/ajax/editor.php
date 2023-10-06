@@ -47,19 +47,19 @@ function func_editor_save_style(){
       foreach($block_list as $block_key => $info) {
         switch($block_key) {
           case 'body':
-            $block_name = 'BODY-' . $target->post_title;
+            $block_name = 'BODY';
             $block_type = 'body';
             break;
           case 'header':
-            $block_name = 'HEADER-' . $target->post_title;
+            $block_name = 'HEADER';
             $block_type = 'header';
             break;
           case 'main':
-            $block_name = 'MAIN-' . $target->post_title;
+            $block_name = 'MAIN';
             $block_type = 'main';
             break;
           case 'footer':
-            $block_name = 'FOOTER-' . $target->post_title;
+            $block_name = 'FOOTER';
             $block_type = 'footer';
             break;
           default:

@@ -701,11 +701,10 @@ const initFormBackgroundGradient = function(obj) {
   
   // 変色タイプラジオボタンをクリック
   obj.find('.form-background-gradient-rdotype').on('click', function(e){
-    var radio_item = $(this);
-    var radio_group = obj.find('.form-background-gradient-rdotype');
+    var radio_button = $(this);
     // ラジオボタンクリックイベント実行
-    clickRadio(radio_item, radio_group, function(){
-      var radio = radio_item.find('.form-background-gradient-rdotype-radio');
+    clickRadio(radio_button, function(){
+      var radio = radio_button.find('.form-background-gradient-rdotype-radio');
       var option = obj.find('.form-background-gradient-option');
       var type = radio.val();
       
