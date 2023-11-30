@@ -343,3 +343,8 @@
     border-radius: vwsp(3);
   }
 }
+
+.working {
+  cursor: wait !important;
+  pointer-events: none;
+}

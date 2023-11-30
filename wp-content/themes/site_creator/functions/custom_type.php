@@ -52,27 +52,6 @@ add_action('init', 'create_color_pattern_type');
 
 
 /*
- * 「サイト」投稿タイプ追加
- */
-function create_site_type() {
-  // 記事タイプ「サイト」追加
-  register_post_type('site',
-    array(
-      'label' => 'サイト',
-      'public' => true,
-      'has_archive' => false,
-      'menu_position' => 102, 
-      'supports' => [
-        'title',
-        'custom-fields',
-      ]
-    )
-  );
-}
-add_action('init', 'create_site_type');
-
-
-/*
  * 「サイト固定ページ」投稿タイプ追加
  */
 function create_site_page_type() {

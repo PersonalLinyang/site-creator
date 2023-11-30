@@ -113,6 +113,30 @@ const getLayoutFlexInfo = function(area) {
 
 
 /* 
+ * 子要素削除ボタンを初期化
+ * params 
+ *   obj : 子要素削除ボタン
+ */
+const initFormLayoutSimItemBtnDelete = function(obj) {
+  obj.on('click', function(){
+    var item = $(this).closest('.form-layout-sim-item');
+    var target = item.data('target');
+    item.remove();
+    $('#sim-' + target + '-pc').remove();
+    $('#sim-' + target + '-sp').remove();
+    $('.form-block[data-target="' + target + '"]').remove();
+    $(this).closest('.form-layout-sim').each(function(){
+      if($(this).find('.form-layout-sim-item').length) {
+        updateFormLayoutIndex($(this).find('.form-layout-sim-item'));
+      } else {
+        $(this).find('.form-layout-sim-dummy').addClass('active');
+      }
+    });
+  });
+}
+
+
+/* 
  * レスポンシブ対応部分本体(レイアウト端末別編集部分)を初期化
  * params 
  *   obj : レイアウト端末別編集部分
@@ -138,6 +162,9 @@ const initFormLayoutResponsiveArea = function(obj) {
       updateSimulation(setting, getLayoutPaddingInfo);
     });
   });
+  
+  
+  initFormLayoutSimItemBtnDelete(obj.find('.form-layout-sim-item-btndelete'));
   
   // ブロック追加ボタンをクリック
   obj.find('.form-layout-btnadd').on('click', function(){
@@ -176,19 +203,7 @@ const initFormLayoutResponsiveArea = function(obj) {
         var sim_item = $(this).find('.form-layout-sim-item[data-target="block' + block_index + '"]');
         
         // ブロック削除ボタンを有効化
-        sim_item.find('.form-layout-sim-item-btndelete').on('click', function(){
-          setting.find('.form-layout-sim-item[data-target="block' + block_index + '"]').remove();
-          $('#sim-block' + block_index + '-pc').remove();
-          $('#sim-block' + block_index + '-sp').remove();
-          $('.form-block[data-target="block' + block_index + '"]').remove();
-          setting.find('.form-layout-sim').each(function(){
-            if($(this).find('.form-layout-sim-item').length) {
-              updateFormLayoutIndex($(this).find('.form-layout-sim-item'));
-            } else {
-              sim.find('.form-layout-sim-dummy').addClass('active');
-            }
-          });
-        });
+        initFormLayoutSimItemBtnDelete(sim_item.find('.form-layout-sim-item-btndelete'));
         
         // ブロック編集ボタンを有効化
         initFormBlockSlidehandler(sim_item.find('.form-layout-sim-item-btnedit'));
@@ -484,7 +499,7 @@ const htmlFormLayoutResponsiveAreaInner = function(base_key, options) {
         ` + html_sim + `
       </div>
       <div class="form-layout-add">
-        ` + htmlSelect('form-layout-seladd', '', '', getBlockTypeOptions(type_options[block_type])) + `
+        ` + htmlSelect('form-layout-seladd', '', '', part_block_options) + `
         <p class="form-layout-btnadd">` + translations.add + `</p>
       </div>
     </div>

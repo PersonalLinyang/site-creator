@@ -180,9 +180,6 @@ const initFormBlock = function(obj) {
 const htmlFormBlockResponsiveAreaInner = function(block_key, options) {
   // ブロックタイプを取得してチェック
   var type = checkDirectionKey('type', options) ? options['type'] : '';
-  if(!checkDirectionKey(type, block_type_options)) {
-    return '';
-  }
   
   // スタイル情報を取得
   var style = (checkDirectionKey('style', options) && $.isPlainObject(options['style'])) ? options['style'] : {};
@@ -236,7 +233,7 @@ const htmlFormBlockResponsiveAreaInner = function(block_key, options) {
  */
 const htmlFormBlock = function(block_info, parent_key = '', base_flag = false) {
   // ブロック情報を変数化
-  var id = checkDirectionKey('id', block_info) ? block_info['id'] : '';
+  var uid = checkDirectionKey('uid', block_info) ? block_info['uid'] : '';
   var key = checkDirectionKey('key', block_info) ? block_info['key'] : '';
   var name = checkDirectionKey('name', block_info) ? block_info['name'] : '';
   var type = checkDirectionKey('type', block_info) ? block_info['type'] : '';
@@ -293,7 +290,7 @@ const htmlFormBlock = function(block_info, parent_key = '', base_flag = false) {
           ` + htmlFormResponsive(key, 'form-block-responsive', htmlFormBlockResponsiveAreaInner, true, false, { 'type':type, 'style':style, 'blocks':simple_blocks }) + `
         </div>
       </div>
-      <input type="hidden" name="` + key + `__block_id" value="` + id + `" />
+      <input type="hidden" name="` + key + `__block_uid" value="` + uid + `" />
     </div>
   `;
   

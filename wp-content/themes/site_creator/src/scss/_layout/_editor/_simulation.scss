@@ -29,6 +29,7 @@
     
     &::-webkit-scrollbar-thumb {
       background: #696969;
+      border: 2px solid $editor_simulation_back_color;
       border-radius: calc(var(--scrollbar-size) / 2);
     }
   }

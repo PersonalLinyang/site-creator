@@ -48,12 +48,6 @@ function my_enqueue_styles() {
     if(file_exists(get_theme_file_path($css_page_path))) {
       wp_enqueue_style('css_page', get_theme_file_uri($css_page_path), array(), filemtime(get_theme_file_path($css_page_path)), 'all');
     }
-  } elseif(is_singular()) {
-    // 詳細ページ記事タイプごとCSSを読み込み
-    $css_page_path = 'assets/css/single/' . $post->post_type . '.css';
-    if(file_exists(get_theme_file_path($css_page_path))) {
-      wp_enqueue_style('css_page', get_theme_file_uri($css_page_path), array(), filemtime(get_theme_file_path($css_page_path)), 'all');
-    }
   }
 }
 add_action('wp_enqueue_scripts', 'my_enqueue_styles');

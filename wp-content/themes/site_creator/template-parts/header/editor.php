@@ -3,19 +3,10 @@
 $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
 $lang_domain = 'site-creator-' . $lang_code;
 
-// テンプレートパーツパラメータ変数化
-$site_id = $args['site_id'];
-
 $design_width_pc = 1200;
 $design_width_sp = 375;
 $design_fontsize_pc = 16;
 $design_fontsize_sp = 12;
-if($site_id) {
-  $design_width_pc = get_field('design_width_pc', $site_id);
-  $design_width_sp = get_field('design_width_sp', $site_id);
-  $design_fontsize_pc = get_field('design_fontsize_pc', $site_id);
-  $design_fontsize_sp = get_field('design_fontsize_sp', $site_id);
-}
 ?>
 
 <header class="header header-editor">

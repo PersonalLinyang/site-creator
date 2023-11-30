@@ -26,17 +26,20 @@ function format_block_list($key_list, $value, $block_list) {
 function func_editor_save_style(){
   $result = true;
   $error_list = array();
-  $except_list = ['action', 'target_id'];
+  $except_list = ['action', 'target_uid'];
   
-  $block_id_list = array();
+  $block_uid_list = array();
   $block_list = array();
   
   if(is_user_logged_in()) {
-    $user_id = get_current_user_id();
+    $author_id = get_current_user_id();
     
-    $target = get_post($_POST['target_id']);
-    
-    if($target) {
+    try {
+      global $wpdb;
+      
+      $wpdb->query('START TRANSACTION');
+      
+      // 再帰関数でスタイルの情報を配列に整理
       foreach($_POST as $key => $value) {
         if(!in_array($key, $except_list)) {
           $key_list = explode("__", $key);
@@ -45,22 +48,12 @@ function func_editor_save_style(){
       }
       
       foreach($block_list as $block_key => $info) {
+        $block_uid = in_array('block_uid', array_keys($info)) ? $info['block_uid'] : '';
+        
         switch($block_key) {
-          case 'body':
-            $block_name = 'BODY';
-            $block_type = 'body';
-            break;
-          case 'header':
-            $block_name = 'HEADER';
-            $block_type = 'header';
-            break;
-          case 'main':
-            $block_name = 'MAIN';
-            $block_type = 'main';
-            break;
-          case 'footer':
-            $block_name = 'FOOTER';
-            $block_type = 'footer';
+          case 'base':
+            $block_name = 'BASE';
+            $block_type = 'base';
             break;
           default:
             $block_name = in_array('name', array_keys($info)) ? $info['name'] : '';
@@ -68,65 +61,86 @@ function func_editor_save_style(){
             break;
         }
         
-        if(in_array('block_id', array_keys($info)) && $info['block_id']) {
-          // HTMLブロックとして存在する場合タイトルを更新
-          $block_id = $info['block_id'];
-          $html_block = array(
-            'ID' => $block_id,
-            'post_title' => $block_name,
-          );
-          wp_update_post($html_block);
-        } else {
-          // HTMLブロックとして存在しない場合追加する
-          $block_uid = md5(uniqid(rand(), true));
-          $block = array(
-            'post_name'      => $block_uid,
-            'post_title'     => $block_name,
-            'post_status'    => 'publish',
-            'post_type'      => 'html_block',
-            'post_author'    => $user_id,
-          );
-          $block_id = wp_insert_post($block);
-          
-          update_field('type', $block_type, $block_id);
-        }
-        $block_id_list[$block_key] = $block_id;
-        
         // スタイルをJSON化して保存
+        $block_style = '';
         if(in_array('style', array_keys($info))) {
-          update_field('style', json_encode($info['style']), $block_id);
+          $block_style = json_encode($info['style']);
         }
         
-        // HTMLの場合サイトの共通スタイルとして保存
-        if($block_key == 'body') {
-          $common_style = get_field('common_style', $target->ID);
-          if($common_style) {
-            if(!in_array($block_id, $common_style)) {
-              array_push($common_style, $block_id);
-              update_field('common_style', $common_style, $target->ID);
-            }
+        if($block_uid) {
+          $wp_res = $wpdb->update(
+            'tb_block',
+            array(
+              'block_name' => $block_name,
+              'block_type' => $block_type,
+              'block_style' => $block_style,
+            ),
+            array( 'uid' => $block_uid ),
+            array( '%s', '%s', '%s' ),
+            array( '%s' )
+          );
+          
+          if($wp_res) {
+            $block_uid_list[$block_key] = $block_uid;
           } else {
-            update_field('common_style', array($block_id), $target->ID);
+            throw new Exception(__( 'Failed to update block', $lang_domain ));
+          }
+        } else {
+          $block_uid = md5(uniqid(rand(), true));
+          $wp_res = $wpdb->insert(
+            'tb_block',
+            array(
+              'uid' => $block_uid,
+              'block_name' => $block_name,
+              'block_type' => $block_type,
+              'author_id' => $author_id,
+              'block_style' => $block_style,
+            ),
+            array( '%s', '%s', '%s', '%d', '%s' ),
+          );
+          
+          if($wp_res) {
+            $block_uid_list[$block_key] = $block_uid;
+          } else {
+            throw new Exception(__( 'Failed to create new block', $lang_domain ));
           }
         }
       }
       
-      $block_key_list = array_keys($block_id_list);
+      $block_key_list = array_keys($block_uid_list);
       
       foreach($block_list as $block_key => $info) {
         if(in_array('blocks', array_keys($info)) && in_array($block_key, $block_key_list)) {
           $blocks = array();
           foreach($info['blocks'] as $child_block_key) {
             if(in_array($child_block_key, $block_key_list)) {
-              array_push($blocks, $block_id_list[$child_block_key]);
+              array_push($blocks, $block_uid_list[$child_block_key]);
             }
           }
-          update_field('blocks', $blocks, $block_id_list[$block_key]);
+          $wp_res = $wpdb->update(
+            'tb_block',
+            array( 'block_children' => implode(',', $blocks) ),
+            array( 'uid' => $block_uid_list[$block_key] ),
+            array( '%s' ),
+            array( '%s' )
+          );
+          
+          if($wp_res) {
+            $block_uid_list[$block_key] = $block_uid;
+          } else {
+            throw new Exception(__( 'Failed to update relationship', $lang_domain ));
+          }
         }
       }
-    } else {
+    } catch(Exception $ex) {
       $result = false;
-      $error_list['system'] = __('Cannot find target to save', $lang_domain);
+      $error_list['system'] = $ex->getMessage();
+    }
+    
+    if($result) {
+      $wpdb->query('COMMIT');
+    } else {
+      $wpdb->query('ROLLBACK');
     }
   } else {
     $result = false;
@@ -138,7 +152,7 @@ function func_editor_save_style(){
     'result' => $result,
     'info' => $block_list,
     'error_list' => $error_list,
-    'block_id_list' => $block_id_list,
+    'block_uid_list' => $block_uid_list,
   );
   echo json_encode($response);
   die();

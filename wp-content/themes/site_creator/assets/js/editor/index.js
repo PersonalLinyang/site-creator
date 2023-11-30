@@ -94,8 +94,8 @@ $(document).ready(function(){
         success: function( response ){
           var res = JSON.parse(response);
           if(res['result'] == true) {
-            $.each(res['block_id_list'], function(target, block_id) {
-              $('input[name="' + target + '__block_id"]').val(block_id);
+            $.each(res['block_uid_list'], function(target, block_uid) {
+              $('input[name="' + target + '__block_uid"]').val(block_uid);
             });
           } else {
           }

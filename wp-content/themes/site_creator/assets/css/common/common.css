@@ -458,6 +458,12 @@ li {
   }
 }
 
+/* line 347, ../../../src/scss/_layout/_common/_common/_class.scss */
+.working {
+  cursor: wait !important;
+  pointer-events: none;
+}
+
 /* line 1, ../../../src/scss/_layout/_common/_common/_header.scss */
 .header {
   width: 100%;

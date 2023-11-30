@@ -13,24 +13,6 @@ const opacity_options = {
   '0.0':'0%',
 }
 
-// 子ブロックタイプ選択の選択肢を取得
-var block_type_options = {
-  'body' : translations.body,
-  'header' : translations.header,
-  'main' : translations.main,
-  'footer' : translations.footer,
-  'block' : translations.block,
-  'headline' : translations.headline,
-  'text' : translations.text,
-  'image' : translations.image,
-  'video' : translations.video,
-  'table' : translations.table,
-  'list' : translations.list,
-  'link' : translations.link,
-  'button' : translations.button,
-  'form' : translations.form,
-};
-
 
 /* 
  * スタイル計算リスト更新
@@ -49,23 +31,6 @@ const updateCalcInner = function(calc_inner, value, unit) {
     calc_inner[unit] = value;
   }
   return calc_inner;
-}
-
-
-/* 
- * ブロックタイプ選択肢取得
- * params 
- *   key_list : 選択肢として使うキーリスト
- * return ブロックタイプ選択肢リスト
- */
-const getBlockTypeOptions = function(key_list) {
-  var options = {};
-  $.each(key_list, function(index, key) {
-    if(checkDirectionKey(key, block_type_options)) {
-      options[key] = block_type_options[key];
-    }
-  });
-  return options;
 }
 
 

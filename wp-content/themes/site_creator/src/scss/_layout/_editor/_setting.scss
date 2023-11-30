@@ -3,11 +3,17 @@
   overflow: hidden;
   background: $editor_setting_back_color;
   user-select: none;
+  display: flex;
+  flex-direction: column;
   
   &-title {
-    height: 30px;
-    line-height: 30px;
-    margin: 10px 0;
+    padding: 0 20px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 50px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
   
   &-pc {

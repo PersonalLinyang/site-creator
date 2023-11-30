@@ -43,6 +43,8 @@ get_template_part('functions/javascript');
 get_template_part('functions/ajax/account');
 // サイト作成関連functions
 get_template_part('functions/ajax/create_site');
+// サイト作成関連functions
+get_template_part('functions/ajax/creator');
 // テーマ出力関連functions
 get_template_part('functions/ajax/zip_theme');
 // エディター関連functions

@@ -52,18 +52,13 @@ function get_js_translations($key) {
         'background_top_left'           => __('Background Top Left', $lang_domain),
         'background_top_right'          => __('Background Top Right', $lang_domain),
         'background_type_ph'            => __('Background Type Placeholder', $lang_domain),
-        'block'                  => __('Block', $lang_domain),
         'block_name'              => __('Block Name', $lang_domain),
         'block_type_ph'                => __('Block Type Placeholder', $lang_domain),
         'block_without_name'              => __('Block Without Name', $lang_domain),
-        'body'                  => __('Body', $lang_domain),
-        'button'                  => __('Button', $lang_domain),
         'color_and_opacity'              => __('Color And Opacity', $lang_domain),
         'direction_bottom'              => __('Direction Bottom', $lang_domain),
         'direction_right'              => __('Direction Right', $lang_domain),
         'file_upload'                   => __('File Upload', $lang_domain),
-        'footer'                  => __('Footer', $lang_domain),
-        'form'                  => __('Form', $lang_domain),
         'from_bottom'             => __('From Bottom', $lang_domain),
         'from_left'               => __('From Left', $lang_domain),
         'from_right'              => __('From Right', $lang_domain),
@@ -85,14 +80,11 @@ function get_js_translations($key) {
         'gradient_to_bottom_right'      => __('Gradient To Bottom Right', $lang_domain),
         'has_max' => __('Has Max', $lang_domain),
         'has_min' => __('Has Min', $lang_domain),
-        'header'                  => __('Header', $lang_domain),
-        'headline'                  => __('Headline', $lang_domain),
         'height'              => __('Height', $lang_domain),
         'height_auto'              => __('Height Auto', $lang_domain),
         'height_content'              => __('Height Content', $lang_domain),
         'height_custom'              => __('Height Custom', $lang_domain),
         'height_relative'              => __('Height Relative', $lang_domain),
-        'image'                  => __('Image', $lang_domain),
         'keep_proportion'    => __('Keep Proportion', $lang_domain),
         'layout'              => __('Layout', $lang_domain),
         'layout_block_list'              => __('Layout Block List', $lang_domain),
@@ -122,9 +114,6 @@ function get_js_translations($key) {
         'layout_space_top'              => __('Layout Space Top', $lang_domain),
         'layout_row'              => __('Layout Row', $lang_domain),
         'layout_type'              => __('Layout Type', $lang_domain),
-        'link'                  => __('Link', $lang_domain),
-        'list'                  => __('List', $lang_domain),
-        'main'                  => __('Main', $lang_domain),
         'max'              => __('Max', $lang_domain),
         'min'              => __('Min', $lang_domain),
         'original_size'              => __('Original Size', $lang_domain),
@@ -148,9 +137,6 @@ function get_js_translations($key) {
         'responsive_flag'               => __('Responsive Flag', $lang_domain),
         'responsive_pc'                 => __('Responsive PC', $lang_domain),
         'responsive_sp'                 => __('Responsive SP', $lang_domain),
-        'table'                  => __('Table', $lang_domain),
-        'text'                  => __('Text', $lang_domain),
-        'video'                  => __('Video', $lang_domain),
         'width'              => __('Width', $lang_domain),
         'width_auto'              => __('Width Auto', $lang_domain),
         'width_content'              => __('Width Content', $lang_domain),
@@ -221,26 +207,22 @@ function my_enqueue_scripts() {
   
   if($editor_flag) {
     // 編集可能の場合編集ターゲットを取得
-    $target = $check_result['target'];
+    $target_uid = $check_result['target_uid'];
     
-    if($target->post_type == 'site') {
-      // 編集ターゲットがサイトの場合初期ブロック情報を構築
-      $base_block = array(
-        'id' => '', 'key' => 'body', 'name' => __('Site Whole Style', $lang_domain), 'type' => 'body', 'style' => array(),
-        'blocks' => array(
-          array( 'id' => '', 'key' => 'header', 'name' => __('Header', $lang_domain), 'type' => 'header', 'style' => array(), 'blocks' => array() ),
-          array( 'id' => '', 'key' => 'main', 'name' => __('Main Content', $lang_domain), 'type' => 'main', 'style' => array(), 'blocks' => array() ),
-          array( 'id' => '', 'key' => 'footer', 'name' => __('Footer', $lang_domain), 'type' => 'footer', 'style' => array(), 'blocks' => array() ),
-        ),
-      );
-    } else {
-      // 編集ターゲットがHTMLブロックの場合ブロック情報を取得(再帰処理)
-      require_once get_template_directory() . '/inc/custom-functions/get_html_block_info.inc.php';
-      $base_block = get_html_block_info($target->ID);
-    }
+    // ブロック情報を取得(再帰処理)
+    require_once get_template_directory() . '/inc/custom-functions/get_html_block_info.inc.php';
+    $base_block = get_html_block_info($target_uid);
     
     // 基礎ブロックをJS変数化する
     wp_localize_script('js_jquery', 'base_block', $base_block);
+    
+    $block_type = array(
+      'header' => 'HEADER', 
+      'main' => 'MAIN', 
+      'footer' => 'FOOTER', 
+      'block' => 'BLOCK',
+    );
+    wp_localize_script('js_jquery', 'part_block_options', $block_type);
     
     // カラーピーカーを読み込み
     $js_colorpicker_path = 'assets/plugins/colorpicker/js/colorpicker.js';
@@ -313,13 +295,6 @@ function my_enqueue_scripts() {
     if(file_exists(get_theme_file_path($js_page_path))) {
       wp_enqueue_script('js_page', get_theme_file_uri($js_page_path), array('js_jquery', 'js_jquery_ui'), filemtime(get_theme_file_path($js_page_path)));
       $translations = array_merge($translations, get_js_translations('page_' . $post->post_name));
-    }
-  } elseif(is_singular('site')) {
-    $js_page_path = 'assets/js/single/' . $post->post_type . '.js';
-    
-    if(file_exists(get_theme_file_path($js_page_path))) {
-      wp_enqueue_script('js_page', get_theme_file_uri($js_page_path), array('js_jquery', 'js_jquery_ui'), filemtime(get_theme_file_path($js_page_path)));
-      $translations = array_merge($translations, get_js_translations('single_' . $post->post_name));
     }
   }
   

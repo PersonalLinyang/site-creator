@@ -1,11 +1,14 @@
 <?php
 
 // サイト編集系画面権限チェック
-function check_site_editor_permission() {
+function check_part_editor_permission() {
   $result = array(
     'result' => True,
     'target_uid' => NULL,
-    'error' => NULL,
+    'error' => array(
+      'code' => '',
+      'message' => '',
+    ),
   );
   
   if(is_user_logged_in()) {

@@ -18,7 +18,7 @@ function write_style_css($result, $error_list, $zip, $site, $theme_dir) {
 @charset "UTF-8";
 /*
 EOT . PHP_EOL;
-    $content .= 'Theme Name: ' . get_field('site_key', $site->ID) . PHP_EOL;
+    $content .= 'Theme Name: ' . $site->site_name . PHP_EOL;
     $content .= 'Author: ' . __( 'This Site Name', 'site-creator-en' ) . PHP_EOL;
     $content .= <<<EOT
 Version: 1.0
@@ -225,12 +225,9 @@ function func_zip_theme(){
   $zip->open($zip_path, ZipArchive::CREATE|ZipArchive::OVERWRITE);
   
   if(is_writable($theme_dir)) {
-    $site_query = get_posts(array(
-      'name' => $site_uid,
-      'post_type' => 'site',
-      'post_status' => 'publish',
-      'post_parent' => null,
-    ));
+    global $wpdb;
+    $site_sql = 'SELECT * FROM tb_site WHERE uid="' . $site_uid . '"';
+    $site_query = $wpdb->get_results($wpdb->prepare($site_sql));
     
     if(count($site_query)) {
       $site = current($site_query);

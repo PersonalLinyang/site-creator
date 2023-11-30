@@ -19,7 +19,7 @@ $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'j
     if(is_page() && get_field('editor_flag', $post->ID)) {
       $check_result = check_site_editor_permission();
       if($check_result['result']) {
-        get_template_part( 'template-parts/header/editor', null, array('site_id' => $check_result['site_id']));
+        get_template_part( 'template-parts/header/editor');
       } else {
         get_template_part( 'template-parts/header/normal' );
       }
