@@ -1,11 +1,12 @@
 <?php
 
 require_once get_template_directory() . '/inc/custom-functions/get_acf_select_options.inc.php';
+require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
 
 get_header();
 
-$lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-$lang_domain = 'site-creator-' . $lang_code;
+$lang = new LanguageSupporter();
 
 $site_status_options = get_acf_select_options('site', 'site_status');
 $site_http_options = get_acf_select_options('site', 'site_http');
@@ -27,32 +28,32 @@ if(!is_array($common_style_list)) {
   <h2><?php echo $post->post_title; ?></h2>
   <div class="single-site-info">
     <div class="single-site-info-header">
-      <p class="single-site-info-header-title"><?php echo __('Site Base Info', $lang_domain); ?></p>
+      <p class="single-site-info-header-title"><?php echo $lang->translate('Site Base Info'); ?></p>
       <div class="single-site-info-header-btnarea">
-        <p class="single-site-info-header-button" id="btn-base-edit"><?php echo __('Site Base Edit', $lang_domain); ?></p>
-        <p class="single-site-info-header-button" id="btn-base-save"><?php echo __('Save', $lang_domain); ?></p>
+        <p class="single-site-info-header-button" id="btn-base-edit"><?php echo $lang->translate('Site Base Edit'); ?></p>
+        <p class="single-site-info-header-button" id="btn-base-save"><?php echo $lang->translate('Save'); ?></p>
       </div>
     </div>
     <div class="single-site-line">
-      <p class="single-site-line-title"><?php echo __('Site Name', $lang_domain); ?></p>
+      <p class="single-site-line-title"><?php echo $lang->translate('Site Name'); ?></p>
       <p class="single-site-line-value"><?php echo $post->post_title; ?></p>
     </div>
     <div class="single-site-line">
-      <p class="single-site-line-title"><?php echo __('Site Key', $lang_domain); ?></p>
+      <p class="single-site-line-title"><?php echo $lang->translate('Site Key'); ?></p>
       <p class="single-site-line-value"><?php echo get_field('site_key', $post->ID); ?></p>
     </div>
     <div class="single-site-line">
-      <p class="single-site-line-title"><?php echo __('Site Host', $lang_domain); ?></p>
+      <p class="single-site-line-title"><?php echo $lang->translate('Site Host'); ?></p>
       <p class="single-site-line-value"><?php echo $site_http_options[$post_http]; ?><?php echo get_field('site_host', $post->ID); ?></p>
     </div>
   </div>
   <div class="single-site-info">
     <div class="single-site-info-header">
-      <p class="single-site-info-header-title"><?php echo __('Site Common Style', $lang_domain); ?></p>
+      <p class="single-site-info-header-title"><?php echo $lang->translate('Site Common Style'); ?></p>
       <div class="single-site-info-header-btnarea">
         <p class="single-site-info-header-button">
           <a class="full-link" href="<?php echo get_site_url(); ?>/common-style/<?php echo $post->post_name; ?>/">
-            <?php echo __('Site Common Style Edit', $lang_domain); ?>
+            <?php echo $lang->translate('Site Common Style Edit'); ?>
           </a>
         </p>
       </div>
@@ -62,10 +63,10 @@ if(!is_array($common_style_list)) {
       <p class="single-site-name"><?php echo $common_style->post_title; ?></p>
       <p class="single-site-btnedit">
         <a class="full-link" href="<?php echo get_site_url(); ?>/common-style/<?php echo $post->post_name; ?>/<?php echo $common_style->post_name; ?>/">
-          <?php echo __('Edit', $lang_domain); ?>
+          <?php echo $lang->translate('Edit'); ?>
         </a>
       </p>
-      <p class="single-site-btndelete"><?php echo __('Delete', $lang_domain); ?></p>
+      <p class="single-site-btndelete"><?php echo $lang->translate('Delete'); ?></p>
     </div>
     <?php endforeach; ?>
   </div>

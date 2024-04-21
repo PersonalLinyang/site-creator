@@ -1,7 +1,18 @@
-$editor_header_height_pc: 55px;
+// ヘッダー高さ
+$header_height_pc: rempc(55);
+$header_height_sp: remsp(30);
 
-$editor_setting_width: 350px;
-$editor_setting_dwidth: 700px;
+// 左右余白
+$body_padding_pc: rempc(20);
+$body_padding_sp: remsp(20);
+
+// PC/横向きSPの編集エリア横幅
+$editor_setting_width_pc: rempc(350);
+$editor_setting_width_sp: remsp(350);
+
+
+
+
 
 $editor_simulation_back_color: #f5f5f5;
 

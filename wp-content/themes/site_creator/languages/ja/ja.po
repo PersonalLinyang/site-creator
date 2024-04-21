@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Site Cteator JA Ver.1.0\n"
 "Report-Msgid-Bugs-To: Translator Name <translations@example.com>\n"
-"POT-Creation-Date: 2022-10-19 15:48+0900\n"
+"POT-Creation-Date: 2024-04-15 16:47+0900\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: YangLin <personal.linyang@gmail.com>\n"
@@ -18,595 +18,1153 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
-"_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,"
-"_nc:4c,1,2\n"
+"_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,_nc:4c,1,2;"
+"translate\n"
 "X-Poedit-Basepath: ../..\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Poedit-SearchPath-0: languages\n"
 "X-Poedit-SearchPath-1: .\n"
 
-#: front-page.php:7
+#: front-page.php:10
 msgid "Try to create site now"
 msgstr "今すぐサイトを作ってみましょう"
 
-#: functions/ajax/account.php:13
+#: functions/ajax/account.php:14
 #, php-format
 msgid "Check %s first"
 msgstr "お先に%sを確認し、ご同意してください"
 
-#: functions/ajax/account.php:13 page-signup.php:91
+#: functions/ajax/account.php:14 page-signup.php:92
 msgid "terms of service"
 msgstr "利用規約"
 
-#: functions/ajax/account.php:28 functions/ajax/account.php:42
-#: functions/ajax/account.php:47 functions/ajax/account.php:52
-#: functions/ajax/account.php:63 functions/ajax/account.php:114
-#: functions/ajax/account.php:121 functions/ajax/account.php:173
-#: functions/ajax/create_site.php:46 functions/ajax/create_site.php:52
-#: functions/ajax/create_site.php:62 functions/ajax/create_site.php:97
-#: functions/ajax/create_site.php:123 functions/ajax/create_site.php:185
-#: functions/ajax/create_site.php:191 functions/ajax/create_site.php:215
-#: functions/ajax/create_site.php:221 functions/ajax/create_site.php:252
-#: functions/ajax/create_site.php:270 functions/ajax/create_site.php:288
+#: functions/ajax/account.php:29 functions/ajax/account.php:43
+#: functions/ajax/account.php:48 functions/ajax/account.php:53
+#: functions/ajax/account.php:64 functions/ajax/account.php:116
+#: functions/ajax/account.php:123 functions/ajax/account.php:176
+#: functions/ajax/create_site.php:47 functions/ajax/create_site.php:53
+#: functions/ajax/create_site.php:63 functions/ajax/create_site.php:99
+#: functions/ajax/create_site.php:125 functions/ajax/create_site.php:188
+#: functions/ajax/create_site.php:194 functions/ajax/create_site.php:218
+#: functions/ajax/create_site.php:224 functions/ajax/create_site.php:255
+#: functions/ajax/create_site.php:273 functions/ajax/create_site.php:291
 #, php-format
 msgid "%s cannot be empty"
 msgstr "%sをご入力してください"
 
-#: functions/ajax/account.php:28 functions/ajax/account.php:31
-#: functions/ajax/account.php:34 functions/ajax/account.php:37
-#: page-signup.php:18
+#: functions/ajax/account.php:29 functions/ajax/account.php:32
+#: functions/ajax/account.php:35 functions/ajax/account.php:38
+#: page-signup.php:19
 msgid "Username"
 msgstr "ユーザー名"
 
-#: functions/ajax/account.php:31 functions/ajax/create_site.php:194
-#: functions/ajax/create_site.php:224
+#: functions/ajax/account.php:32 functions/ajax/create_site.php:197
+#: functions/ajax/create_site.php:227
 #, php-format
 msgid "%1$s cannot be over %2$s characters"
 msgstr "%1$sは%2$s文字以内にしてください"
 
-#: functions/ajax/account.php:34 functions/ajax/account.php:55
-#: functions/ajax/account.php:66 functions/ajax/create_site.php:65
-#: functions/ajax/create_site.php:255 functions/ajax/create_site.php:273
-#: functions/ajax/create_site.php:291
+#: functions/ajax/account.php:35 functions/ajax/account.php:56
+#: functions/ajax/account.php:67 functions/ajax/create_site.php:66
+#: functions/ajax/create_site.php:258 functions/ajax/create_site.php:276
+#: functions/ajax/create_site.php:294
 #, php-format
 msgid "%s cannot be this format"
 msgstr "%sのフォーマットが不正です"
 
-#: functions/ajax/account.php:37 functions/ajax/account.php:58
+#: functions/ajax/account.php:38 functions/ajax/account.php:59
 #, php-format
 msgid "%s had been signuped"
 msgstr "%sは既に登録されました"
 
-#: functions/ajax/account.php:42 page-signup.php:33 page-signup.php:39
+#: functions/ajax/account.php:43 page-signup.php:34 page-signup.php:40
 msgid "First Name"
 msgstr "名"
 
-#: functions/ajax/account.php:47 page-signup.php:30 page-signup.php:42
+#: functions/ajax/account.php:48 page-signup.php:31 page-signup.php:43
 msgid "Family Name"
 msgstr "姓"
 
-#: functions/ajax/account.php:52 functions/ajax/account.php:55
-#: functions/ajax/account.php:58 page-signup.php:50
+#: functions/ajax/account.php:53 functions/ajax/account.php:56
+#: functions/ajax/account.php:59 page-signup.php:51
 msgid "Email"
 msgstr "メールアドレス"
 
-#: functions/ajax/account.php:63 functions/ajax/account.php:66
-#: functions/ajax/account.php:121 functions/ajax/account.php:146
-#: page-login.php:21 page-login.php:24 page-signup.php:57
+#: functions/ajax/account.php:64 functions/ajax/account.php:67
+#: functions/ajax/account.php:123 functions/ajax/account.php:148
+#: page-login.php:22 page-login.php:25 page-signup.php:58
 msgid "Password"
 msgstr "パスワード"
 
-#: functions/ajax/account.php:114 functions/ajax/account.php:117
-#: functions/ajax/account.php:173 functions/ajax/account.php:176
-#: page-login.php:16 page-password-reset.php:16
+#: functions/ajax/account.php:116 functions/ajax/account.php:119
+#: functions/ajax/account.php:176 functions/ajax/account.php:179
+#: page-login.php:17 page-password-reset.php:17
 msgid "Username or Email"
 msgstr "ユーザー名またはメールアドレス"
 
-#: functions/ajax/account.php:117 functions/ajax/account.php:176
+#: functions/ajax/account.php:119 functions/ajax/account.php:179
 #, php-format
 msgid "%s is not signuped"
 msgstr "ご入力の%sが登録されていません"
 
-#: functions/ajax/account.php:146 functions/ajax/create_site.php:110
-#: functions/ajax/create_site.php:141
+#: functions/ajax/account.php:148 functions/ajax/create_site.php:112
+#: functions/ajax/create_site.php:143
 #, php-format
 msgid "%s is wrong"
 msgstr "%sは間違っています"
 
-#: functions/ajax/account.php:191
+#: functions/ajax/account.php:194
 #, php-format
 msgid "Mail To %s"
 msgstr "%s様"
 
-#: functions/ajax/account.php:192
+#: functions/ajax/account.php:195
 #, php-format
 msgid "Thank you for using %s"
 msgstr "この度は%sをご利用いただき誠にありがとうございます。"
 
-#: functions/ajax/account.php:192 functions/ajax/account.php:196
-#: functions/ajax/account.php:197
+#: functions/ajax/account.php:195 functions/ajax/account.php:199
+#: functions/ajax/account.php:200
 msgid "This Site Name"
 msgstr "サイトクリエーター"
 
-#: functions/ajax/account.php:193
+#: functions/ajax/account.php:196
 msgid "Your password has been reseted successfully"
 msgstr "ご利用のパスワードが成功にリセットされました。"
 
-#: functions/ajax/account.php:194
+#: functions/ajax/account.php:197
 #, php-format
 msgid "Please login with this password: %s"
 msgstr "以下のパスワードでログインして：%s"
 
-#: functions/ajax/account.php:195
+#: functions/ajax/account.php:198
 msgid "And set your password again in the profile page"
 msgstr "そしてプロファイルページで再度パスワードを設定してください。"
 
-#: functions/ajax/account.php:196
+#: functions/ajax/account.php:199
 #, php-format
 msgid "Please continue to use %s"
 msgstr "引き続き%sのご利用をよろしくお願いいたします。"
 
-#: functions/ajax/account.php:203
+#: functions/ajax/account.php:206
 msgid "Failed to Send Email"
 msgstr ""
-"大変申し訳ございません、メール送信にエラーが発生しました<br/>しばらくお待ち"
-"して、再度お試しください"
+"大変申し訳ございません、メール送信にエラーが発生しました<br/>しばらくお待ちし"
+"て、再度お試しください"
 
-#: functions/ajax/create_site.php:46 page-create-site.php:22
-#: page-create-site.php:24 single-site.php:31
+#: functions/ajax/create_site.php:47 page-create-site.php:23
+#: page-create-site.php:25 single-site.php:37
 msgid "Site Name"
 msgstr "サイト名"
 
-#: functions/ajax/create_site.php:52 functions/ajax/create_site.php:55
-#: page-create-site.php:29 page-create-site.php:31 single-site.php:35
+#: functions/ajax/create_site.php:53 functions/ajax/create_site.php:56
+#: page-create-site.php:30 page-create-site.php:32 single-site.php:41
 msgid "Site Key"
 msgstr "テーマ名"
 
-#: functions/ajax/create_site.php:55 functions/ajax/create_site.php:126
-#: functions/ajax/create_site.php:203 functions/ajax/create_site.php:233
+#: functions/ajax/create_site.php:56 functions/ajax/create_site.php:128
+#: functions/ajax/create_site.php:206 functions/ajax/create_site.php:236
 #, php-format
 msgid "%1$s can use %2$s only"
 msgstr "%1$sとして使えるのは%2$sだけです"
 
-#: functions/ajax/create_site.php:56 functions/ajax/create_site.php:127
-#: functions/ajax/create_site.php:204 functions/ajax/create_site.php:234
+#: functions/ajax/create_site.php:57 functions/ajax/create_site.php:129
+#: functions/ajax/create_site.php:207 functions/ajax/create_site.php:237
 #, php-format
 msgid "%1$s and %2$s"
 msgstr "%1$sと%2$s"
 
-#: functions/ajax/create_site.php:56 functions/ajax/create_site.php:127
+#: functions/ajax/create_site.php:57 functions/ajax/create_site.php:129
 msgid "alphabet and number"
 msgstr "英数字"
 
-#: functions/ajax/create_site.php:56
+#: functions/ajax/create_site.php:57
 msgid "space"
 msgstr "スペース"
 
-#: functions/ajax/create_site.php:62 functions/ajax/create_site.php:65
-#: page-create-site.php:37 page-create-site.php:44 single-site.php:39
+#: functions/ajax/create_site.php:63 functions/ajax/create_site.php:66
+#: page-create-site.php:38 page-create-site.php:45 single-site.php:45
 msgid "Site Host"
 msgstr "トップURL"
 
-#: functions/ajax/create_site.php:97 functions/javascript.php:27
-#: page-create-site.php:62
+#: functions/ajax/create_site.php:99 functions/javascript.php:166
+#: page-create-site.php:63
 msgid "Site Page Title"
 msgstr "固定ページ名"
 
-#: functions/ajax/create_site.php:103 functions/ajax/create_site.php:116
-#: functions/ajax/create_site.php:134
+#: functions/ajax/create_site.php:105 functions/ajax/create_site.php:118
+#: functions/ajax/create_site.php:136
 msgid "Page is not matched"
 msgstr "固定ページ情報に間違いがあります"
 
-#: functions/ajax/create_site.php:110 functions/ajax/create_site.php:141
+#: functions/ajax/create_site.php:112 functions/ajax/create_site.php:143
 msgid "Site Page Parent"
 msgstr "固定ページ親子関係"
 
-#: functions/ajax/create_site.php:123 functions/ajax/create_site.php:126
-#: functions/javascript.php:28
+#: functions/ajax/create_site.php:125 functions/ajax/create_site.php:128
+#: functions/javascript.php:164
 msgid "Site Page Name"
 msgstr "固定ページURLキー"
 
-#: functions/ajax/create_site.php:144
+#: functions/ajax/create_site.php:146
 #, php-format
 msgid "%s cannot be getted correctly"
 msgstr "%sを正常に取得できません"
 
-#: functions/ajax/create_site.php:144 functions/ajax/create_site.php:148
+#: functions/ajax/create_site.php:146 functions/ajax/create_site.php:150
 msgid "Site Page Url"
 msgstr "固定ページURL"
 
-#: functions/ajax/create_site.php:148
+#: functions/ajax/create_site.php:150
 #, php-format
 msgid "%s had been existed"
 msgstr "%sは既に存在しました"
 
-#: functions/ajax/create_site.php:185 functions/javascript.php:31
-#: page-create-site.php:90
+#: functions/ajax/create_site.php:188 functions/javascript.php:176
+#: page-create-site.php:91
 msgid "Site Type Name"
 msgstr "投稿タイプ名"
 
-#: functions/ajax/create_site.php:191 functions/ajax/create_site.php:194
-#: functions/ajax/create_site.php:197 functions/ajax/create_site.php:200
-#: functions/ajax/create_site.php:203 functions/ajax/create_site.php:207
-#: functions/javascript.php:32 page-create-site.php:92 page-create-site.php:94
-#: page-create-site.php:116 page-create-site.php:133 page-create-site.php:158
-#: page-create-site.php:177
+#: functions/ajax/create_site.php:194 functions/ajax/create_site.php:197
+#: functions/ajax/create_site.php:200 functions/ajax/create_site.php:203
+#: functions/ajax/create_site.php:206 functions/ajax/create_site.php:210
+#: functions/javascript.php:181 page-create-site.php:93 page-create-site.php:95
+#: page-create-site.php:117 page-create-site.php:134 page-create-site.php:159
+#: page-create-site.php:178
 msgid "Site Type Slug"
 msgstr "投稿タイプキー"
 
-#: functions/ajax/create_site.php:197 functions/ajax/create_site.php:200
-#: functions/ajax/create_site.php:227 functions/ajax/create_site.php:230
+#: functions/ajax/create_site.php:200 functions/ajax/create_site.php:203
+#: functions/ajax/create_site.php:230 functions/ajax/create_site.php:233
 #, php-format
 msgid "%1$s cannot be same as %2$s"
 msgstr "%1$sは%2$sに設定できません"
 
-#: functions/ajax/create_site.php:204 functions/ajax/create_site.php:234
+#: functions/ajax/create_site.php:207 functions/ajax/create_site.php:237
 msgid "small alphabet"
 msgstr "英小文字"
 
-#: functions/ajax/create_site.php:204
+#: functions/ajax/create_site.php:207
 msgid "number"
 msgstr "数字"
 
-#: functions/ajax/create_site.php:207 functions/ajax/create_site.php:237
+#: functions/ajax/create_site.php:210 functions/ajax/create_site.php:240
 #, php-format
 msgid "%1$s had been existed"
 msgstr "%sは既に存在しました"
 
-#: functions/ajax/create_site.php:215 functions/javascript.php:50
+#: functions/ajax/create_site.php:218 functions/javascript.php:183
 msgid "Site Type Taxonomy Name"
 msgstr "分類基準名"
 
-#: functions/ajax/create_site.php:221 functions/ajax/create_site.php:224
-#: functions/ajax/create_site.php:227 functions/ajax/create_site.php:230
-#: functions/ajax/create_site.php:233 functions/ajax/create_site.php:237
-#: functions/javascript.php:51 page-create-site.php:159
-#: page-create-site.php:178
+#: functions/ajax/create_site.php:224 functions/ajax/create_site.php:227
+#: functions/ajax/create_site.php:230 functions/ajax/create_site.php:233
+#: functions/ajax/create_site.php:236 functions/ajax/create_site.php:240
+#: functions/javascript.php:186 page-create-site.php:160
+#: page-create-site.php:179
 msgid "Site Type Taxonomy Slug"
 msgstr "分類基準URLキー"
 
-#: functions/ajax/create_site.php:246 functions/ajax/create_site.php:264
-#: functions/ajax/create_site.php:282
+#: functions/ajax/create_site.php:249 functions/ajax/create_site.php:267
+#: functions/ajax/create_site.php:285
 #, php-format
 msgid "%s cannot be found"
 msgstr "%sを見つかりません"
 
-#: functions/ajax/create_site.php:246 functions/ajax/create_site.php:252
-#: functions/ajax/create_site.php:255 functions/javascript.php:37
-#: page-create-site.php:113
+#: functions/ajax/create_site.php:249 functions/ajax/create_site.php:255
+#: functions/ajax/create_site.php:258 functions/javascript.php:168
+#: page-create-site.php:114
 msgid "Site Type Archive Url"
 msgstr "記事一覧URL"
 
-#: functions/ajax/create_site.php:264 functions/ajax/create_site.php:270
-#: functions/ajax/create_site.php:273 functions/javascript.php:39
-#: page-create-site.php:130
+#: functions/ajax/create_site.php:267 functions/ajax/create_site.php:273
+#: functions/ajax/create_site.php:276 functions/javascript.php:180
+#: page-create-site.php:131
 msgid "Site Type Single Url"
 msgstr "記事詳細URL"
 
-#: functions/ajax/create_site.php:282 functions/ajax/create_site.php:288
-#: functions/ajax/create_site.php:291 functions/javascript.php:52
+#: functions/ajax/create_site.php:285 functions/ajax/create_site.php:291
+#: functions/ajax/create_site.php:294 functions/javascript.php:187
 msgid "Site Type Taxonomy Url"
 msgstr "分類基準の記事一覧URL"
 
-#: functions/ajax/create_site.php:491
+#: functions/ajax/create_site.php:494
 msgid "Failed to create site"
 msgstr ""
-"大変申し訳ございません、サイト作成にエラーが発生しました<br/>しばらくお待ち"
-"して、再度お試しください"
+"大変申し訳ございません、サイト作成にエラーが発生しました<br/>しばらくお待ちし"
+"て、再度お試しください"
 
-#: functions/ajax/create_site.php:496
+#: functions/ajax/create_site.php:499
 msgid "Login is necessary to create site"
 msgstr "サイト作成時にログインする必要があります"
 
-#: functions/ajax/zip_theme.php:114
+#: functions/ajax/editor.php:129
+msgid "Cannot find target to save"
+msgstr ""
+
+#: functions/ajax/editor.php:133
+#, fuzzy
+#| msgid "Login is necessary to create site"
+msgid "Login is necessary to save"
+msgstr "サイト作成時にログインする必要があります"
+
+#: functions/ajax/zip_theme.php:117
 #, php-format
 msgid "Failed to create file %1$s, Error Message: %2$s"
 msgstr ""
 "ファイル「%1$s」を作成する際エラーが発生しました<br/>エラーメッセージ : %2$s"
 
-#: functions/core.php:54
+#: functions/core.php:56
 msgid "Japanese"
 msgstr "日本語"
 
-#: functions/core.php:55
+#: functions/core.php:57
 msgid "Chinese CN"
 msgstr "中国語 (簡体字)"
 
-#: functions/core.php:56
+#: functions/core.php:58
 msgid "Chinese TC"
 msgstr "中国語 (繫体字)"
 
-#: functions/core.php:57
+#: functions/core.php:59
 msgid "English"
 msgstr "英語"
 
-#: functions/javascript.php:24 page-login.php:41 page-password-reset.php:23
-#: page-signup.php:100
+#: functions/javascript.php:27 page-login.php:42 page-password-reset.php:24
+#: page-signup.php:101
 msgid "System Error"
 msgstr ""
-"大変申し訳ございません、システムエラーが発生しました<br/>しばらくお待ちし"
-"て、再度お試しください"
+"大変申し訳ございません、システムエラーが発生しました<br/>しばらくお待ちして、"
+"再度お試しください"
 
-#: functions/javascript.php:29
-msgid "Site Page SubPlus Float"
-msgstr "子ページを追加"
-
-#: functions/javascript.php:30
-msgid "Site Page Delete Float"
-msgstr "このページとすべての子ページを削除"
+#: functions/javascript.php:32
+msgid "Add"
+msgstr ""
 
 #: functions/javascript.php:33
-msgid "Site Type Delete"
-msgstr "投稿タイプを削除"
+msgid "Background"
+msgstr ""
 
-#: functions/javascript.php:34 page-create-site.php:100
-msgid "Site Type Body Title"
-msgstr "ページタイプ"
+#: functions/javascript.php:34
+msgid "Background Bottom"
+msgstr ""
 
-#: functions/javascript.php:35 page-create-site.php:101
-msgid "Site Type Body URL"
-msgstr "ページURL"
+#: functions/javascript.php:35
+msgid "Background Bottom Left"
+msgstr ""
 
-#: functions/javascript.php:36 page-create-site.php:108
-msgid "Site Type Archive"
-msgstr "記事一覧"
+#: functions/javascript.php:36
+msgid "Background Bottom Right"
+msgstr ""
 
-#: functions/javascript.php:38 page-create-site.php:125
-msgid "Site Type Single"
-msgstr "記事詳細"
+#: functions/javascript.php:37
+msgid "Background Center"
+msgstr ""
 
-#: functions/javascript.php:40 page-create-site.php:134
-msgid "Site Type Year Four"
-msgstr "投稿年(4桁)"
+#: functions/javascript.php:38
+msgid "Background Custom Position"
+msgstr ""
 
-#: functions/javascript.php:41 page-create-site.php:135
-msgid "Site Type Year Two"
-msgstr "投稿年(2桁)"
+#: functions/javascript.php:39
+msgid "Background Full Size"
+msgstr ""
 
-#: functions/javascript.php:42 page-create-site.php:136
-msgid "Site Type Month Two"
-msgstr "投稿月(2桁)"
+#: functions/javascript.php:40
+msgid "Background Gradient"
+msgstr ""
 
-#: functions/javascript.php:43 page-create-site.php:137
-msgid "Site Type Month One"
-msgstr "投稿月(1-2桁)"
+#: functions/javascript.php:41
+msgid "Background Layer"
+msgstr ""
 
-#: functions/javascript.php:44 page-create-site.php:138
-msgid "Site Type Day Two"
-msgstr "投稿日(2桁)"
+#: functions/javascript.php:42
+msgid "Add Background Layer"
+msgstr ""
 
-#: functions/javascript.php:45 page-create-site.php:139
-msgid "Site Type Day One"
-msgstr "投稿日(1-2桁)"
+#: functions/javascript.php:43
+msgid "Background Layer Name Placeholder"
+msgstr ""
 
-#: functions/javascript.php:46 page-create-site.php:140
-msgid "Site Type Post Id"
-msgstr "投稿ID"
+#: functions/javascript.php:44
+msgid "Background Left"
+msgstr ""
 
-#: functions/javascript.php:47 page-create-site.php:141
-msgid "Site Type Post Name"
-msgstr "管理画面で設定するスラッグ"
+#: functions/javascript.php:45
+msgid "Background Picture"
+msgstr ""
+
+#: functions/javascript.php:46
+msgid "Background Position"
+msgstr ""
+
+#: functions/javascript.php:47
+msgid "Background Repeat"
+msgstr ""
 
 #: functions/javascript.php:48
-msgid "Site Type Taxonomy Post List"
-msgstr "分類記事一覧"
+msgid "Background Size"
+msgstr ""
 
-#: functions/javascript.php:49 page-create-site.php:185
-msgid "Site Type Taxonomy Plus"
-msgstr "分類基準を追加"
+#: functions/javascript.php:49
+msgid "Background Solid"
+msgstr ""
+
+#: functions/javascript.php:50
+msgid "Background Right"
+msgstr ""
+
+#: functions/javascript.php:51
+msgid "Background Top"
+msgstr ""
+
+#: functions/javascript.php:52
+msgid "Background Top Left"
+msgstr ""
 
 #: functions/javascript.php:53
-msgid "Site Type Taxonomy Delete Float"
-msgstr "分類基準を削除"
+msgid "Background Top Right"
+msgstr ""
 
-#: functions/javascript.php:54 page-create-site.php:160
-#: page-create-site.php:179
-msgid "Site Type Term Slug"
-msgstr "個別分類スラッグ"
+#: functions/javascript.php:54
+msgid "Background Type Placeholder"
+msgstr ""
 
-#: header.php:45 header.php:59
-msgid "Width"
-msgstr "幅"
+#: functions/javascript.php:55
+msgid "Block"
+msgstr ""
 
-#: header.php:47 header.php:61 header.php:64
-msgid "px"
-msgstr "px"
+#: functions/javascript.php:56
+#, fuzzy
+#| msgid "Full Name"
+msgid "Block Name"
+msgstr "お名前"
 
-#: header.php:62
+#: functions/javascript.php:57
+msgid "Block Type Placeholder"
+msgstr ""
+
+#: functions/javascript.php:58
+msgid "Block Without Name"
+msgstr ""
+
+#: functions/javascript.php:59
+msgid "Body"
+msgstr ""
+
+#: functions/javascript.php:60
+msgid "Button"
+msgstr ""
+
+#: functions/javascript.php:61
+msgid "Color And Opacity"
+msgstr ""
+
+#: functions/javascript.php:62
+msgid "Direction Bottom"
+msgstr ""
+
+#: functions/javascript.php:63
+msgid "Direction Right"
+msgstr ""
+
+#: functions/javascript.php:64
+msgid "File Upload"
+msgstr ""
+
+#: functions/javascript.php:65 functions/javascript.php:233
+#: inc/custom-functions/get_html_block_info.inc.php:29 page-common-style.php:25
+msgid "Footer"
+msgstr ""
+
+#: functions/javascript.php:66
+msgid "Form"
+msgstr ""
+
+#: functions/javascript.php:67
+msgid "From Bottom"
+msgstr ""
+
+#: functions/javascript.php:68
+msgid "From Left"
+msgstr ""
+
+#: functions/javascript.php:69
+msgid "From Right"
+msgstr ""
+
+#: functions/javascript.php:70
+msgid "From Top"
+msgstr ""
+
+#: functions/javascript.php:71
+msgid "Add Gradient Color"
+msgstr ""
+
+#: functions/javascript.php:72
+msgid "Gradient Center"
+msgstr ""
+
+#: functions/javascript.php:73
+msgid "Gradient Circle"
+msgstr ""
+
+#: functions/javascript.php:74
+msgid "Gradient Conic"
+msgstr ""
+
+#: functions/javascript.php:75
+msgid "Gradient Custom Rotate"
+msgstr ""
+
+#: functions/javascript.php:76
+msgid "Gradient Ellipse"
+msgstr ""
+
+#: functions/javascript.php:77
+msgid "Gradient Linear"
+msgstr ""
+
+#: functions/javascript.php:78
+msgid "Gradient Radial"
+msgstr ""
+
+#: functions/javascript.php:79
+msgid "Gradient Repeat"
+msgstr ""
+
+#: functions/javascript.php:80
+msgid "Gradient Rotate"
+msgstr ""
+
+#: functions/javascript.php:81
+msgid "Gradient Size"
+msgstr ""
+
+#: functions/javascript.php:82
+msgid "Gradient To Bottom"
+msgstr ""
+
+#: functions/javascript.php:83
+msgid "Gradient To Right"
+msgstr ""
+
+#: functions/javascript.php:84
+msgid "Gradient To Top Right"
+msgstr ""
+
+#: functions/javascript.php:85
+msgid "Gradient To Bottom Right"
+msgstr ""
+
+#: functions/javascript.php:86
+msgid "Has Max"
+msgstr ""
+
+#: functions/javascript.php:87
+msgid "Has Min"
+msgstr ""
+
+#: functions/javascript.php:88 functions/javascript.php:231
+#: inc/custom-functions/get_html_block_info.inc.php:21 page-common-style.php:23
+msgid "Header"
+msgstr ""
+
+#: functions/javascript.php:89
+msgid "Headline"
+msgstr ""
+
+#: functions/javascript.php:90 template-parts/header/editor.php:41
 msgid "Height"
 msgstr "高さ"
 
-#: header.php:71 single-site.php:27
-msgid "Save"
-msgstr "保存"
+#: functions/javascript.php:91
+#, fuzzy
+#| msgid "Height"
+msgid "Height Auto"
+msgstr "高さ"
 
-#: header.php:86 header.php:152
-msgid "Profile"
-msgstr "プロファイル"
+#: functions/javascript.php:92
+#, fuzzy
+#| msgid "Height"
+msgid "Height Content"
+msgstr "高さ"
 
-#: header.php:89 header.php:155
-msgid "Logout"
-msgstr "ログアウト"
+#: functions/javascript.php:93
+#, fuzzy
+#| msgid "Height"
+msgid "Height Custom"
+msgstr "高さ"
 
-#: header.php:95 header.php:159 page-signup.php:14
-msgid "Sign Up"
-msgstr "新規登録"
+#: functions/javascript.php:94
+msgid "Height Relative"
+msgstr ""
 
-#: header.php:98 header.php:162 page-login.php:11 page-password-reset.php:32
-msgid "Login"
-msgstr "ログイン"
+#: functions/javascript.php:95
+msgid "Image"
+msgstr ""
 
-#: page-common-style.php:16 single-site.php:49
+#: functions/javascript.php:96
+msgid "Keep Proportion"
+msgstr ""
+
+#: functions/javascript.php:97
+msgid "Layout"
+msgstr ""
+
+#: functions/javascript.php:98
+msgid "Layout Block List"
+msgstr ""
+
+#: functions/javascript.php:99
+msgid "Layout Column"
+msgstr ""
+
+#: functions/javascript.php:100
+msgid "Layout Content"
+msgstr ""
+
+#: functions/javascript.php:101
+#, fuzzy
+#| msgid "Please login"
+msgid "Please Add Block"
+msgstr "ログインが必要"
+
+#: functions/javascript.php:102
+msgid "Layout Padding"
+msgstr ""
+
+#: functions/javascript.php:103
+msgid "Layout Position"
+msgstr ""
+
+#: functions/javascript.php:104
+msgid "Layout Position Bottom"
+msgstr ""
+
+#: functions/javascript.php:105
+msgid "Layout Position Center"
+msgstr ""
+
+#: functions/javascript.php:106
+msgid "Layout Position Left"
+msgstr ""
+
+#: functions/javascript.php:107
+msgid "Layout Position Middle"
+msgstr ""
+
+#: functions/javascript.php:108
+msgid "Layout Position Right"
+msgstr ""
+
+#: functions/javascript.php:109
+msgid "Layout Position Stretch Height"
+msgstr ""
+
+#: functions/javascript.php:110
+msgid "Layout Position Stretch Width"
+msgstr ""
+
+#: functions/javascript.php:111
+msgid "Layout Position Top"
+msgstr ""
+
+#: functions/javascript.php:112
+msgid "Layout Space"
+msgstr ""
+
+#: functions/javascript.php:113
+msgid "Layout Space Around Column"
+msgstr ""
+
+#: functions/javascript.php:114
+msgid "Layout Space Around Row"
+msgstr ""
+
+#: functions/javascript.php:115
+msgid "Layout Space Between Column"
+msgstr ""
+
+#: functions/javascript.php:116
+msgid "Layout Space Between Row"
+msgstr ""
+
+#: functions/javascript.php:117
+msgid "Layout Space Bottom"
+msgstr ""
+
+#: functions/javascript.php:118
+msgid "Layout Space Center"
+msgstr ""
+
+#: functions/javascript.php:119
+msgid "Layout Space Left"
+msgstr ""
+
+#: functions/javascript.php:120
+msgid "Layout Space Middle"
+msgstr ""
+
+#: functions/javascript.php:121
+msgid "Layout Space Right"
+msgstr ""
+
+#: functions/javascript.php:122
+msgid "Layout Space Top"
+msgstr ""
+
+#: functions/javascript.php:123
+msgid "Layout Row"
+msgstr ""
+
+#: functions/javascript.php:124
+msgid "Layout Type"
+msgstr ""
+
+#: functions/javascript.php:125
+msgid "Link"
+msgstr ""
+
+#: functions/javascript.php:126
+msgid "List"
+msgstr ""
+
+#: functions/javascript.php:127
+msgid "Main"
+msgstr ""
+
+#: functions/javascript.php:128
+msgid "Max"
+msgstr ""
+
+#: functions/javascript.php:129
+msgid "Min"
+msgstr ""
+
+#: functions/javascript.php:130
+msgid "Original Size"
+msgstr ""
+
+#: functions/javascript.php:131
+msgid "Position"
+msgstr ""
+
+#: functions/javascript.php:132
+msgid "Position Absolute"
+msgstr ""
+
+#: functions/javascript.php:133
+msgid "Position Bottom"
+msgstr ""
+
+#: functions/javascript.php:134
+msgid "Position Center"
+msgstr ""
+
+#: functions/javascript.php:135
+msgid "Position Custom"
+msgstr ""
+
+#: functions/javascript.php:136
+msgid "Position Fixed"
+msgstr ""
+
+#: functions/javascript.php:137
+msgid "Position Horizontal"
+msgstr ""
+
+#: functions/javascript.php:138
+msgid "Position Initial"
+msgstr ""
+
+#: functions/javascript.php:139
+msgid "Position Left"
+msgstr ""
+
+#: functions/javascript.php:140
+msgid "Position Margin"
+msgstr ""
+
+#: functions/javascript.php:141
+msgid "Position Relative Height"
+msgstr ""
+
+#: functions/javascript.php:142
+msgid "Position Relative Width"
+msgstr ""
+
+#: functions/javascript.php:143
+msgid "Position Right"
+msgstr ""
+
+#: functions/javascript.php:144
+msgid "Position Self"
+msgstr ""
+
+#: functions/javascript.php:145
+msgid "Position Top"
+msgstr ""
+
+#: functions/javascript.php:146
+msgid "Position Type"
+msgstr ""
+
+#: functions/javascript.php:147
+msgid "Position Vertical"
+msgstr ""
+
+#: functions/javascript.php:148
+msgid "Responsive Flag"
+msgstr ""
+
+#: functions/javascript.php:149
+msgid "Responsive PC"
+msgstr ""
+
+#: functions/javascript.php:150
+msgid "Responsive SP"
+msgstr ""
+
+#: functions/javascript.php:151
+msgid "Table"
+msgstr ""
+
+#: functions/javascript.php:152
+msgid "Text"
+msgstr ""
+
+#: functions/javascript.php:153
+msgid "Video"
+msgstr ""
+
+#: functions/javascript.php:154 template-parts/header/editor.php:24
+#: template-parts/header/editor.php:38
+msgid "Width"
+msgstr "幅"
+
+#: functions/javascript.php:155
+#, fuzzy
+#| msgid "Width"
+msgid "Width Auto"
+msgstr "幅"
+
+#: functions/javascript.php:156
+msgid "Width Content"
+msgstr ""
+
+#: functions/javascript.php:157
+msgid "Width Custom"
+msgstr ""
+
+#: functions/javascript.php:158
+msgid "Width Relative"
+msgstr ""
+
+#: functions/javascript.php:163
+msgid "Site Page Delete Float"
+msgstr "このページとすべての子ページを削除"
+
+#: functions/javascript.php:165
+msgid "Site Page SubPlus Float"
+msgstr "子ページを追加"
+
+#: functions/javascript.php:167 page-create-site.php:109
+msgid "Site Type Archive"
+msgstr "記事一覧"
+
+#: functions/javascript.php:169 page-create-site.php:101
+msgid "Site Type Body Title"
+msgstr "ページタイプ"
+
+#: functions/javascript.php:170 page-create-site.php:102
+msgid "Site Type Body URL"
+msgstr "ページURL"
+
+#: functions/javascript.php:171 page-create-site.php:140
+msgid "Site Type Day One"
+msgstr "投稿日(1-2桁)"
+
+#: functions/javascript.php:172 page-create-site.php:139
+msgid "Site Type Day Two"
+msgstr "投稿日(2桁)"
+
+#: functions/javascript.php:173
+msgid "Site Type Delete"
+msgstr "投稿タイプを削除"
+
+#: functions/javascript.php:174 page-create-site.php:138
+msgid "Site Type Month One"
+msgstr "投稿月(1-2桁)"
+
+#: functions/javascript.php:175 page-create-site.php:137
+msgid "Site Type Month Two"
+msgstr "投稿月(2桁)"
+
+#: functions/javascript.php:177 page-create-site.php:141
+msgid "Site Type Post Id"
+msgstr "投稿ID"
+
+#: functions/javascript.php:178 page-create-site.php:142
+msgid "Site Type Post Name"
+msgstr "管理画面で設定するスラッグ"
+
+#: functions/javascript.php:179 page-create-site.php:126
+msgid "Site Type Single"
+msgstr "記事詳細"
+
+#: functions/javascript.php:182
+msgid "Site Type Taxonomy Delete Float"
+msgstr "分類基準を削除"
+
+#: functions/javascript.php:184 page-create-site.php:186
+msgid "Site Type Taxonomy Plus"
+msgstr "分類基準を追加"
+
+#: functions/javascript.php:185
+msgid "Site Type Taxonomy Post List"
+msgstr "分類記事一覧"
+
+#: functions/javascript.php:188 page-create-site.php:161
+#: page-create-site.php:180
+msgid "Site Type Term Slug"
+msgstr "個別分類スラッグ"
+
+#: functions/javascript.php:189 page-create-site.php:135
+msgid "Site Type Year Four"
+msgstr "投稿年(4桁)"
+
+#: functions/javascript.php:190 page-create-site.php:136
+msgid "Site Type Year Two"
+msgstr "投稿年(2桁)"
+
+#: functions/javascript.php:229
+#: inc/custom-functions/get_html_block_info.inc.php:17 page-common-style.php:21
+#, fuzzy
+#| msgid "Site Common Style"
+msgid "Site Whole Style"
+msgstr "共通スタイル"
+
+#: functions/javascript.php:232
+#: inc/custom-functions/get_html_block_info.inc.php:25 page-common-style.php:24
+msgid "Main Content"
+msgstr ""
+
+#: functions/shortcode.php:6
+msgid "SP style is defferent from PC"
+msgstr ""
+
+#: functions/shortcode.php:128
+#, fuzzy
+#| msgid "Site Common Style"
+msgid "SP Site Style"
+msgstr "共通スタイル"
+
+#: page-common-style.php:92 single-site.php:55
 msgid "Site Common Style Edit"
 msgstr "共通スタイル編集"
 
-#: page-create-site.php:18
+#: page-create-site.php:19
 msgid "Create Site Title"
 msgstr "サイトを新規作成"
 
-#: page-create-site.php:19
+#: page-create-site.php:20
 msgid "Create Site Attention"
 msgstr ""
 "未完成サイトは3か月間の間無料保存できます<br/>削除されるまでにサイトを完成し"
 "てください"
 
-#: page-create-site.php:33
+#: page-create-site.php:34
 msgid "This key will be used as the name of the theme"
 msgstr "このテーマ名はWPのテーマの名前として使われます"
 
-#: page-create-site.php:50 page-create-site.php:77
+#: page-create-site.php:51 page-create-site.php:78
 msgid "Next Step"
 msgstr "次へ"
 
-#: page-create-site.php:58
+#: page-create-site.php:59
 msgid "Create Site Page"
 msgstr "固定ページを追加"
 
-#: page-create-site.php:59
+#: page-create-site.php:60
 msgid "What is Site Page"
 msgstr "固定ページはどんなページの説明（要修正）"
 
-#: page-create-site.php:63
+#: page-create-site.php:64
 msgid "Site Page URL"
 msgstr "固定ページURL"
 
-#: page-create-site.php:66
+#: page-create-site.php:67
 msgid "Site Front Page"
 msgstr "トップページ"
 
-#: page-create-site.php:71
+#: page-create-site.php:72
 msgid "Site Page Plus"
 msgstr "固定ページを追加"
 
-#: page-create-site.php:76 page-create-site.php:193
+#: page-create-site.php:77 page-create-site.php:194
 msgid "Prev Step"
 msgstr "戻る"
 
-#: page-create-site.php:85
+#: page-create-site.php:86
 msgid "Create Site Type"
 msgstr "投稿タイプを追加"
 
-#: page-create-site.php:86
+#: page-create-site.php:87
 msgid "What is Site Post Type"
 msgstr "投稿ページはどんなページの説明（要修正）"
 
-#: page-create-site.php:91
+#: page-create-site.php:92
 msgid "Site Type Post"
 msgstr "投稿"
 
-#: page-create-site.php:150
+#: page-create-site.php:151
 msgid "Site Type Category"
 msgstr "カテゴリ"
 
-#: page-create-site.php:155
+#: page-create-site.php:156
 msgid "Site Type Category Url"
 msgstr "カテゴリの記事一覧URL"
 
-#: page-create-site.php:169
+#: page-create-site.php:170
 msgid "Site Type Tag"
 msgstr "タグ"
 
-#: page-create-site.php:174
+#: page-create-site.php:175
 msgid "Site Type Tag Url"
 msgstr "タグの記事一覧URL"
 
-#: page-create-site.php:189
+#: page-create-site.php:190
 msgid "Site Type Plus"
 msgstr "投稿タイプを追加"
 
-#: page-create-site.php:194
+#: page-create-site.php:195
 msgid "Create Site Submit"
 msgstr "サイトを作成"
 
-#: page-login.php:14 page-password-reset.php:14
+#: page-login.php:12 page-password-reset.php:33
+#: template-parts/header/normal.php:57 template-parts/header/normal.php:75
+msgid "Login"
+msgstr "ログイン"
+
+#: page-login.php:15 page-password-reset.php:15
 msgid "Loginid"
 msgstr "ログインID"
 
-#: page-login.php:34
+#: page-login.php:35
 msgid "Remember Login"
 msgstr "ログイン状態を保存します"
 
-#: page-login.php:40
+#: page-login.php:41
 msgid "Login Submit"
 msgstr "ログイン"
 
-#: page-login.php:43
+#: page-login.php:44
 msgid "Forgot Password"
 msgstr "パスワードを忘れました"
 
-#: page-password-reset.php:11
+#: page-password-reset.php:12
 msgid "Password Reset"
 msgstr "パスワードをリセット"
 
-#: page-password-reset.php:21
+#: page-password-reset.php:22
 msgid "Password Reset Submit"
 msgstr "リセット"
 
-#: page-password-reset.php:28
+#: page-password-reset.php:29
 msgid "Password Reset Complete"
 msgstr "パスワードをリセットしました"
 
-#: page-password-reset.php:29
+#: page-password-reset.php:30
 msgid "Password Reset Complete Text"
 msgstr "メールで新しいパスワードをご確認し、ログインしてお願いいたします"
 
-#: page-signup.php:15
+#: page-signup.php:15 template-parts/header/normal.php:54
+#: template-parts/header/normal.php:72
+msgid "Sign Up"
+msgstr "新規登録"
+
+#: page-signup.php:16
 msgid "Input with star mark is required"
 msgstr "「*」マークが付けている箇所が必須項目です"
 
-#: page-signup.php:20
+#: page-signup.php:21
 msgid "Username for Login"
 msgstr "ログイン用のユーザー名"
 
-#: page-signup.php:25
+#: page-signup.php:26
 msgid "Full Name"
 msgstr "お名前"
 
-#: page-signup.php:52
+#: page-signup.php:53
 msgid "Email for login and recieve"
 msgstr "ログインと受信用のメールアドレス"
 
-#: page-signup.php:60
+#: page-signup.php:61
 msgid "Password for login"
 msgstr "ログイン用のパスワード"
 
-#: page-signup.php:67
+#: page-signup.php:68
 msgid "Language"
 msgstr "言語"
 
-#: page-signup.php:90
+#: page-signup.php:91
 #, php-format
 msgid "I agree with %s"
 msgstr "%sを確認し、同意しています"
 
-#: page-signup.php:99
+#: page-signup.php:100
 msgid "Sign Up Submit"
 msgstr "登録"
 
-#: single-site.php:24
+#: single-site.php:30
 msgid "Site Base Info"
 msgstr "基本情報"
 
-#: single-site.php:26
+#: single-site.php:32
 msgid "Site Base Edit"
 msgstr "基本情報編集"
 
-#: single-site.php:45
+#: single-site.php:33 template-parts/header/editor.php:50
+msgid "Save"
+msgstr "保存"
+
+#: single-site.php:51
 msgid "Site Common Style"
 msgstr "共通スタイル"
 
-#: template-parts/error/404.php:6
+#: single-site.php:65
+msgid "Edit"
+msgstr ""
+
+#: single-site.php:68
+msgid "Delete"
+msgstr ""
+
+#: template-parts/error/404.php:7
 msgid "Page Not Found"
 msgstr "お探しのページが見つけられません"
 
-#: template-parts/error/404.php:7
+#: template-parts/error/404.php:8
 msgid "Please check your url is correct"
 msgstr "ご入力のURLが正しいかどうかをご確認してお願いいたします"
 
-#: template-parts/error/unlogin.php:6
+#: template-parts/error/unlogin.php:7
 msgid "Unlogin"
 msgstr "ログインしてない"
 
-#: template-parts/error/unlogin.php:7
+#: template-parts/error/unlogin.php:8
 msgid "Please login"
 msgstr "ログインが必要"
+
+#: template-parts/header/editor.php:26 template-parts/header/editor.php:40
+#: template-parts/header/editor.php:43
+msgid "px"
+msgstr "px"
+
+#: template-parts/header/normal.php:45 template-parts/header/normal.php:65
+msgid "Profile"
+msgstr "プロファイル"
+
+#: template-parts/header/normal.php:48 template-parts/header/normal.php:68
+msgid "Logout"
+msgstr "ログアウト"

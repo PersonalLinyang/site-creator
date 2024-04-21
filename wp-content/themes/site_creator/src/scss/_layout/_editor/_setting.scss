@@ -1,8 +1,22 @@
 .setting {
-  width: $editor_setting_width;
   overflow: hidden;
   background: $editor_setting_back_color;
   user-select: none;
+  
+  @include mq(pc) {
+    width: $editor_setting_width_pc;
+  }
+  
+  @include mq(sp) {
+    @include dr(la) {
+      width: $editor_setting_width_sp;
+    }
+    
+    @include dr(po) {
+      width: 100vw;
+      height: 30vh;
+    }
+  }
   
   &-title {
     height: 30px;

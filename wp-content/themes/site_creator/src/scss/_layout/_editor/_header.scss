@@ -1,117 +1,316 @@
 .header {
-  &-editor {
-    font-size: 16px;
-  }
-
-  &-inner-editor {
-    height: $editor_header_height_pc;
+  &-inner {
+    align-items: center;
+    border-bottom: 1px solid #FFF;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2);
+    
+    @include mq(pc) {
+      height: $header_height_pc;
+      padding: 0 $body_padding_pc;
+    }
   }
 
   &-sim {
-    color: #ffffff;
-    width: 100%;
-    display: flex;
-    align-items: center;
+    @include mq(pc) {
+      display: flex !important;
+      align-items: center;
+      color: #FFF;
+    }
+    
+    @include mq(sp) {
+      position: fixed;
+      z-index: -1;
+      top: 0;
+      left:0;
+      width: 100%;
+      background: #e6e6fa;
+      margin-top: $header_height_sp;
+      max-height: calc(100vh - #{$header_height_sp});
+      overflow: scroll;
+      box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2);
+      display: none;
+    }
+    
+    &-line {
+      display: flex;
+      align-items: center;
+      
+      @include mq(sp) {
+        padding: remsp(5) 0;
+      }
+    }
+    
+    &-devicearea {
+      display: flex;
+      align-items: center;
+    }
     
     &-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
-      width: 30px;
-      height: 30px;
-      margin: 0 10px;
-      border-radius: 3px;
+      
+      @include mq(pc) {
+        width: rempc(30);
+        height: rempc(30);
+        margin-right: rempc(10);
+        border-radius: rempc(3);
+      }
+      
+      &-icon {
+        font-size: 0;
+        
+        @include mq(pc) {
+          width: rempc(20);
+          height: rempc(20);
+        }
+        
+        @include mq(sp) {
+          width: remsp(20);
+          height: remsp(20);
+        }
+      }
+      
+      &-text {
+        @include mq(pc) {
+          margin-left: rempc(10);
+        }
+        
+        @include mq(sp) {
+          margin-left: remsp(10);
+        }
+      }
     }
     
     &-device {
       background-color: #b0c4de;
       
+      @include mq(sp) {
+        flex: 1;
+        width: auto;
+        height: remsp(35);
+      }
+      
       &.checked {
         background-color: #e6e6fa;
         cursor: initial;
       }
+    }
+    
+    &-swirl {
+      background-color: #e6e6fa;
       
-      &-pc {
-        background-image: url("../../img/editor/computer.svg");
-        background-position: center;
-        background-size: 20px;
-        background-repeat: no-repeat;
-      }
-      
-      &-sp {
-        background-image: url("../../img/editor/smartphone.svg");
-        background-position: center;
-        background-size: 20px;
-        background-repeat: no-repeat;
+      @include mq(sp) {
+        width: remsp(80);
+        height: remsp(30);
+        border: 1px solid $base_font_color;
       }
     }
     
     &-setting {
       display: none;
       
-      &.active {
-        display: block;
+      @include mq(sp) {
+        width: fit-content;
+        margin: 0 auto;
+        height: remsp(120);
       }
       
-      &-inner {
+      &.active {
         display: flex;
-        align-items: center;
+        
+        @include mq(pc) {
+          align-items: center;
+        }
+        
+        @include mq(sp) {
+          flex-direction: column;
+          justify-content: center;
+        }
       }
       
       &-input {
-        width: 60px;
-        height: 30px;
-        padding: 5px;
-        margin: 0 5px;
+        @include mq(pc) {
+          width: rempc(60);
+          height: rempc(30);
+          padding: 0 rempc(5);
+          margin-right: rempc(5);
+        }
         
-        &-device {
-          width: 120px;
+        @include mq(sp) {
+          width: remsp(60);
+          height: remsp(30);
+          padding: 0 remsp(5);
+          margin-right: remsp(5);
+        }
+      }
+      
+      &-select {
+        @include mq(sp) {
+          margin-right: remsp(10);
+          flex: 1;
+        }
+      }
+      
+      &-device {
+        @include mq(pc) {
+          margin-right: rempc(10);
+          width: rempc(120);
+        }
+        
+        @include mq(sp) {
+          width: 100%;
         }
       }
       
       &-title {
-        margin-left: 5px;
+        @include mq(pc) {
+          margin-right: rempc(5);
+        }
+        
+        @include mq(sp) {
+          margin-right: remsp(5);
+        }
       }
       
       &-unit {
-        margin-right: 5px;
+        @include mq(pc) {
+          margin-right: rempc(10);
+        }
+        
+        @include mq(sp) {
+          margin-right: rempc(10);
+          
+          &:last-child {
+            margin-right: 0;
+          }
+        }
       }
     }
-    
-    &-adaptive {
-      background-color: #e6e6fa;
-      background-image: url("../../img/editor/shrink.svg");
-      background-position: center;
-      background-size: 20px;
-      background-repeat: no-repeat;
-      
-      &.checked {
-        background-image: url("../../img/editor/expansion.svg");
-      }
-    }
-    
-    &-swirl {
-      background-color: #e6e6fa;
-      background-image: url("../../img/editor/swirl.svg");
-      background-position: center;
-      background-size: 20px;
-      background-repeat: no-repeat;
-    }
-  }
-
-  &-controller-editor {
-    padding: 0 20px;
   }
 
   &-button {
-    height: 30px;
-    background: #32cd32;
-    width: 80px;
-    line-height: 30px;
-    text-align: center;
-    border-radius: 3px;
-    text-shadow: 1px 1px 2px #2f4f4f;
-    letter-spacing: 0.05em;
-    color: #f0fff0;
-    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
+    text-wrap: nowrap;
+    text-shadow: 0 0 2px rgba(0,0,0,0.3);
+    
+    @include mq(pc) {
+      height: rempc(30);
+      line-height: rempc(30);
+      border-radius: rempc(3);
+    }
+    
+    @include mq(sp) {
+      flex: 1;
+      line-height: $header_height_sp;
+      border-right: 1px solid #FFF;
+      
+      &:last-child {
+        border-right: 0;
+      }
+    }
+    
+    &-icon {
+      display: flex;
+      
+      @include mq(pc) {
+        width: rempc(20);
+        height: rempc(20);
+      }
+      
+      @include mq(sp) {
+        width: remsp(16);
+        height: remsp(16);
+      }
+      
+      svg {
+        width: 100% !important;
+        height: 100% !important;
+      }
+    }
+    
+    &-text {
+      @include mq(pc) {
+        margin-left: rempc(10);
+      }
+      
+      @include mq(sp) {
+        margin-left: remsp(10);
+      }
+    }
+  }
+  
+  &-save {
+    background-color: #32CD32;
+    color: #FFF;
+    
+    @include mq(pc) {
+      padding: 0 rempc(15);
+    }
+  }
+  
+  &-save &-button-icon {
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+    
+    path, rect {
+      fill: #FFF;
+    }
+  }
+  
+  &-handler {
+    background-color: #00008B;
+    color: #FFF;
+  }
+  
+  &-handler &-button-icon {
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+    
+    polygon {
+      fill: #FFF;
+    }
+  }
+  
+  &-adaptive {
+    margin-right: auto;
+    
+    @include mq(pc) {
+      width: rempc(30);
+      height: rempc(30);
+      background-color: #e6e6fa;
+    }
+    
+    @include mq(sp) {
+      color: #FFF;
+    }
+    
+    &-expand {
+      display: none;
+      
+      &.active {
+        display: flex;
+      }
+    }
+    
+    &-shrink {
+      display: none;
+      
+      &.active {
+        display: flex;
+      }
+    }
+  }
+  
+  &-adaptive &-button-icon {
+    @include mq(sp) {
+      filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+      
+      path {
+        fill: #FFF;
+      }
+    }
   }
 }

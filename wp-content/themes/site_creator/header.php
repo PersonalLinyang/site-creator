@@ -1,6 +1,9 @@
 <?php
 
-$lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
+require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+$lang = new LanguageSupporter();
+$lang_code = $lang->code();
 
 ?><!doctype html>
 <html <?php language_attributes(); ?>>

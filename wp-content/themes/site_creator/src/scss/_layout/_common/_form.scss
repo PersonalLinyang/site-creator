@@ -1,0 +1,30 @@
+.form {
+  input[type="text"],input[type="password"],input[type="email"],input[type="number"],select {
+    width: 100%;
+    outline: none;
+    border: 1px solid $input_border_color;
+    cursor: pointer;
+    box-shadow: inset rgba(255,255,255,0.25) 0px 1px 0px, 
+                inset rgba(0,0,0,0.25) 0px 0px 0px, 
+                inset rgba(255,255,255,0.03) 0px 2px 0px, 
+                inset rgba(0,0,0,0.15) 0px -2px 2px, 
+                inset rgba(255,255,255,0.05) 0px 2px 2px;
+    
+    @include mq(pc) {
+      font-size: rempc(14);
+      padding: rempc(8) rempc(10);
+      border-radius: rempc(4);
+    }
+    
+    @include mq(sp) {
+      font-size: remsp(12);
+      padding: remsp(8) remsp(10);
+      border-radius: remsp(3);
+    }
+    
+    &.error {
+      background: $input_error_back_color;
+      border: 1px solid $input_error_border_color;
+    }
+  }
+}

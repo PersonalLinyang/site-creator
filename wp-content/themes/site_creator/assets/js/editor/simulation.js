@@ -40,7 +40,7 @@ const selectSimulationBlock = function(key) {
  * return シミュレーションの縮小倍数
  */
 const resizeSimulationPC = function(){
-  var adaptive = $('.header-sim-adaptive-pc').hasClass('checked');
+  var adaptive = $('.header-adaptive').hasClass('checked');
   if(adaptive) {
     // シミュレーションアリアに合わせて表示
     // 高さ計算のため、スクロールするエリアを変換
@@ -104,7 +104,7 @@ const resizeSimulationSP = function(){
   // 設定の幅と高さに合わせてシミュレーションエリアCSSを調整
   var scrollbar_size = parseFloat($('.sim-html-sp').css('--scrollbar-size'));
   var width_original = parseFloat($('.header-sim-setting-width-sp').val()) + scrollbar_size;
-  var height_original = $('.header-sim-setting-height-sp').val();
+  var height_original = parseFloat($('.header-sim-setting-height-sp').val());
   $('.sim-html-sp').css('width', width_original).css('height', height_original).css('transform', 'scale(1)').css('margin-right', 0).css('margin-bottom', 0);
   $('.sim-html-sp').data('scale', 1);
   $('.sim-sp').css('overflow', 'auto');
@@ -114,7 +114,8 @@ const resizeSimulationSP = function(){
   var width_sim = $('.sim-sp')[0].clientWidth - border_width;
   var height_sim = $('.sim-sp')[0].clientHeight - border_width * 2;
   
-  var adaptive = $('.header-sim-adaptive-sp').hasClass('checked');
+  var adaptive = $('.header-adaptive').hasClass('checked');
+  var rate = 1;
   if(adaptive) {
     // シミュレーションアリアに合わせて表示
     $('.sim-sp').css('overflow', 'hidden');

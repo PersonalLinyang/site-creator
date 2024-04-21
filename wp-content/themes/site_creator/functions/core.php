@@ -34,30 +34,10 @@ add_action("phpmailer_init", "ag_send_mail_smtp");
  */
 add_action('after_setup_theme', 'multilingual_setup');
 function multilingual_setup(){
-  load_theme_textdomain('site-creator-ja', get_template_directory() . '/languages/ja');
-  load_theme_textdomain('site-creator-zh', get_template_directory() . '/languages/zh');
-  load_theme_textdomain('site-creator-en', get_template_directory() . '/languages/en');
-  load_theme_textdomain('site-creator-tc', get_template_directory() . '/languages/tc');
-  
-  global $lang_key_list;
-  global $lang_code_list;
-  global $lang_name_list;
-  
-  $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-  
-  $lang_key_list = ['ja', 'zh', 'tc', 'en'];
-  $lang_code_list = array(
-    'ja' => 'JP',
-    'zh' => 'SC',
-    'tc' => 'TC',
-    'en' => 'EN',
-  );
-  $lang_name_list = array(
-    'ja' => __( 'Japanese', 'site-creator-' . $lang_code ),
-    'zh' => __( 'Chinese CN', 'site-creator-' . $lang_code ),
-    'tc' => __( 'Chinese TC', 'site-creator-' . $lang_code ),
-    'en' => __( 'English', 'site-creator-' . $lang_code ),
-  );
+  $lang_key_list = function_exists('qtranxf_getSortedLanguages') ? qtranxf_getSortedLanguages() : array('en');
+  foreach($lang_key_list as $lang_key) {
+    load_theme_textdomain('site-creator-' . $lang_key, get_template_directory() . '/languages/' . $lang_key);
+  }
 }
 
 

@@ -1,46 +1,5 @@
 .signup {
-  user-select: none;
-  background: $block_back_color;
-  
-  @include mq(pc) {
-    width: 80%;
-    max-width: rempc(750);
-    min-width: rempc(600);
-    margin: rempc(50) auto;
-    padding: rempc(30) rempc(50);
-    border: rempc(3) solid $block_border_color;
-    border-radius: rempc(5);
-    box-shadow: rempc(3) rempc(5) rempc(5) rgba(0, 0, 0, 0.2);
-  }
-  
-  @include mq(sp) {
-    width: 90%;
-    margin: vwsp(30) auto;
-    border: vwsp(3) solid $block_border_color;
-    padding: vwsp(10) vwsp(10);
-    border-radius: vwsp(5);
-    box-shadow: vwsp(3) vwsp(5) vwsp(5) rgba(0, 0, 0, 0.2);
-  }
-  
-  &-btnarea {
-    @include mq(pc) {
-      margin-top: rempc(20);
-    }
-    
-    @include mq(sp) {
-      margin-top: vwsp(15);
-    }
-  }
-  
   &-button {
-    @include mq(pc) {
-      width: rempc(160);
-    }
-    
-    @include mq(sp) {
-      width: vwsp(120);
-    }
-    
     &.active {
       background: $button_back_color;
     }
@@ -52,11 +11,7 @@
     }
     
     @include mq(sp) {
-      margin-top: vwsp(8);
+      margin-top: remsp(8);
     }
-  }
-  
-  &-warning-agreement {
-    display: none;
   }
 }

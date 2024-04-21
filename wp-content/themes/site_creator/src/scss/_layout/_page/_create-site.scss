@@ -1,26 +1,39 @@
 .create {
   &-slider {
     overflow: hidden;
-    width: 100%;
+    width: 100vw;
     
     &-inner {
-      width: 200%;
+      width: 200vw;
       overflow: hidden;
+    }
+    
+    &-item {
+      width: 100vw;
+      float: left;
+      display: none;
+      
+      @include mq(pc) {
+        padding: rempc(50) 0;
+      }
+      
+      @include mq(sp) {
+        padding: rempc(30) 0;
+      }
+      
+      &:first-child {
+        display: block;
+      }
     }
   }
   
   &-section {
-    width: 50%;
-    float: left;
-    padding: rempc(50) 0;
-    display: none;
     
     &-inner {
       user-select: none;
       background: $block_back_color;
-      width: 90%;
+      width: 80%;
       max-width: rempc(1000);
-      min-width: rempc(720);
       margin: 0 auto;
       padding: rempc(30) rempc(25);
       border: rempc(3) solid $block_border_color;
@@ -79,7 +92,7 @@
       border-radius: 4px;
     }
     
-    .float-description {
+    .float-description .description {
       right: 0;
       
       @include mq(pc) {
@@ -87,12 +100,8 @@
       }
       
       @include mq(sp) {
-        bottom: vwsp(-22);
+        bottom: remsp(-22);
       }
-    }
-    
-    &:hover .float-description {
-      display: block;
     }
   }
   

@@ -1,10 +1,11 @@
 <?php
-$lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-$lang_domain = 'site-creator-' . $lang_code;
+require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+$lang = new LanguageSupporter();
 ?>
-<section class="e404">
-  <div class="e404-inner">
-    <h2><?php esc_html_e( 'Unlogin', $lang_domain ); ?></h2>
-    <p><?php esc_html_e( 'Please login', $lang_domain ); ?></p>
+<section>
+  <div>
+    <h2><?php echo $lang->translate( 'Unlogin' ); ?></h2>
+    <p><?php echo $lang->translate( 'Please login' ); ?></p>
   </div>
 </section>

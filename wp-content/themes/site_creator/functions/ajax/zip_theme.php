@@ -4,8 +4,9 @@
  * style.css作成
  */
 function write_style_css($result, $error_list, $zip, $site, $theme_dir) {
-  $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-  $lang_domain = 'site-creator-' . $lang_code;
+  require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+  $lang = new LanguageSupporter();
   $content = '';
   
   $file_name = 'style.css';
@@ -19,7 +20,7 @@ function write_style_css($result, $error_list, $zip, $site, $theme_dir) {
 /*
 EOT . PHP_EOL;
     $content .= 'Theme Name: ' . get_field('site_key', $site->ID) . PHP_EOL;
-    $content .= 'Author: ' . __( 'This Site Name', 'site-creator-en' ) . PHP_EOL;
+    $content .= 'Author: ' . $lang->translate( 'This Site Name', 'site-creator-en' ) . PHP_EOL;
     $content .= <<<EOT
 Version: 1.0
 */
@@ -32,7 +33,7 @@ EOT . PHP_EOL;
     $zip->addFile($file_path, $file_name);
   } catch ( Exception $ex ) {
     $result = false;
-    $error_list['system'] = sprintf(__('Failed to create file %1$s, Error Message: %2$s', $lang_domain), $file_name, $ex->getMessage());
+    $error_list['system'] = sprintf($lang->translate('Failed to create file %1$s, Error Message: %2$s'), $file_name, $ex->getMessage());
   }
   
   return array($result, $error_list, $zip);
@@ -43,8 +44,9 @@ EOT . PHP_EOL;
  * functions.php作成
  */
 function write_functions_php($result, $error_list, $zip, $site, $theme_dir) {
-  $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-  $lang_domain = 'site-creator-' . $lang_code;
+  require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+  $lang = new LanguageSupporter();
   $content = '';
   
   $file_name = 'functions.php';
@@ -64,7 +66,7 @@ EOT . PHP_EOL;
     $zip->addFile($file_path, $file_name);
   } catch ( Exception $ex ) {
     $result = false;
-    $error_list['system'] = sprintf(__('Failed to create file %1$s, Error Message: %2$s', $lang_domain), $file_name, $ex->getMessage());
+    $error_list['system'] = sprintf($lang->translate('Failed to create file %1$s, Error Message: %2$s'), $file_name, $ex->getMessage());
   }
   
   return array($result, $error_list, $zip);
@@ -75,8 +77,9 @@ EOT . PHP_EOL;
  * header.php作成
  */
 function write_header_php($result, $error_list, $zip, $site, $theme_dir) {
-  $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-  $lang_domain = 'site-creator-' . $lang_code;
+  require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+  $lang = new LanguageSupporter();
   $content = '';
   
   $file_name = 'header.php';
@@ -114,7 +117,7 @@ EOT;
     $zip->addFile($file_path, $file_name);
   } catch ( Exception $ex ) {
     $result = false;
-    $error_list['system'] = sprintf(__('Failed to create file %1$s, Error Message: %2$s', $lang_domain), $file_name, $ex->getMessage());
+    $error_list['system'] = sprintf($lang->translate('Failed to create file %1$s, Error Message: %2$s'), $file_name, $ex->getMessage());
   }
   
   return array($result, $error_list, $zip);
@@ -125,8 +128,9 @@ EOT;
  * footer.php作成
  */
 function write_footer_php($result, $error_list, $zip, $site, $theme_dir) {
-  $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-  $lang_domain = 'site-creator-' . $lang_code;
+  require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+  $lang = new LanguageSupporter();
   $content = '';
   
   $file_name = 'footer.php';
@@ -153,7 +157,7 @@ EOT . PHP_EOL;
     $zip->addFile($file_path, $file_name);
   } catch ( Exception $ex ) {
     $result = false;
-    $error_list['system'] = sprintf(__('Failed to create file %1$s, Error Message: %2$s', $lang_domain), $file_name, $ex->getMessage());
+    $error_list['system'] = sprintf($lang->translate('Failed to create file %1$s, Error Message: %2$s'), $file_name, $ex->getMessage());
   }
   
   return array($result, $error_list, $zip);
@@ -164,8 +168,9 @@ EOT . PHP_EOL;
  * index.php作成
  */
 function write_index_php($result, $error_list, $zip, $site, $theme_dir) {
-  $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-  $lang_domain = 'site-creator-' . $lang_code;
+  require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+  $lang = new LanguageSupporter();
   $content = '';
   
   $file_name = 'index.php';
@@ -189,7 +194,7 @@ EOT . PHP_EOL;
     $zip->addFile($file_path, $file_name);
   } catch ( Exception $ex ) {
     $result = false;
-    $error_list['system'] = sprintf(__('Failed to create file %1$s, Error Message: %2$s', $lang_domain), $file_name, $ex->getMessage());
+    $error_list['system'] = sprintf($lang->translate('Failed to create file %1$s, Error Message: %2$s'), $file_name, $ex->getMessage());
   }
   
   return array($result, $error_list, $zip);
@@ -253,11 +258,11 @@ function func_zip_theme(){
       $result = $zip->close();
     } else {
       $result = false;
-      $error_list['system'] = __( 'Failed to create theme', $lang_domain );
+      $error_list['system'] = $lang->translate( 'Failed to create theme' );
     }
   } else {
     $result = false;
-    $error_list['system'] = __( 'Can not write on theme_zip directory', $lang_domain );
+    $error_list['system'] = $lang->translate( 'Can not write on theme_zip directory' );
   }
   
   // リポジトリ出力

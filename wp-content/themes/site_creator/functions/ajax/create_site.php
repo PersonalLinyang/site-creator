@@ -33,10 +33,11 @@ function check_page_url($key, $index, $url, $post_data, $index_list) {
  * サイト基本情報バリデーションAjax処理
  */
 function func_validate_create_base(){
+  require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+  $lang = new LanguageSupporter();
   $result = true;
   $error_list = array();
-  $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-  $lang_domain = 'site-creator-' . $lang_code;
 
   // バリデーション
   foreach($_POST as $key => $value) {
@@ -44,26 +45,26 @@ function func_validate_create_base(){
       // サイト名
       if($value == '') {
         $result = false;
-        $error_list[$key] = sprintf(__('%s cannot be empty', $lang_domain), __('Site Name', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%s cannot be empty'), $lang->translate('Site Name'));
       }
     } elseif($key == 'site_key') {
       // サイトキー
       if($value == '') {
         $result = false;
-        $error_list[$key] = sprintf(__('%s cannot be empty', $lang_domain), __('Site Key', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%s cannot be empty'), $lang->translate('Site Key'));
       } elseif(!preg_match("/^[a-zA-Z0-9\-_\s]+$/", $value)) {
         $result = false;
-        $error_list[$key] = sprintf(__('%1$s can use %2$s only', $lang_domain), __('Site Key', $lang_domain), 
-                              sprintf(__('%1$s and %2$s'), sprintf('%1$s,%2$s,%3$s', __('alphabet and number', $lang_domain), '[-]', '[_]'), __('space', $lang_domain)));
+        $error_list[$key] = sprintf($lang->translate('%1$s can use %2$s only'), $lang->translate('Site Key'), 
+                              sprintf($lang->translate('%1$s and %2$s'), sprintf('%1$s,%2$s,%3$s', $lang->translate('alphabet and number'), '[-]', '[_]'), $lang->translate('space')));
       }
     } elseif($key == 'site_host') {
       // サイトキー
       if($value == '') {
         $result = false;
-        $error_list[$key] = sprintf(__('%s cannot be empty', $lang_domain), __('Site Host', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%s cannot be empty'), $lang->translate('Site Host'));
       } elseif(!preg_match("/^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9][a-zA-Z0-9\-_]*[a-zA-Z0-9])*(\/){0,1}$/", $value)) {
         $result = false;
-        $error_list[$key] = sprintf(__('%s cannot be this format', $lang_domain), __('Site Host', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%s cannot be this format'), $lang->translate('Site Host'));
       }
     }
   }
@@ -84,11 +85,12 @@ add_action('wp_ajax_nopriv_validate_create_base', 'func_validate_create_base');
  * 固定ページ情報バリデーションAjax処理
  */
 function func_validate_create_page(){
+  require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+  $lang = new LanguageSupporter();
   $result = true;
   $error_list = array();
   $existed_url_list = array();
-  $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-  $lang_domain = 'site-creator-' . $lang_code;
 
   // バリデーション
   foreach($_POST as $key => $value) {
@@ -96,58 +98,58 @@ function func_validate_create_page(){
       // 固定ページ名
       if($value == '') {
         $result = false;
-        $error_list[$key] = sprintf(__('%s cannot be empty', $lang_domain), __('Site Page Title', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%s cannot be empty'), $lang->translate('Site Page Title'));
       } else {
         preg_match('/\d+/', $key, $numbers);
         $index = current($numbers);
         
         if(!array_key_exists('page_name_'. $index, $_POST) || !array_key_exists('page_parent_'. $index, $_POST)) {
-          $error_list['system_page'] = __( 'Page is not matched', $lang_domain );
+          $error_list['system_page'] = $lang->translate( 'Page is not matched' );
         }
       }
     } elseif(preg_match('/^page_parent_\d+$/', $key)) {
       // 固定ページ親子関係
       if(!is_numeric($value)) {
         $result = false;
-        $error_list[$key] = sprintf(__('%s is wrong', $lang_domain), __('Site Page Parent', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%s is wrong'), $lang->translate('Site Page Parent'));
       } else {
         preg_match('/\d+/', $key, $numbers);
         $index = current($numbers);
         
         if(!array_key_exists('page_title_'. $index, $_POST) || !array_key_exists('page_name_'. $index, $_POST)) {
-          $error_list['system_page'] = __( 'Page is not matched', $lang_domain );
+          $error_list['system_page'] = $lang->translate( 'Page is not matched' );
         }
       }
     } elseif(preg_match('/^page_name_\d+$/', $key)) {
       // 固定ページURL
       if($value == '') {
         $result = false;
-        $error_list[$key] = sprintf(__('%s cannot be empty', $lang_domain), __('Site Page Name', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%s cannot be empty'), $lang->translate('Site Page Name'));
       } elseif(!preg_match("/^[a-zA-Z0-9]([\-_]*[a-zA-Z0-9])*$/", $value)) {
         $result = false;
-        $error_list[$key] = sprintf(__('%1$s can use %2$s only', $lang_domain), __('Site Page Name', $lang_domain), 
-                              sprintf(__('%1$s and %2$s'), sprintf('%1$s,%2$s', __('alphabet and number', $lang_domain), '[-]'), '[_]'));
+        $error_list[$key] = sprintf($lang->translate('%1$s can use %2$s only'), $lang->translate('Site Page Name'), 
+                              sprintf($lang->translate('%1$s and %2$s'), sprintf('%1$s,%2$s', $lang->translate('alphabet and number'), '[-]'), '[_]'));
       } else {
         preg_match('/\d+/', $key, $numbers);
         $index = current($numbers);
         
         if(!array_key_exists('page_title_'. $index, $_POST) || !array_key_exists('page_parent_'. $index, $_POST)) {
           $result = false;
-          $error_list['system_page'] = __( 'Page is not matched', $lang_domain );
+          $error_list['system_page'] = $lang->translate( 'Page is not matched' );
         } else {
           $url = '';
           list($result_url, $url, $error) = check_page_url($index, $index, '/', $_POST, array());
           if(!$result_url) {
             if($error == 'roop' || $error = 'parent') {
               $result = false;
-              $error_list[$key] = sprintf(__('%s is wrong', $lang_domain), __('Site Page Parent', $lang_domain));
+              $error_list[$key] = sprintf($lang->translate('%s is wrong'), $lang->translate('Site Page Parent'));
             } else {
               $result = false;
-              $error_list[$key] = sprintf(__('%s cannot be getted correctly', $lang_domain), __('Site Page Url', $lang_domain));
+              $error_list[$key] = sprintf($lang->translate('%s cannot be getted correctly'), $lang->translate('Site Page Url'));
             }
           } elseif(in_array($url, $existed_url_list)) {
             $result = false;
-            $error_list[$key] = sprintf(__('%s had been existed', $lang_domain), __('Site Page Url', $lang_domain));
+            $error_list[$key] = sprintf($lang->translate('%s had been existed'), $lang->translate('Site Page Url'));
           } else {
             array_push($existed_url_list, $url);
           }
@@ -172,12 +174,13 @@ add_action('wp_ajax_nopriv_validate_create_page', 'func_validate_create_page');
  * 投稿タイプ情報バリデーションAjax処理
  */
 function func_validate_create_type(){
+  require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+  $lang = new LanguageSupporter();
   $result = true;
   $error_list = array();
   $type_slug_list = array();
   $taxonomy_slug_list = array();
-  $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-  $lang_domain = 'site-creator-' . $lang_code;
 
   // バリデーション
   foreach($_POST as $key => $value) {
@@ -185,29 +188,29 @@ function func_validate_create_type(){
       // 投稿タイプ名
       if($value == '') {
         $result = false;
-        $error_list[$key] = sprintf(__('%s cannot be empty', $lang_domain), __('Site Type Name', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%s cannot be empty'), $lang->translate('Site Type Name'));
       }
     } elseif(preg_match('/^type_slug_(\d+|post)$/', $key)) {
       // 投稿タイプキー
       if($value == '') {
         $result = false;
-        $error_list[$key] = sprintf(__('%s cannot be empty', $lang_domain), __('Site Type Slug', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%s cannot be empty'), $lang->translate('Site Type Slug'));
       } elseif(mb_strlen($str1) > 20) {
         $result = false;
-        $error_list[$key] = sprintf(__('%1$s cannot be over %2$s characters', $lang_domain), __('Site Type Slug', $lang_domain), '20');
+        $error_list[$key] = sprintf($lang->translate('%1$s cannot be over %2$s characters'), $lang->translate('Site Type Slug'), '20');
       } elseif($key != 'type_slug_post' && $value == 'post') {
         $result = false;
-        $error_list[$key] = sprintf(__('%1$s cannot be same as %2$s', $lang_domain), __('Site Type Slug', $lang_domain), '[post]');
+        $error_list[$key] = sprintf($lang->translate('%1$s cannot be same as %2$s'), $lang->translate('Site Type Slug'), '[post]');
       } elseif($key != 'type_slug_post' && $value == 'page') {
         $result = false;
-        $error_list[$key] = sprintf(__('%1$s cannot be same as %2$s', $lang_domain), __('Site Type Slug', $lang_domain), '[page]');
+        $error_list[$key] = sprintf($lang->translate('%1$s cannot be same as %2$s'), $lang->translate('Site Type Slug'), '[page]');
       } elseif(!preg_match("/^([a-z0-9\-_])*$/", $value)) {
         $result = false;
-        $error_list[$key] = sprintf(__('%1$s can use %2$s only', $lang_domain), __('Site Type Slug', $lang_domain), 
-                              sprintf(__('%1$s and %2$s'), sprintf('%1$s,%2$s,%3$s', __('small alphabet', $lang_domain), __('number', $lang_domain), '[-]'), '[_]'));
+        $error_list[$key] = sprintf($lang->translate('%1$s can use %2$s only'), $lang->translate('Site Type Slug'), 
+                              sprintf($lang->translate('%1$s and %2$s'), sprintf('%1$s,%2$s,%3$s', $lang->translate('small alphabet'), $lang->translate('number'), '[-]'), '[_]'));
       } elseif(in_array($value, $type_slug_list)) {
         $result = false;
-        $error_list[$key] = sprintf(__('%1$s had been existed', $lang_domain), __('Site Type Slug', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%1$s had been existed'), $lang->translate('Site Type Slug'));
       } else {
         array_push($type_slug_list, $value);
       }
@@ -215,29 +218,29 @@ function func_validate_create_type(){
       // タクソノミー名
       if($value == '') {
         $result = false;
-        $error_list[$key] = sprintf(__('%s cannot be empty', $lang_domain), __('Site Type Taxonomy Name', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%s cannot be empty'), $lang->translate('Site Type Taxonomy Name'));
       }
     } elseif(preg_match('/^type_tax_slug_(\d+|post)_\d+$/', $key)) {
       // タクソノミー名
       if($value == '') {
         $result = false;
-        $error_list[$key] = sprintf(__('%s cannot be empty', $lang_domain), __('Site Type Taxonomy Slug', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%s cannot be empty'), $lang->translate('Site Type Taxonomy Slug'));
       } elseif(mb_strlen($str1) > 32) {
         $result = false;
-        $error_list[$key] = sprintf(__('%1$s cannot be over %2$s characters', $lang_domain), __('Site Type Taxonomy Slug', $lang_domain), '32');
+        $error_list[$key] = sprintf($lang->translate('%1$s cannot be over %2$s characters'), $lang->translate('Site Type Taxonomy Slug'), '32');
       } elseif($value == 'category') {
         $result = false;
-        $error_list[$key] = sprintf(__('%1$s cannot be same as %2$s', $lang_domain), __('Site Type Taxonomy Slug', $lang_domain), '[category]');
+        $error_list[$key] = sprintf($lang->translate('%1$s cannot be same as %2$s'), $lang->translate('Site Type Taxonomy Slug'), '[category]');
       } elseif($value == 'tag') {
         $result = false;
-        $error_list[$key] = sprintf(__('%1$s cannot be same as %2$s', $lang_domain), __('Site Type Taxonomy Slug', $lang_domain), '[tag]');
+        $error_list[$key] = sprintf($lang->translate('%1$s cannot be same as %2$s'), $lang->translate('Site Type Taxonomy Slug'), '[tag]');
       } elseif(!preg_match("/^([a-z_])*$/", $value)) {
         $result = false;
-        $error_list[$key] = sprintf(__('%1$s can use %2$s only', $lang_domain), __('Site Type Taxonomy Slug', $lang_domain), 
-                              sprintf(__('%1$s and %2$s'), __('small alphabet', $lang_domain), '[_]'));
+        $error_list[$key] = sprintf($lang->translate('%1$s can use %2$s only'), $lang->translate('Site Type Taxonomy Slug'), 
+                              sprintf($lang->translate('%1$s and %2$s'), $lang->translate('small alphabet'), '[_]'));
       } elseif(in_array($value, $taxonomy_slug_list)) {
         $result = false;
-        $error_list[$key] = sprintf(__('%1$s had been existed', $lang_domain), __('Site Type Taxonomy Slug', $lang_domain));
+        $error_list[$key] = sprintf($lang->translate('%1$s had been existed'), $lang->translate('Site Type Taxonomy Slug'));
       } else {
         array_push($taxonomy_slug_list, $value);
       }
@@ -246,16 +249,16 @@ function func_validate_create_type(){
       if($value == 'on') {
         $url_key = str_replace('check_', 'url_', $key);
         if(!in_array($url_key, array_keys($_POST))) {
-          $error_list[$key] = sprintf(__('%s cannot be found', $lang_domain), __('Site Type Archive Url', $lang_domain));
+          $error_list[$key] = sprintf($lang->translate('%s cannot be found'), $lang->translate('Site Type Archive Url'));
         } else {
           $url_value = $_POST[$url_key];
           $allow_content = '[a-zA-Z0-9]';
           if($url_value == '') {
             $result = false;
-            $error_list[$url_key] = sprintf(__('%s cannot be empty', $lang_domain), __('Site Type Archive Url', $lang_domain));
+            $error_list[$url_key] = sprintf($lang->translate('%s cannot be empty'), $lang->translate('Site Type Archive Url'));
           } elseif(!preg_match("/^((" . $allow_content . ")([\-_]*(" . $allow_content . "))*(\/){0,1})*$/", $url_value)) {
             $result = false;
-            $error_list[$url_key] = sprintf(__('%s cannot be this format', $lang_domain), __('Site Type Archive Url', $lang_domain));
+            $error_list[$url_key] = sprintf($lang->translate('%s cannot be this format'), $lang->translate('Site Type Archive Url'));
           }
         }
       }
@@ -264,16 +267,16 @@ function func_validate_create_type(){
       if($value == 'on') {
         $url_key = str_replace('check_', 'url_', $key);
         if(!in_array($url_key, array_keys($_POST))) {
-          $error_list[$key] = sprintf(__('%s cannot be found', $lang_domain), __('Site Type Single Url', $lang_domain));
+          $error_list[$key] = sprintf($lang->translate('%s cannot be found'), $lang->translate('Site Type Single Url'));
         } else {
           $url_value = $_POST[$url_key];
           $allow_content = '[a-zA-Z0-9]|%Year%|%year%|%Month%|%month%|%Day%|%day%|%postid%|%postname%';
           if($url_value == '') {
             $result = false;
-            $error_list[$url_key] = sprintf(__('%s cannot be empty', $lang_domain), __('Site Type Single Url', $lang_domain));
+            $error_list[$url_key] = sprintf($lang->translate('%s cannot be empty'), $lang->translate('Site Type Single Url'));
           } elseif(!preg_match("/^((" . $allow_content . ")([\-_]*(" . $allow_content . "))*(\/){0,1})*$/", $url_value)) {
             $result = false;
-            $error_list[$url_key] = sprintf(__('%s cannot be this format', $lang_domain), __('Site Type Single Url', $lang_domain));
+            $error_list[$url_key] = sprintf($lang->translate('%s cannot be this format'), $lang->translate('Site Type Single Url'));
           }
         }
       }
@@ -282,16 +285,16 @@ function func_validate_create_type(){
       if($value == 'on') {
         $url_key = str_replace('check_', 'url_', $key);
         if(!in_array($url_key, array_keys($_POST))) {
-          $error_list[$key] = sprintf(__('%s cannot be found', $lang_domain), __('Site Type Taxonomy Url', $lang_domain));
+          $error_list[$key] = sprintf($lang->translate('%s cannot be found'), $lang->translate('Site Type Taxonomy Url'));
         } else {
           $url_value = $_POST[$url_key];
           $allow_content = '[a-zA-Z0-9]|%slug%';
           if($url_value == '') {
             $result = false;
-            $error_list[$url_key] = sprintf(__('%s cannot be empty', $lang_domain), __('Site Type Taxonomy Url', $lang_domain));
+            $error_list[$url_key] = sprintf($lang->translate('%s cannot be empty'), $lang->translate('Site Type Taxonomy Url'));
           } elseif(!preg_match("/^((" . $allow_content . ")([\-_]*(" . $allow_content . "))*(\/){0,1})*$/", $url_value)) {
             $result = false;
-            $error_list[$url_key] = sprintf(__('%s cannot be this format', $lang_domain), __('Site Type Taxonomy Url', $lang_domain));
+            $error_list[$url_key] = sprintf($lang->translate('%s cannot be this format'), $lang->translate('Site Type Taxonomy Url'));
           }
         }
       }
@@ -313,6 +316,9 @@ add_action('wp_ajax_nopriv_validate_create_type', 'func_validate_create_type');
  * サイト作成Ajax処理
  */
 function func_create_site(){
+  require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+  $lang = new LanguageSupporter();
   $result = true;
   $site_uid = md5(uniqid(rand(), true));
   $error_list = array();
@@ -491,12 +497,12 @@ function func_create_site(){
       $wpdb->query('COMMIT');
     } catch(Exception $ex) {
       $result = false;
-      $error_list['system_site'] = __( 'Failed to create site', $lang_domain );
+      $error_list['system_site'] = $lang->translate( 'Failed to create site' );
       $wpdb->query('ROLLBACK');
     }
   } else {
     $result = false;
-    $error_list['system_site'] = __('Login is necessary to create site', $lang_domain);
+    $error_list['system_site'] = $lang->translate('Login is necessary to create site');
   }
   
   // リポジトリ出力

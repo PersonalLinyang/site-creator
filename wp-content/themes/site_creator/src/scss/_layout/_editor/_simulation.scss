@@ -1,6 +1,20 @@
 .sim {
-  width: calc(100% - #{$editor_setting_width});
   position: relative;
+  
+  @include mq(pc) {
+    width: calc(100% - #{$editor_setting_width_pc});
+  }
+  
+  @include mq(sp) {
+    @include dr(la) {
+      width: calc(100% - #{$editor_setting_width_sp});
+    }
+    
+    @include dr(po) {
+      width: 100vw;
+      flex: 1;
+    }
+  }
   
   &-device {
     background: $editor_simulation_back_color;

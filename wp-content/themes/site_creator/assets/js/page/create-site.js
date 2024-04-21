@@ -174,11 +174,11 @@ const addPage = function(obj){
       html += '<input type="text" name="page_name_' + counter + '" id="create-page-name-' + counter + '" placeholder="' + translations.page_name + '" />/';
       html += '<p class="warning warning-page_name_' + counter + '"></p>';
     html += '</div>';
-    html += '<div class="create-btnline create-page-plus" id="create-page-plus-' + counter + '" data-counter="0">';
-      html += '<p class="float-description">' + translations.page_subplus_float + '</p><p>＋</p>';
+    html += '<div class="create-btnline create-page-plus float-description" id="create-page-plus-' + counter + '" data-counter="0">';
+      html += '<p class="description">' + translations.page_subplus_float + '</p><p>＋</p>';
     html += '</div>';
-    html += '<div class="create-btnline" id="create-page-delete-' + counter + '">';
-      html += '<p class="float-description">' + translations.page_delete_float + '</p><p>×</p>';
+    html += '<div class="create-btnline float-description" id="create-page-delete-' + counter + '">';
+      html += '<p class="description">' + translations.page_delete_float + '</p><p>×</p>';
     html += '</div>';
     html += '<input type="hidden" name="page_parent_' + counter + '" value="' + index + '" />';
   html += '</div>';
@@ -396,8 +396,8 @@ const addTaxonomy = function(obj){
         html += '</p>';
       html += '</div>';
     html += '</div>';
-    html += '<div class="create-btnline create-type-body-line-delete" id="create-type-tax-delete-' + target + '-' + counter + '">';
-      html += '<p class="float-description">' + translations.type_tax_delete_float + '</p><p>×</p>';
+    html += '<div class="create-btnline create-type-body-line-delete float-description" id="create-type-tax-delete-' + target + '-' + counter + '">';
+      html += '<p class="description">' + translations.type_tax_delete_float + '</p><p>×</p>';
     html += '</div>';
   html += '</div>';
   

@@ -3,11 +3,11 @@
 // 必要関数をロードする
 require_once get_template_directory() . '/inc/custom-functions/check_site_editor_permission.inc.php';
 require_once get_template_directory() . '/inc/custom-functions/get_html_block_info.inc.php';
+require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
 
 get_header();
 
-$lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-$lang_domain = 'site-creator-' . $lang_code;
+$lang = new LanguageSupporter();
 
 // 編集権限をチェックする
 $check_result = check_site_editor_permission();
@@ -19,11 +19,11 @@ if($check_result['result']) :
   if($target->post_type == 'site') {
     // 編集ターゲットがサイトの場合初期ブロック情報を構築
     $base_block = array(
-      'id' => '', 'key' => 'body', 'name' => __('Site Whole Style', $lang_domain), 'type' => 'body', 'style' => array(),
+      'id' => '', 'key' => 'body', 'name' => $lang->translate('Site Whole Style'), 'type' => 'body', 'style' => array(),
       'blocks' => array(
-        array( 'id' => '', 'key' => 'header', 'name' => __('Header', $lang_domain), 'type' => 'header', 'style' => array(), 'blocks' => array() ),
-        array( 'id' => '', 'key' => 'main', 'name' => __('Main Content', $lang_domain), 'type' => 'main', 'style' => array(), 'blocks' => array() ),
-        array( 'id' => '', 'key' => 'footer', 'name' => __('Footer', $lang_domain), 'type' => 'footer', 'style' => array(), 'blocks' => array() ),
+        array( 'id' => '', 'key' => 'header', 'name' => $lang->translate('Header'), 'type' => 'header', 'style' => array(), 'blocks' => array() ),
+        array( 'id' => '', 'key' => 'main', 'name' => $lang->translate('Main Content'), 'type' => 'main', 'style' => array(), 'blocks' => array() ),
+        array( 'id' => '', 'key' => 'footer', 'name' => $lang->translate('Footer'), 'type' => 'footer', 'style' => array(), 'blocks' => array() ),
       ),
     );
   } else {
@@ -90,7 +90,7 @@ if($check_result['result']) :
 </section>
 
 <section class="setting" data-index="">
-  <h2 class="setting-title"><?php echo __('Site Common Style Edit', $lang_domain); ?></h2>
+  <h2 class="setting-title"><?php echo $lang->translate('Site Common Style Edit'); ?></h2>
   <form class="form form-style" id="common-style-form">
     <input type="hidden" name="target_id" value="<?php echo $target->ID; ?>" />
     <div class="form-body">

@@ -1,0 +1,114 @@
+.button {
+  $width_pc: rempc(160);
+  $width_sp: remsp(120);
+  $height_pc: rempc(40);
+  $height_sp: remsp(35);
+  
+  margin: 0 auto;
+  position: relative;
+  cursor: pointer;
+  color: #FFF;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-shadow: rgba(0,0,0,0.9) 0px 1px 2px;
+  border: 2px solid #FFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #AAA;
+  filter: drop-shadow(1px 3px 5px rgba(0,0,0,0.5));
+  box-shadow: rgba(255,255,255,0.25) 0px 1px 0px, 
+              inset rgba(255,255,255,0.25) 0px 1px 0px, 
+              inset rgba(0,0,0,0.25) 0px 0px 0px, 
+              inset rgba(255,255,255,0.03) 0px 20px 0px, 
+              inset rgba(0,0,0,0.15) 0px -20px 20px, 
+              inset rgba(255,255,255,0.05) 0px 20px 20px;
+  overflow: hidden;
+  text-wrap: nowrap;
+  
+  @include mq(pc) {
+    width: $width_pc;
+    font-size: rempc(18);
+    line-height: $height_pc;
+    border-radius: rempc(6);
+  }
+  
+  @include mq(sp) {
+    width: $width_sp;
+    font-size: remsp(14);
+    line-height: $height_sp;
+    border-radius: remsp(6);
+  }
+  
+  a {
+    color: #FFF;
+  }
+  
+  &.shine-active {
+    $width_before_pc: rempc(24);
+    $width_before_sp: remsp(20);
+    
+    &:before {
+      content: "";
+      position: absolute;
+      background: linear-gradient(to left, rgba(255,255,255,0) 0%, 
+                                  rgba(255,255,255,0.9) 50%, rgba(255,255,255,0) 100%);
+      box-shadow: rgba(255,255,255,0.1) 0px 1px 5px;
+      transform: rotate(30deg);
+      
+      @include mq(pc) {
+        width: $width_before_pc;
+        height: calc((#{$height_pc} * 2 + #{$width_before_pc}) / sqrt(3));
+        top: calc((#{$height_pc} * (sqrt(3) - 2) - #{$width_before_pc}) / sqrt(3) / 2);
+        left: calc((#{$height_pc} + #{$width_before_pc} * (2 + sqrt(3))) / -2 / sqrt(3));
+      }
+      
+      @include mq(sp) {
+        width: $width_before_sp;
+        height: calc((#{$height_sp} * 2 + #{$width_before_sp}) / sqrt(3));
+        top: calc((#{$height_sp} * (sqrt(3) - 2) - #{$width_before_sp}) / sqrt(3) / 2);
+        left: calc((#{$height_sp} + #{$width_before_sp} * (2 + sqrt(3))) / -2 / sqrt(3));
+      }
+    }
+    
+    &.active {
+      &:before {
+        transition: all 0.6s ease-in-out;
+        
+        @include mq(pc) {
+          left: calc((#{$height_pc} + #{$width_before_pc} * (2 - sqrt(3))) / 2 / sqrt(3) + #{$width_pc});
+        }
+        
+        @include mq(sp) {
+          left: calc((#{$height_sp} + #{$width_before_sp} * (2 - sqrt(3))) / 2 / sqrt(3) + #{$width_sp});
+        }
+      }
+    }
+  }
+}
+
+.attention {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+  color: $focus_font_color;
+  font-weight: normal;
+
+  @include mq(pc) {
+    font-size: rempc(12);
+    padding-left: rempc(15);
+  }
+
+  @include mq(sp) {
+    font-size: remsp(10);
+    padding-left: remsp(15);
+  }
+  
+  &:before {
+    content: "※";
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}

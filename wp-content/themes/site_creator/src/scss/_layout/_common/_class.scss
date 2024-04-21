@@ -1,0 +1,84 @@
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.pc-only {
+  @include mq(sp) {
+    display: none !important;
+  }
+}
+
+.sp-only {
+  @include mq(pc) {
+    display: none !important;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.full-link {
+  display: block !important;
+  width: 100%;
+  height: 100%;
+}
+
+.language-ja {
+  font-family: sans-serif;
+}
+
+.language-zh {
+  font-family: "SimHei", "SimSun";
+}
+
+.language-en {
+  font-family: "Times";
+}
+
+.language-tc {
+  font-family: "MingLiU", "SimSun";
+}
+
+.float-description {
+  @include mq(pc) {
+    position: relative;
+    overflow: initial !important;
+    
+    .description {
+      display: none;
+      position: absolute;
+      z-index: 1;
+      background: #000;
+      color: #ffffff;
+      pointer-events: none;
+      white-space: nowrap;
+      bottom: 0;
+      left: 50%;
+      font-size: rempc(12);
+      line-height: rempc(16);
+      padding: rempc(2) rempc(10);
+      border-radius: rempc(3);
+      transform: translate(-50%, calc(100% + #{rempc(5)}));
+    }
+    
+    &:hover .description {
+      display: block;
+    }
+  }
+  
+  @include mq(sp) {
+    .description {
+      display: none;
+    }
+  }
+}
+

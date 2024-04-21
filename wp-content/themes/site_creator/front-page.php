@@ -1,11 +1,14 @@
 <?php
+
+require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+$lang = new LanguageSupporter();
+
 get_header();
 
-$lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-$lang_domain = 'site-creator-' . $lang_code;
 ?>
 
-<p class="button button-link"><a class="full-link" href="<?php echo get_site_url(); ?>/create-site/"><?php echo _e( 'Try to create site now', $lang_domain ); ?></a></p>
+<p class="button"><a class="full-link" href="<?php echo get_site_url(); ?>/create-site/"><?php echo $lang->translate('Try to create site now'); ?></a></p>
 
 <?php
 get_footer();

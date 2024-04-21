@@ -1,8 +1,15 @@
 @import "../_setting/function";
 
-// サイト表示分類：pc,tb,sp
-@mixin mq($breakpoint: md) {
+// サイト表示分類：PC(pc),タブレット(tb),スマホ(sp),最大幅超えPC(mo)
+@mixin mq($breakpoint: pc) {
     @media #{map-get($breakpoints, $breakpoint)} {
+        @content;
+    }
+}
+
+// サイト表示分類：横向き(la),縦向き(po)
+@mixin dr($orientation: po) {
+    @media #{map-get($orientations, $orientation)} {
         @content;
     }
 }

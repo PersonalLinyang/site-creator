@@ -1,0 +1,13 @@
+.header {
+  width: 100%;
+  position: fixed;
+  z-index: 999;
+  user-select: none;
+  background: $header_back_color;
+  
+  &-inner {
+    display: flex;
+    justify-content: right;
+    background: $header_back_color;
+  }
+}

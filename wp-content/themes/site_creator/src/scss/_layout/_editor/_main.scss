@@ -1,6 +1,23 @@
-.main-editor {
+.main {
   display: flex;
   height: 100vh;
-  padding-top: $editor_header_height_pc;
-  font-size: 16px;
+  
+  @include mq(pc) {
+    padding-top: $header_height_pc;
+  }
+  
+  @include mq(sp) {
+    padding-top: $header_height_sp;
+    display: flex;
+    
+    @include mq(sp) {
+      @include dr(la) {
+        flex-direction: row;
+      }
+      
+      @include dr(po) {
+        flex-direction: column;
+      }
+    }
+  }
 }

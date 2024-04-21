@@ -1,0 +1,14 @@
+.main-normal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  @include mq(pc) {
+    padding-top: $header_height_pc;
+  }
+  
+  @include mq(sp) {
+    padding-top: $header_height_sp;
+  }
+}

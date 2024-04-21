@@ -1,9 +1,9 @@
 // フォームエラー表示
 const addFormWarning = function(key, text) {
   $('.warning-' + key).html(text);
-  $('.warning-' + key).show();
   $('.warning-' + key).closest('.form-input').find('[name="' + key + '"]').addClass('error');
   $('.warning-' + key).closest('.form-input').find('.checkbox-check').addClass('error');
+  $('.warning-' + key).slideDown();
 }
 
 // フォームエラー解消
@@ -33,12 +33,12 @@ const initFormCheckbox = function(obj) {
 }
 
 $(document).ready(function(){
-  // [SP]言語選択をクリックすると選択肢を広げる、以外の部分をクリックすると選択肢を閉じる
+  // 言語選択をクリックすると選択肢を広げる、以外の部分をクリックすると選択肢を閉じる
   $(document).on('click',function(e) {
-    if($(e.target).closest('.header-language-now').length) {
-      $('.header-language.sp-only').find('.header-language-list').slideToggle();
+    if($(e.target).closest('.header-language-current').length) {
+      $('.header-language').find('.header-language-list').slideToggle();
     } else {
-      $('.header-language.sp-only').find('.header-language-list').slideUp();
+      $('.header-language').find('.header-language-list').slideUp();
     }
   });
   

@@ -1,18 +1,1 @@
-/* line 1, ../../../src/scss/_layout/_page/_common-style.scss */
-.common-style {
-  user-select: none;
-  background: #f0f8ff;
-}
-@media print, screen and (min-width: 769px) {
-  /* line 1, ../../../src/scss/_layout/_page/_common-style.scss */
-  .common-style {
-    width: 80%;
-    max-width: 46.875rem;
-    min-width: 37.5rem;
-    margin: 3.125rem auto;
-    padding: 1.875rem 3.125rem;
-    border: 0.1875rem solid #6495ed;
-    border-radius: 0.3125rem;
-    box-shadow: 0.1875rem 0.3125rem 0.3125rem rgba(0, 0, 0, 0.2);
-  }
-}
+.common-style{user-select:none;background:#f0f8ff}@media print, screen and (min-width: 769px){.common-style{width:80%;max-width:46.875rem;min-width:37.5rem;margin:3.125rem auto;padding:1.875rem 3.125rem;border:.1875rem solid #6495ed;border-radius:.3125rem;box-shadow:.1875rem .3125rem .3125rem rgba(0,0,0,0.2)}}

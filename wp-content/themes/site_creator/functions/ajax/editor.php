@@ -24,6 +24,9 @@ function format_block_list($key_list, $value, $block_list) {
  * スタイルを保存
  */
 function func_editor_save_style(){
+  require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+  $lang = new LanguageSupporter();
   $result = true;
   $error_list = array();
   $except_list = ['action', 'target_id'];
@@ -126,11 +129,11 @@ function func_editor_save_style(){
       }
     } else {
       $result = false;
-      $error_list['system'] = __('Cannot find target to save', $lang_domain);
+      $error_list['system'] = $lang->translate('Cannot find target to save');
     }
   } else {
     $result = false;
-    $error_list['system'] = __('Login is necessary to save', $lang_domain);
+    $error_list['system'] = $lang->translate('Login is necessary to save');
   }
   
   // リポジトリ出力

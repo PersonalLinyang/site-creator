@@ -1,9 +1,7 @@
-// header全体设置
+// ヘッダー高さ
 $header_height_pc: rempc(75);
-$header_height_sp: vwsp(50);
+$header_height_sp: remsp(30);
 
-$header_menu_back_color: #87ceeb;
-
-$header_button_back_color: #00008b;
-$header_button_font_color: #ffffff;
-$header_button_border_color: #ffffff;
+// 左右余白
+$body_padding_pc: rempc(20);
+$body_padding_sp: remsp(20);

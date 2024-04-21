@@ -2,8 +2,9 @@
 
 // HTMLブロック情報を取得
 function get_html_block_info($block_id) {
-  $lang_code = function_exists('qtranxf_getLanguage') ? qtranxf_getLanguage() : 'ja';
-  $lang_domain = 'site-creator-' . $lang_code;
+  require_once get_template_directory() . '/inc/custom-classes/language_supporter.inc.php';
+
+  $lang = new LanguageSupporter();
   
   // 再帰中に実行回数を記録するインデックス
   static $block_index = 0;
@@ -14,19 +15,19 @@ function get_html_block_info($block_id) {
   // タイプによって名前とキーを取得
   switch($block_type) {
     case 'body':
-      $block_name = __('Site Whole Style', $lang_domain);
+      $block_name = $lang->translate('Site Whole Style');
       $block_key = 'body';
       break;
     case 'header':
-      $block_name = __('Header', $lang_domain);
+      $block_name = $lang->translate('Header');
       $block_key = 'header';
       break;
     case 'main':
-      $block_name = __('Main Content', $lang_domain);
+      $block_name = $lang->translate('Main Content');
       $block_key = 'main';
       break;
     case 'footer':
-      $block_name = __('Footer', $lang_domain);
+      $block_name = $lang->translate('Footer');
       $block_key = 'footer';
       break;
     default:

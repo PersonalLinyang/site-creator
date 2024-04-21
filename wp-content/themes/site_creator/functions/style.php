@@ -38,8 +38,8 @@ function my_enqueue_styles() {
     wp_enqueue_style('css_editor_simulation', get_theme_file_uri($css_editor_simulation_path), array(), filemtime(get_theme_file_path($css_editor_simulation_path)), 'all');
   } else {
     // 通常ページ共通CSSを読み込み
-    $css_normal_path = 'assets/css/common/normal.css';
-    wp_enqueue_style('css_normal', get_theme_file_uri($css_normal_path), array(), filemtime(get_theme_file_path($css_normal_path)), 'all');
+    $css_normal_common_path = 'assets/css/normal/common.css';
+    wp_enqueue_style('css_normal_common', get_theme_file_uri($css_normal_common_path), array(), filemtime(get_theme_file_path($css_normal_common_path)), 'all');
   }
   
   if(is_page()) {

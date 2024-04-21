@@ -28,18 +28,17 @@ $(document).ready(function(){
       success: function( response ){
         var res = JSON.parse(response);
         if(res['result'] == true) {
-          $('#pwdreset-reset').hide();
-          $('#pwdreset-complete').show();
-          setInterval(function(){
-            $('#pwdreset-button-complete').removeClass('active');
-            setTimeout(function() {
+          $('#pwdreset-reset').fadeOut(function(){
+            $('#pwdreset-complete').fadeIn(function(){
+              $('#pwdreset-button-complete').removeClass('active');
               $('#pwdreset-button-complete').addClass('active');
-            }, 1000);
-          }, 5000);
+            });
+          });
         } else {
-          $('#pwdreset-submit').closest('form').find('.warning').hide();
-          $.each(res['errors'], function(key, value) {
-            addFormWarning(key, value);
+          $('#pwdreset-form').find('.warning').slideUp(function(){
+            $.each(res['errors'], function(key, value) {
+              addFormWarning(key, value);
+            });
           });
         }
       },

@@ -1,12 +1,24 @@
 $(document).ready(function(){
+  // 言語選択をクリックすると選択肢を広げる、以外の部分をクリックすると選択肢を閉じる
+  $(document).on('click',function(e) {
+    if($(e.target).closest('.header-handler').length) {
+      $('.header-sim').slideToggle();
+    } else if($(e.target).closest('.header-sim').length == 0) {
+      $('.header-sim').slideUp();
+    }
+  });
+  
   // 表示シミュレーションを切り替える
   $('.header-sim-device').on('click', function(){
     if(!$(this).hasClass('checked')) {
+      var device = $(this).data('device');
+      
       $('.header-sim-device').removeClass('checked');
       $(this).addClass('checked');
-      var device = $(this).data('device');
-      $('.header-sim-setting').hide();
-      $('.header-sim-setting[data-device="' + device + '"]').show();
+      
+      $('.header-sim-setting').removeClass('active');
+      $('.header-sim-setting[data-device="' + device + '"]').addClass('active');
+      
       $('.sim-device').css('z-index', -1);
       $('.sim-' + device).css('z-index', 0);
       if(device == 'pc') {
@@ -29,15 +41,18 @@ $(document).ready(function(){
     resizeSimulationSP();
   });
   
-  // ヘッダPCサイト拡大/縮小ボタンクリック
-  $('.header-sim-adaptive-pc').on('click', function(){
-    $(this).toggleClass('checked');
+  // 拡大/縮小ボタンクリック
+  $('.header-adaptive').on('click', function(){
+    if($(this).hasClass('checked')) {
+      $(this).removeClass('checked');
+      $(this).find('.header-adaptive-shrink').addClass('active');
+      $(this).find('.header-adaptive-expand').removeClass('active');
+    } else {
+      $(this).addClass('checked');
+      $(this).find('.header-adaptive-shrink').removeClass('active');
+      $(this).find('.header-adaptive-expand').addClass('active');
+    }
     resizeSimulationPC();
-  });
-  
-  // ヘッダSPサイト拡大/縮小ボタンクリック
-  $('.header-sim-adaptive-sp').on('click', function(){
-    $(this).toggleClass('checked');
     resizeSimulationSP();
   });
   
