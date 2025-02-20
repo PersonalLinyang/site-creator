@@ -121,9 +121,6 @@ $(document).ready(function(){
     });
   });
   
-  // 編集部分HTMLを構築、JS用変数として直接JS読み出しPHPの中で取得
-  addFormBlock(base_block, '', true);
-  
-  // 現在の編集ブロック数を更新
-  $('.setting').data('index', $('.form-block').length);
+  // 設定エリアを初期化
+  initSetting();
 });

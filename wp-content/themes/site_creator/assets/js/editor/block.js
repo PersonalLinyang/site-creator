@@ -8,9 +8,7 @@ const changeFormBlock = function(target) {
   var block_target = $('.form-block[data-target="' + target + '"]');
   if(block_target.length == 1) {
     // 切り替え後の編集部分のみ表示
-    $('.form-block').hide();
     $('.form-block').removeClass('active');
-    block_target.show();
     block_target.addClass('active');
     block_target.find('.form-content').scrollTop(0);
   }
@@ -25,38 +23,48 @@ const changeFormBlock = function(target) {
  */
 const slideFormBlock = function(now, target) {
   // 切り替え前後の編集部分を取得
+  var slider = $('.form-slider');
+  var blocks = $('.form-block');
   var block_now = $('.form-block[data-target="' + now + '"]');
   var block_target = $('.form-block[data-target="' + target + '"]');
-  if(block_target.length == 1) {
+  if(block_now.length == 1 && block_target.length == 1 && now!= target) {
     // ターゲットのブロックが一つのみ存在する場合、切り替え前後のブロックの順番を取得
-    var index_now = $('.form-block').index(block_now);
-    var index_target = $('.form-block').index(block_target);
+    var index_now = blocks.index(block_now);
+    var index_target = blocks.index(block_target);
     
     // スライド距離を取得
-    var width = $('.form-block').width();
+    var width = slider.width() / 2;
     
     // 切り替え前後の編集部分のみ表示
-    $('.form-block').hide();
-    block_now.show();
-    block_target.show();
+    blocks.removeClass('active');
+    block_now.addClass('active');
+    block_target.addClass('active');
     if(index_now > index_target) {
       // 現在のブロックが対象ブロックの後にある場合、左へスライド
-      $('.form-body').css('margin-left', (0 - width) + 'px');
-      $('.form-body').animate({'marginLeft': '0px'}, 500, 'linear', function(){
-        block_now.hide();
-        $('.form-block').removeClass('active');
+      slider.css('margin-left', (0 - width) + 'px');
+      slider.animate({'marginLeft': '0px'}, 500, 'linear', function(){
+        blocks.removeClass('active');
         block_target.addClass('active');
       });
     } else {
       // 現在のブロックが対象ブロックの前にある場合、右へスライド
-      $('.form-body').animate({'marginLeft': (0 - width) + 'px'}, 500, 'linear', function(){
-        block_now.hide();
-        $('.form-body').css('margin-left', '0px');
-        $('.form-block').removeClass('active');
+      slider.animate({'marginLeft': (0 - width) + 'px'}, 500, 'linear', function(){
+        blocks.removeClass('active');
         block_target.addClass('active');
+        slider.css('margin-left', '0px');
       });
     }
   }
+}
+
+
+/* 
+ * スライダーエリアを初期化
+ * params 
+ *   obj : 対象スライダーエリア
+ */
+const initFormSlider = function(obj) {
+  obj.data('index', obj.find('.form-block').length);
 }
 
 
@@ -65,11 +73,11 @@ const slideFormBlock = function(now, target) {
  * params 
  *   obj : 対象ハンドラーボタン
  */
-const initFormBlockSlidehandler = function(obj) {
+const initFormSliderHandler = function(obj) {
   obj.on('click', function(){
     var button = $(this);
     // 全ブロック編集対象切り替えハンドラーを待機状態に変更
-    $('.form-block-slidehandler').addClass('working');
+    $('.form-slider-handler').addClass('working');
     $.when(
       // ブロック編集部分をスライド
       slideFormBlock(button.closest('.form-block').data('target'), button.data('target'))
@@ -78,7 +86,7 @@ const initFormBlockSlidehandler = function(obj) {
       selectSimulationBlock(button.data('target'));
       
       // 全ブロック編集対象切り替えハンドラーを稼働状態に変更
-      $('.form-block-slidehandler').removeClass('working');
+      $('.form-slider-handler').removeClass('working');
     });
   });
 }
@@ -142,8 +150,8 @@ const initFormBlock = function(obj) {
   });
   
   // スライドハンドラーを有効化
-  obj.find('.form-block-slidehandler').each(function(){ 
-    initFormBlockSlidehandler($(this)); 
+  obj.find('.form-slider-handler').each(function(){ 
+    initFormSliderHandler($(this)); 
   });
   
   // 背景部分を有効化
@@ -243,16 +251,7 @@ const htmlFormBlock = function(block_info, parent_key = '', base_flag = false) {
   var style = (checkDirectionKey('style', block_info) && $.isPlainObject(block_info['style'])) ? block_info['style'] : {};
   var blocks = (checkDirectionKey('blocks', block_info) && $.isArray(block_info['blocks'])) ? block_info['blocks'] : [];
   
-  // 子ブロック情報を軽量化
-  var simple_blocks = [];
-  $.each(blocks, function(index, block){
-    var block_key = checkDirectionKey('key', block) ? block['key'] : '';
-    if(block_key) {
-      var block_name = checkDirectionKey('name', block) ? block['name'] : '';
-      simple_blocks.push({'key':block_key, 'name':block_name});
-    }
-  });
-  
+  // ベースブロックの場合クラスactiveをつけて初期表示させる、そうではない場合戻りボタンを追加する
   var active_flag = '';
   var form_topic_back = '';
   if(base_flag) {
@@ -260,8 +259,51 @@ const htmlFormBlock = function(block_info, parent_key = '', base_flag = false) {
     active_flag = 'active';
   } else {
     // ベースブロック以外では戻りボタンHTMLを構築
-    form_topic_back = '<p class="form-block-slidehandler form-topic-back" data-target="' + parent_key + '"></p>';
+    form_topic_back = '<p class="form-slider-handler form-topic-back" data-target="' + parent_key + '"></p>';
   }
+  
+  if(type == 'component') {
+    var form_block = `
+      <div class="form-block ` + active_flag + `" data-target="` + key + `">
+        <div class="form-topic">
+          ` + form_topic_back + `<p class="form-topic-text">` + name + `</p>
+        </div>
+        <div class="form-content">
+          <div class="form-line">
+            <div class="form-item has-title">
+              <p class="form-item-title">Width</p>
+              <div class="form-item-inner">
+                <select name="design__` + key + `__width_type">
+                  <option value="auto">Auto Width</option>
+                  <option value="fit-content">Fit Content</option>
+                  <option value="length">Length Width</option>
+                  <option value="percent">Percent</option>
+                  <option value="custom">Custom</option>
+                </select>
+              </div>
+              <div class="form-item-handler">
+                <div class="form-item-button-list">
+                  <p class="form-item-button form-branch">Add Branch</p>
+                  <p class="form-item-button form-param">Add Parameter</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    return form_block;
+  }
+  
+  // 子ブロック情報を軽量化
+  var simple_blocks = [];
+  $.each(blocks, function(index, child_block){
+    var child_block_key = checkDirectionKey('key', child_block) ? child_block['key'] : '';
+    if(child_block_key) {
+      var child_block_name = checkDirectionKey('name', child_block) ? child_block['name'] : '';
+      simple_blocks.push({'key':child_block_key, 'name':child_block_name});
+    }
+  });
   
   // ブロック名を取得して、特定タイプ以外のブロックならブロック名編集部分HTMLを構築
   var block_name = '';
@@ -304,6 +346,7 @@ const htmlFormBlock = function(block_info, parent_key = '', base_flag = false) {
 /* 
  * 新しいブロックを追加
  * params 
+ *   slider : 親タグのform-slider対象
  *   block_info : ブロック情報、配列
  *     id : DB上ID
  *     key : 識別キー
@@ -314,7 +357,7 @@ const htmlFormBlock = function(block_info, parent_key = '', base_flag = false) {
  *   parent_key : 親ブロック識別キー
  *   base_flag : ベースブロックフラグ
  */
-const addFormBlock = function(block_info, parent_key = '', base_flag = false) {
+const addFormBlock = function(slider, block_info, parent_key = '', base_flag = false) {
   // ブロック情報を変数化
   var key = checkDirectionKey('key', block_info) ? block_info['key'] : '';
   var type = checkDirectionKey('type', block_info) ? block_info['type'] : '';
@@ -329,14 +372,14 @@ const addFormBlock = function(block_info, parent_key = '', base_flag = false) {
   // 編集部分に相応要素追加
   var form_block = htmlFormBlock(block_info, parent_key, base_flag);
   if(form_block) {
-    $('.form-body').append(form_block);
+    slider.append(form_block);
     
     // 新しく追加したブロックを有効化
     initFormBlock($('.form-block[data-target="' + key + '"]'));
     
     // 子ブロックをループし、ブロック編集HTMLを構築(再帰処理)
     $.each(blocks, function(index, block){
-      addFormBlock(block, key);
+      addFormBlock(slider, block, key);
     });
   }
 }

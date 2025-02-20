@@ -57,10 +57,10 @@ $(document).ready(function(){
   $('.password-show').click(function(){
     if($(this).hasClass('active')) {
       $(this).removeClass('active');
-      $(this).closest('.password-group').find('input[type="text"]').attr('type', 'password');
+      $(this).closest('.password').find('input[type="text"]').attr('type', 'password');
     } else {
       $(this).addClass('active');
-      $(this).closest('.password-group').find('input[type="password"]').attr('type', 'text');
+      $(this).closest('.password').find('input[type="password"]').attr('type', 'text');
     }
   });
   

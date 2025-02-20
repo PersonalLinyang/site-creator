@@ -17,10 +17,10 @@ $lang_code = $lang->code();
   <body class="language-<?php echo $lang_code; ?>" data-lang="<?php echo $lang_code; ?>">
 
   <?php 
-    require_once get_template_directory() . '/inc/custom-functions/check_site_editor_permission.inc.php';
+    require_once get_template_directory() . '/inc/custom-functions/check_editor_permission.inc.php';
     
     if(is_page() && get_field('editor_flag', $post->ID)) {
-      $check_result = check_site_editor_permission();
+      $check_result = check_editor_permission();
       if($check_result['result']) {
         get_template_part( 'template-parts/header/editor', null, array('site_id' => $check_result['site_id']));
       } else {

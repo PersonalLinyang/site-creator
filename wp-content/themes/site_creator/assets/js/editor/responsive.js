@@ -108,12 +108,6 @@ const htmlFormResponsive = function(base_key, base_class, func_html_responsive_a
   // スタイル情報を取得
   var style = (checkDirectionKey('style', options) && $.isPlainObject(options['style'])) ? options['style'] : {};
   
-  // PC/SPのみボタンとレスポンシブ対応ボタンが片方のみの場合ボタンを中央寄せ
-  var class_center = '';
-  if((display_flag && !responsive_flag) || (!display_flag && responsive_flag)) {
-    class_center = 'center';
-  }
-  
   // PC/SPのみボタンHTMLを構築
   var html_display = '';
   if(display_flag) {
@@ -123,7 +117,7 @@ const htmlFormResponsive = function(base_key, base_class, func_html_responsive_a
       var device_class = (device == device_key) ? 'active' : '';
       var device_value = getStyleValue(style, [device_key + '_only'], '0');
       html_display += htmlCheckbox('form-responsive-chkdevice', base_key + '__' + device_key + '_only', device_text, device_value, {
-                                     'box_class':'form-responsive-checkbox setting-' + device_key + ' ' + device_class + ' ' + class_center, 
+                                     'box_class':'form-responsive-checkbox setting-' + device_key + ' ' + device_class, 
                                      'check_class':'chkdevice-check-' + device_key
                                    });
     });
@@ -135,7 +129,7 @@ const htmlFormResponsive = function(base_key, base_class, func_html_responsive_a
   if(responsive_flag) {
     responsive = getStyleValue(style, ['responsive'], '0');
     html_responsive += htmlCheckbox('form-responsive-chkflag', base_key + '__responsive', translations.responsive_flag, responsive, 
-                                    {'box_class':'form-responsive-checkbox ' + class_center});
+                                    {'box_class':'form-responsive-checkbox'});
   }
   
   // HTMLを構築

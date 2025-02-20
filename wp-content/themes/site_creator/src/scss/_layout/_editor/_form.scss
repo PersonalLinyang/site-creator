@@ -1,8 +1,20 @@
 .form {
-  height: calc(100% - 50px);
   overflow: hidden;
+  flex: 1;
   
-  &-body {
+  &-tab {
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    
+    &.active {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  
+  &-slider {
     overflow: hidden;
     height: 100%;
     width: 200%;
@@ -10,92 +22,300 @@
   
   &-block {
     height: 100%;
+    width: 50%;
     float: left;
     display: none;
     
-    @include mq(pc) {
-      width: 50%;
-    }
-    
     &.active {
-      display: block;
+      display: flex;
+      flex-direction: column;
     }
   }
   
   &-topic {
-    background: #4169e1;
-    color: #ffffff;
+    background: $editor_setting_focus_color;
+    color: #FFF;
     font-weight: 600;
     display: flex;
     align-items: center;
-    height: 34px;
+    
+    @include mq(pc) {
+      height: rempc(34);
+    }
+    
+    @include mq(sp) {
+      height: remsp(30);
+    }
     
     &-back {
       position: relative;
-      width: 25px;
       height: 100%;
       background: #000;
       border-right: 1px solid #fff;
       cursor: pointer;
       
+      @include mq(pc) {
+        width: rempc(25);
+      }
+      
+      @include mq(sp) {
+        width: remsp(25);
+      }
+      
       &:before {
         content: "";
         position: absolute;
-        border-right: 10px solid #fff;
-        border-top: 10px solid transparent;
-        border-bottom: 10px solid transparent;
         top: 50%;
-        left: 5px;
         transform: translateY(-50%);
+        
+        @include mq(pc) {
+          border-right: rempc(10) solid #fff;
+          border-top: rempc(10) solid transparent;
+          border-bottom: rempc(10) solid transparent;
+          left: rempc(5);
+        }
+        
+        @include mq(sp) {
+          border-right: remsp(10) solid #fff;
+          border-top: remsp(10) solid transparent;
+          border-bottom: remsp(10) solid transparent;
+          left: remsp(5);
+        }
       }
     }
     
     &-text {
-      margin: 0 10px;
-      width: calc(100% - 45px);
+      flex: 1;
       overflow: hidden;
       text-overflow: ellipsis;
+      text-align: center;
       white-space: nowrap;
+      
+      @include mq(pc) {
+        margin: 0 rempc(10);
+      }
+      
+      @include mq(sp) {
+        margin: 0 remsp(10);
+      }
     }
   }
   
   &-content {
-    --scrollbar-size: 10px;
-    height: calc(100% - 34px);
+    $scrollbar-size: 10px;
+    
+    flex: 1;
     overflow-y: auto;
     
+    @include mq(pc) {
+      padding: rempc(12) rempc(10);
+    }
+    
+    @include mq(sp) {
+      padding: remsp(12) remsp(10);
+    }
+    
     &::-webkit-scrollbar {
-      width: var(--scrollbar-size);
-      height: var(--scrollbar-size);
+      width: $scrollbar-size;
+      height: $scrollbar-size;
       background: transparent;
     }
     
     &::-webkit-scrollbar-thumb {
       background: #4169e1;
-      border-radius: calc(var(--scrollbar-size) / 2);
+      border-radius: calc(#{$scrollbar-size} / 2);
     }
     
     &-main {
-      margin-top: 15px;
+      @include mq(pc) {
+        padding: rempc(15) 0;
+      }
+      
+      @include mq(sp) {
+        padding: remsp(15) 0;
+      }
     }
   }
   
   &-line {
-    padding: 0 10px;
-    margin-bottom: 12px;
+    @include mq(pc) {
+      padding: rempc(6) 0;
+    }
+    
+    @include mq(sp) {
+      padding: remsp(6) 0;
+    }
+  }
+  
+  &-item {
+    border: 1px solid transparent;
+    position: relative;
+    
+    @include mq(pc) {
+      padding: rempc(5) rempc(15) rempc(5) rempc(5);
+      border-radius: rempc(3);
+    }
+    
+    @include mq(sp) {
+      padding: remsp(5) remsp(15) remsp(5) remsp(5);
+      border-radius: remsp(3);
+    }
+    
+    .has-title {
+      @include mq(pc) {
+        margin-top: rempc(10);
+      }
+      
+      @include mq(sp) {
+        margin-top: remsp(10);
+      }
+    }
+    
+    &:hover {
+      border: 1px solid $editor_setting_focus_color;
+    }
+    
+    &.active {
+      border: 1px solid $editor_setting_focus_color;
+    }
+    
+    &-title {
+      background: $editor_setting_back_color;
+      width: fit-content;
+      
+      @include mq(pc) {
+        margin: rempc(-15) rempc(5) 0;
+        padding: 0 rempc(5);
+      }
+      
+      @include mq(sp) {
+        margin: remsp(-15) remsp(5) 0;
+        padding: 0 remsp(5);
+      }
+    }
+    
+    &-handler {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #FFF;
+      border-bottom: 1px solid $editor_setting_focus_color;
+      border-left: 1px solid $editor_setting_focus_color;
+      cursor: pointer;
+      
+      @include mq(pc) {
+        width: rempc(12);
+        height: rempc(12);
+      }
+      
+      @include mq(sp) {
+        width: remsp(12);
+        height: remsp(12);
+      }
+      
+      &:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        @include mq(pc) {
+          border-left: rempc(4) solid transparent;
+          border-right: rempc(4) solid transparent;
+          border-top: rempc(6) solid $editor_setting_focus_color;
+        }
+        
+        @include mq(sp) {
+          border-left: remsp(4) solid transparent;
+          border-right: remsp(4) solid transparent;
+          border-top: remsp(6) solid $editor_setting_focus_color;
+        }
+      }
+      
+      &.active {
+        display: block;
+        
+        &:before {
+          @include mq(pc) {
+            border-top: 0;
+            border-bottom: rempc(6) solid $editor_setting_focus_color;
+          }
+          
+          @include mq(sp) {
+            border-top: 0;
+            border-bottom: remsp(6) solid $editor_setting_focus_color;
+          }
+        }
+      }
+    }
+    
+    &:hover &-handler {
+      display: block;
+    }
+    
+    &-button {
+      border: 1px solid $editor_setting_focus_color;
+      background: #FFF;
+      text-wrap: nowrap;
+      text-align: center;
+      
+      @include mq(pc) {
+        font-size: rempc(12);
+        padding: rempc(2) rempc(8);
+      }
+      
+      @include mq(sp) {
+        font-size: remsp(10);
+        padding: remsp(2) remsp(8);
+      }
+      
+      &-list {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        transform: translateY(100%);
+        border: 2px solid $editor_setting_focus_color;
+        display: none;
+        
+        &.active {
+          display: block;
+        }
+      }
+    }
   }
   
   &-title {
-    padding: 8px 0;
-    font-weight: 600;
+    font-weight: bold;
+    
+    @include mq(pc) {
+      padding: rempc(8) 0;
+    }
+    
+    @include mq(sp) {
+      padding: remsp(8) 0;
+    }
   }
   
   &-object {
-    margin-top: 8px;
+    @include mq(pc) {
+      margin-top: rempc(8);
+    }
+    
+    @include mq(sp) {
+      margin-top: remsp(8);
+    }
   }
   
   &-input {
-    padding: 0 5px;
+    @include mq(pc) {
+      padding: 0 rempc(5);
+    }
+    
+    @include mq(sp) {
+      padding: 0 remsp(5);
+    }
   }
 
   &-checkbox {
@@ -174,20 +394,30 @@
   &-responsive {
     &-controller {
       display: flex;
-      align-items: center;
+      justify-content: center;
       flex-wrap: wrap;
-      gap: 6px 8px;
     }
     
     &-area {
-      margin-top: 8px;
+      @include mq(pc) {
+        margin-top: rempc(8);
+      }
+      
+      @include mq(sp) {
+        margin-top: remsp(8);
+      }
     }
     
     &-checkbox {
-      width: calc(50% - 4px);
+      max-width: 50%;
+      flex: 1;
       
-      &.center {
-        margin: 0 auto;
+      @include mq(pc) {
+        margin: 0 rempc(5);
+      }
+      
+      @include mq(sp) {
+        margin: 0 remsp(5);
       }
     }
   }

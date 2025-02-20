@@ -147,11 +147,11 @@ const initFormLayoutResponsiveArea = function(obj) {
       var sim = setting.find('.form-layout-sim');
       
       // 現在のブロック数を取得
-      var block_index = parseInt($('.setting').data('index'));
+      var block_index = parseInt(button.closest('form-slider').data('index'));
       
       // 編集ブロックを追加
       var type = setting.find('.form-layout-seladd').val();
-      addFormBlock({'key': 'block' + block_index, 'type': type}, target);
+      addFormBlock(button.closest('.form-slider'), {'key': 'block' + block_index, 'type': type}, target);
       
       // 子ブロック情報用の非表示inputを追加
       setting.closest('.form-line').append('<input class="form-layout-sim-item-hidden hidden-block' + block_index + '" type="hidden" name="' + target + '__blocks[]" value="block' + block_index + '" />');
@@ -191,14 +191,14 @@ const initFormLayoutResponsiveArea = function(obj) {
         });
         
         // ブロック編集ボタンを有効化
-        initFormBlockSlidehandler(sim_item.find('.form-layout-sim-item-btnedit'));
+        initFormSliderHandler(sim_item.find('.form-layout-sim-item-btnedit'));
         
         // ブロック要素のインデックス更新
         updateFormLayoutIndex($(this).find('.form-layout-sim-item'));
       });
       
       // 現在のブロック数を更新
-      $('.setting').data('index', (block_index + 1));
+      button.closest('form-slider').data('index', (block_index + 1));
     });
   });
   
@@ -299,7 +299,7 @@ const htmlFormLayoutSimItem = function(block_key, block_name, device) {
       <div class="form-layout-sim-item-inner">
         <p class="form-layout-sim-item-text" title="` + block_name + `">` + block_name + `</p>
         <p class="form-layout-sim-item-btnsort"></p>
-        <p class="form-block-slidehandler form-layout-sim-item-btnedit" data-target="` + block_key + `"></p>
+        <p class="form-slider-handler form-layout-sim-item-btnedit" data-target="` + block_key + `"></p>
         <p class="form-layout-sim-item-btndelete"></p>
         <input class="form-layout-sim-item-order" type="hidden" name="` + order_name + `" value="" />
       </div>

@@ -214,8 +214,8 @@ function my_enqueue_scripts() {
   $editor_flag = False;
   if(is_page() && get_field('editor_flag', $post->ID)) {
     // 編集権限をチェックする
-    require_once get_template_directory() . '/inc/custom-functions/check_site_editor_permission.inc.php';
-    $check_result = check_site_editor_permission();
+    require_once get_template_directory() . '/inc/custom-functions/check_editor_permission.inc.php';
+    $check_result = check_editor_permission();
     if($check_result['result']) {
       $editor_flag = True;
     }
@@ -225,24 +225,34 @@ function my_enqueue_scripts() {
     // 編集可能の場合編集ターゲットを取得
     $target = $check_result['target'];
     
-    if($target->post_type == 'site') {
-      // 編集ターゲットがサイトの場合初期ブロック情報を構築
-      $base_block = array(
-        'id' => '', 'key' => 'body', 'name' => $lang->translate('Site Whole Style'), 'type' => 'body', 'style' => array(),
-        'blocks' => array(
-          array( 'id' => '', 'key' => 'header', 'name' => $lang->translate('Header'), 'type' => 'header', 'style' => array(), 'blocks' => array() ),
-          array( 'id' => '', 'key' => 'main', 'name' => $lang->translate('Main Content'), 'type' => 'main', 'style' => array(), 'blocks' => array() ),
-          array( 'id' => '', 'key' => 'footer', 'name' => $lang->translate('Footer'), 'type' => 'footer', 'style' => array(), 'blocks' => array() ),
-        ),
-      );
+    if(is_null($target)) {
+      if(is_page('create-component')) {
+        $design_base = array(
+          'id' => '', 'key' => 'component', 'name' => $lang->translate('Design'), 'type' => 'component', 'style' => array(),
+        );
+      } else {
+        $design_base = array();
+      }
     } else {
-      // 編集ターゲットがHTMLブロックの場合ブロック情報を取得(再帰処理)
-      require_once get_template_directory() . '/inc/custom-functions/get_html_block_info.inc.php';
-      $base_block = get_html_block_info($target->ID);
+      if($target->post_type == 'site') {
+        // 編集ターゲットがサイトの場合初期ブロック情報を構築
+        $design_base = array(
+          'id' => '', 'key' => 'body', 'name' => $lang->translate('Site Whole Style'), 'type' => 'body', 'style' => array(),
+          'blocks' => array(
+            array( 'id' => '', 'key' => 'header', 'name' => $lang->translate('Header'), 'type' => 'header', 'style' => array(), 'blocks' => array() ),
+            array( 'id' => '', 'key' => 'main', 'name' => $lang->translate('Main Content'), 'type' => 'main', 'style' => array(), 'blocks' => array() ),
+            array( 'id' => '', 'key' => 'footer', 'name' => $lang->translate('Footer'), 'type' => 'footer', 'style' => array(), 'blocks' => array() ),
+          ),
+        );
+      } else {
+        // 編集ターゲットがHTMLブロックの場合ブロック情報を取得(再帰処理)
+        require_once get_template_directory() . '/inc/custom-functions/get_html_block_info.inc.php';
+        $design_base = get_html_block_info($target->ID);
+      }
     }
     
     // 基礎ブロックをJS変数化する
-    wp_localize_script('js_jquery', 'base_block', $base_block);
+    wp_localize_script('js_jquery', 'design_base', $design_base);
     
     // カラーピーカーを読み込み
     $js_colorpicker_path = 'assets/plugins/colorpicker/js/colorpicker.js';
@@ -282,6 +292,10 @@ function my_enqueue_scripts() {
     // エディターレスポンシブ対応編集JSを読み込み
     $js_editor_responsive_path = 'assets/js/editor/responsive.js';
     wp_enqueue_script('js_editor_responsive', get_theme_file_uri($js_editor_responsive_path), array('js_editor_common'), filemtime(get_theme_file_path($js_editor_responsive_path)));
+    
+    // エディターブロック編集JSを読み込み
+    $js_editor_setting_path = 'assets/js/editor/setting.js';
+    wp_enqueue_script('js_editor_setting', get_theme_file_uri($js_editor_setting_path), array('js_editor_common'), filemtime(get_theme_file_path($js_editor_setting_path)));
     
     // エディターブロック編集JSを読み込み
     $js_editor_simulation_path = 'assets/js/editor/simulation.js';

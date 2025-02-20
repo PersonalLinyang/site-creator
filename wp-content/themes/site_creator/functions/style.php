@@ -13,8 +13,8 @@ function my_enqueue_styles() {
   $editor_flag = False;
   if(is_page() && get_field('editor_flag', $post->ID)) {
     // 編集権限をチェックする
-    require_once get_template_directory() . '/inc/custom-functions/check_site_editor_permission.inc.php';
-    $check_result = check_site_editor_permission();
+    require_once get_template_directory() . '/inc/custom-functions/check_editor_permission.inc.php';
+    $check_result = check_editor_permission();
     if($check_result['result']) {
       $editor_flag = True;
     }

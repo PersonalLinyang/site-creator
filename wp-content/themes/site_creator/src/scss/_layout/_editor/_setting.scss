@@ -2,6 +2,8 @@
   overflow: hidden;
   background: $editor_setting_back_color;
   user-select: none;
+  display: flex;
+  flex-direction: column;
   
   @include mq(pc) {
     width: $editor_setting_width_pc;
@@ -14,14 +16,60 @@
     
     @include dr(po) {
       width: 100vw;
-      height: 30vh;
+      height: 40vh;
     }
   }
   
   &-title {
-    height: 30px;
-    line-height: 30px;
-    margin: 10px 0;
+    @include mq(pc) {
+      height: rempc(30);
+      line-height: rempc(30);
+      margin: rempc(10) 0;
+    }
+    
+    @include mq(sp) {
+      height: remsp(30);
+      line-height: remsp(30);
+      margin: remsp(10) 0;
+    }
+  }
+  
+  &-tab {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    background: $editor_setting_dark_color;
+    border-bottom: 3px solid $editor_setting_focus_color;
+    
+    &-handler {
+      border-left: 1px solid $editor_setting_focus_color;
+      border-right: 1px solid $editor_setting_focus_color;
+      border-top: 2px solid $editor_setting_focus_color;
+      text-wrap: nowrap;
+      text-overflow: ellipsis;
+      text-align: center;
+      order: 2;
+      flex: 1;
+      max-width: calc(100% / 3);
+      min-width: fit-content;
+      background: $editor_setting_back_color;
+      cursor: pointer;
+      
+      @include mq(pc) {
+        padding: 0 rempc(10);
+        line-height: rempc(30);
+      }
+      
+      @include mq(sp) {
+        padding: 0 remsp(8);
+        line-height: remsp(30);
+      }
+      
+      &.active {
+        background: $editor_setting_focus_color;
+        color: #FFF;
+        order: 1;
+      }
+    }
   }
   
   &-pc {

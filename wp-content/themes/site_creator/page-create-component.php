@@ -14,19 +14,12 @@ $check_result = check_editor_permission();
 
 if($check_result['result']) :
   // 編集可能の場合編集ターゲットを取得
-  $target = $check_result['target'];
+  $target_uid = md5(uniqid(rand(), true));
   
   $design_width_pc = 1200;
   $design_width_sp = 375;
   $design_fontsize_pc = 16;
   $design_fontsize_sp = 12;
-  if($check_result['site_id']) {
-    $site_id = $check_result['site_id'];
-    $design_width_pc = get_field('design_width_pc', $site_id);
-    $design_width_sp = get_field('design_width_sp', $site_id);
-    $design_fontsize_pc = get_field('design_fontsize_pc', $site_id);
-    $design_fontsize_sp = get_field('design_fontsize_sp', $site_id);
-  }
 ?>
 
 <section class="sim">
@@ -76,13 +69,68 @@ if($check_result['result']) :
 </section>
 
 <section class="setting">
-  <h2 class="setting-title"><?php echo $lang->translate('Site Common Style Edit'); ?></h2>
-  <form class="form form-style" id="common-style-form">
-    <input type="hidden" name="target_id" value="<?php echo $target->ID; ?>" />
+  <div class="setting-tab">
+    <p class="setting-tab-handler" data-tab="information"><?php echo $lang->translate('Base Setting'); ?></p>
+    <p class="setting-tab-handler active" data-tab="design"><?php echo $lang->translate('Design'); ?></p>
+    <p class="setting-tab-handler" data-tab="parameter"><?php echo $lang->translate('Parameter'); ?></p>
+    <p class="setting-tab-handler" data-tab="script"><?php echo $lang->translate('Script'); ?></p>
+    <p class="setting-tab-handler" data-tab="user-simulation"><?php echo $lang->translate('User Simulation'); ?></p>
+  </div>
+  
+  <form class="form" id="component-form">
+  
+    <div class="form-tab" data-tab="information">
+      <div class="form-topic">
+        <p class="form-topic-text"><?php echo $lang->translate('Base Setting'); ?></p>
+      </div>
+      <div class="form-content">
+        <div class="form-line">
+          <p class="form-title"><?php echo $lang->translate('Component Name'); ?></p>
+          <div class="form-input">
+            <input type="text" name="component_name" placeholder="<?php echo $lang->translate('Component Name'); ?>" />
+          </div>
+        </div>
+        <div class="form-line">
+          <p class="form-title"><?php echo $lang->translate('Editor Permission Setting'); ?></p>
+        </div>
+        <div class="form-line">
+          <p class="form-title"><?php echo $lang->translate('User Permission Setting'); ?></p>
+        </div>
+        <div class="form-line">
+          <p class="form-title"><?php echo $lang->translate('Price'); ?></p>
+        </div>
+      </div>
+    </div>
+    
     <div class="form-tab active" data-tab="design">
       <div class="form-slider">
       </div>
     </div>
+    
+    <div class="form-tab" data-tab="parameter">
+      <div class="form-topic">
+        <p class="form-topic-text"><?php echo $lang->translate('Parameter'); ?></p>
+      </div>
+      <div class="form-content">
+      </div>
+    </div>
+    
+    <div class="form-tab" data-tab="script">
+      <div class="form-topic">
+        <p class="form-topic-text"><?php echo $lang->translate('Script'); ?></p>
+      </div>
+      <div class="form-content">
+      </div>
+    </div>
+    
+    <div class="form-tab" data-tab="user-simulation">
+      <div class="form-topic">
+        <p class="form-topic-text"><?php echo $lang->translate('User Simulation'); ?></p>
+      </div>
+      <div class="form-content">
+      </div>
+    </div>
+    
   </form>
 </section>
 

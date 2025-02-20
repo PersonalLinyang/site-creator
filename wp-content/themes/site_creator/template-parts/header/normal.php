@@ -16,43 +16,20 @@ $current_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     
     <div class="header-menu">
       <div class="header-menu-line">
+        <?php 
+          echo do_shortcode('[normal_header_link key="component" text="' . $lang->translate('Component') . '"]');
+        ?>
       </div>
       <div class="header-menu-line">
-          <?php if(is_user_logged_in()): ?>
-            <div class="header-menu-button">
-              <a href="<?php echo get_site_url(); ?>/profile/">
-                <div class="header-menu-button-inner header-profile">
-                  <p class="header-menu-button-icon header-profile-icon"><?php echo file_get_contents(get_template_directory() . '/assets/svg/normal/profile.svg'); ?></p>
-                  <p><?php echo $lang->translate('Profile'); ?></p>
-                </div>
-              </a>
-            </div>
-            <div class="header-menu-button">
-              <a href="<?php echo get_site_url(); ?>/logout/">
-                <div class="header-menu-button-inner header-logout">
-                  <p class="header-menu-button-icon header-logout-icon"><?php echo file_get_contents(get_template_directory() . '/assets/svg/normal/logout.svg'); ?></p>
-                  <p><?php echo $lang->translate('Logout'); ?></p>
-                </div>
-              </a>
-            </div>
-          <?php else: ?>
-            <div class="header-menu-button">
-              <a href="<?php echo get_site_url(); ?>/signup/">
-                <div class="header-menu-button-inner header-signup">
-                  <p class="header-menu-button-icon header-signup-icon"><?php echo file_get_contents(get_template_directory() . '/assets/svg/normal/signup.svg'); ?></p>
-                  <p><?php echo $lang->translate('Sign Up'); ?></p>
-                </div>
-              </a>
-            </div>
-            <div class="header-menu-button">
-              <a href="<?php echo get_site_url(); ?>/login/">
-                <div class="header-menu-button-inner header-login">
-                  <p class="header-menu-button-icon header-login-icon"><?php echo file_get_contents(get_template_directory() . '/assets/svg/normal/login.svg'); ?></p>
-                  <p><?php echo $lang->translate('Login'); ?></p>
-                </div>
-              </a>
-            </div>
-          <?php endif; ?>
+        <?php 
+          if(is_user_logged_in()) {
+            echo do_shortcode('[normal_header_button key="profile" text="' . $lang->translate('Profile') . '"]');
+            echo do_shortcode('[normal_header_button key="logout" text="' . $lang->translate('Logout') . '"]');
+          } else {
+            echo do_shortcode('[normal_header_button key="signup" text="' . $lang->translate('Sign Up') . '"]');
+            echo do_shortcode('[normal_header_button key="login" text="' . $lang->translate('Login') . '"]');
+          }
+        ?>
       </div>
     </div>
 
