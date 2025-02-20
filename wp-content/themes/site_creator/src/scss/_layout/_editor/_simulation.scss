@@ -2,12 +2,12 @@
   position: relative;
   
   @include mq(pc) {
-    width: calc(100% - #{$editor_setting_width_pc});
+    flex: 1;
   }
   
   @include mq(sp) {
     @include dr(la) {
-      width: calc(100% - #{$editor_setting_width_sp});
+      flex: 1;
     }
     
     @include dr(po) {

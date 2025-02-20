@@ -1,10 +1,10 @@
 $(document).ready(function(){
-  // 言語選択をクリックすると選択肢を広げる、以外の部分をクリックすると選択肢を閉じる
+  // [SP]リサイズをクリックすると設定エリアを広げる、以外の部分をクリックすると選択肢を閉じる
   $(document).on('click',function(e) {
     if($(e.target).closest('.header-handler').length) {
-      $('.header-sim').slideToggle();
+      $('.header-sim').toggleClass('active');
     } else if($(e.target).closest('.header-sim').length == 0) {
-      $('.header-sim').slideUp();
+      $('.header-sim').removeClass('active');
     }
   });
   

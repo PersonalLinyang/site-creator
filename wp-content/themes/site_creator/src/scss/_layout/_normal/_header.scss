@@ -104,12 +104,6 @@
         margin-top: remsp(15);
         justify-content: center;
       }
-      
-      a {
-        @include mq(pc) {
-          margin-left: rempc(20);
-        }
-      }
     }
     
     &-button {
@@ -129,15 +123,15 @@
         text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
         
         @include mq(pc) {
-          height: rempc(30);
-          line-height: rempc(30);
+          height: rempc(25);
+          line-height: rempc(25);
         }
         
         @include mq(sp) {
-          width: remsp(145);
-          height: remsp(30);
           color: #FFF;
-          line-height: remsp(30);
+          width: remsp(145);
+          height: remsp(25);
+          line-height: remsp(25);
           border-radius: remsp(5);
           box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
         }
@@ -162,6 +156,23 @@
         path, polygon {
           fill: #FFF;
         }
+      }
+    }
+    
+    &-link {
+      @include mq(pc) {
+        margin-left: rempc(20);
+        height: rempc(25);
+        line-height: rempc(25);
+      }
+      
+      @include mq(sp) {
+        height: remsp(25);
+        line-height: remsp(25);
+      }
+      
+      a {
+        color: #FFF;
       }
     }
   }

@@ -5,20 +5,7 @@
   &-body {
     overflow: hidden;
     height: 100%;
-    
-    @include mq(pc) {
-      width: calc(#{$editor_setting_width_pc} * 2);
-    }
-    
-    @include mq(sp) {
-      @include dr(la) {
-        width: calc(#{$editor_setting_width_sp} * 2);
-      }
-      
-      @include dr(po) {
-        width: 200vw;
-      }
-    }
+    width: 200%;
   }
   
   &-block {
@@ -27,7 +14,7 @@
     display: none;
     
     @include mq(pc) {
-      width: $editor_setting_width_pc;
+      width: 50%;
     }
     
     &.active {
